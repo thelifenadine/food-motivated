@@ -4,6 +4,7 @@ import { CssBaseline, Container } from '@material-ui/core';
 import { ThemeProvider } from '@material-ui/core/styles';
 
 import Header from './header/Header';
+import DogCalculator from './calculator/DogCalculator';
 import theme from '../theme';
 
 class App extends Component {
@@ -17,8 +18,8 @@ class App extends Component {
             <Route exact path="/">
               <Home />
             </Route>
-            <Route path="/dashboard">
-              <Dashboard/>
+            <Route path="/calculator">
+              <DogCalculator />
             </Route>
             <NotFound default />
           </Switch>
@@ -31,17 +32,11 @@ class App extends Component {
 const Home = () => {
   return (
     <div>
-      <h2>Welcome HOME</h2>
+      <h2>Welcome to my raw feeding calculator!</h2>
     </div>
   );
 };
 
-const Dashboard = () => (
-  <div>
-    <h2>Dashboard</h2>
-  </div>
-);
-
-const NotFound = () => <div>Sorry, nothing here</div>;
+const NotFound = () => <div>oh sorry, nothing here</div>;
 
 export default App;

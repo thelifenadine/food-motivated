@@ -8,8 +8,7 @@ import { useLocation } from 'react-router-dom';
 
 const tabLocationMap = {
   '/home': 0,
-  '/dashboard': 1,
-  '/recipes': 2,
+  '/calculator': 1,
 };
 
 const Header = () => {
@@ -27,11 +26,10 @@ const Header = () => {
   };
 
   return (
-    <AppBar position="static">
+    <AppBar position="static" variant="outlined" color="inherit">
       <Tabs value={value} onChange={handleChange}>
-        <Tab label="Home" to="/" component={Link} onClick={onClickHandler}/>
-        <Tab label="Dashboard" to="/dashboard" component={Link} />
-        <Tab label="Recipes"  to="/recipes" component={Link} />
+        <Tab disableRipple label="Home" to="/" component={Link} onClick={onClickHandler}/>
+        <Tab disableRipple label="Calculator"  to="/calculator" component={Link} />
       </Tabs>
     </AppBar>
   );

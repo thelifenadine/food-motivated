@@ -1,6 +1,7 @@
 {
   "plugins": [
     "react",
+    "react-hooks",
     "babel"
   ],
   "extends": [
@@ -19,11 +20,14 @@
     "semi": 2,
     "indent": ["error", 2],
     "no-set-state": "off",
-    "babel/semi": 0
+    "babel/semi": 0,
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn"
   },  
   "env": {
     "browser": true,
-    "node": true
+    "node": true,
+    "mocha": true
   },
   "settings": {
     "react": {
