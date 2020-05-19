@@ -8,7 +8,7 @@
     "build-server": "webpack --config webpack.server.js",
     "build-prod": "webpack --config webpack.prod.js",
     "api": "babel-node src/server/api.js",
-    "test": "eslint ./src/**/*Spec.js & mocha ./src/**/*Spec.js --require @babel/register --reporter spec || exit 0"
+    "test": "eslint ./src/**/*.spec.js & mocha ./src/**/*.spec.js --require @babel/register --reporter spec || exit 0"
   },
   "keywords": [
     "recipes"
@@ -39,9 +39,11 @@
     "html-webpack-plugin": "^4.2.0",
     "mocha": "^7.1.2",
     "nodemon": "^2.0.3",
+    "proxyquire": "^2.1.3",
     "redux-devtools-extension": "^2.13.8",
     "redux-logger": "^3.0.6",
     "sass-loader": "^8.0.2",
+    "sinon": "^9.0.2",
     "style-loader": "^1.1.4",
     "webpack": "^4.42.1",
     "webpack-cli": "^3.3.11",
