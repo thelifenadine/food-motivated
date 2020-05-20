@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Paper, Box, Table, TableBody, TableRow, TableCell, makeStyles } from '@material-ui/core';
+import { Paper, Box, Button, TextField, InputAdornment, makeStyles } from '@material-ui/core';
 
+import DailyTable from './DailyTable';
+import BulkTable from './BulkTable';
 import getBoneAmount from '../../calculations/getBoneAmount';
 import getMuscleAmount from '../../calculations/getMuscleAmount';
 import getPercentage from '../../calculations/getPercentage';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   table: {
     borderBottom: '#eee solid 1px',
   },
@@ -15,12 +17,22 @@ const useStyles = makeStyles(() => ({
     color: '#aaa',
     borderBottom: '#fff solid 1px',
   },
+  buttonWrapper: {
+    '& > *': {
+      margin: theme.spacing(1),
+    },
+  },
+  formControlWide: {
+    width: 150,
+    margin: theme.spacing(1),
+  },
 }));
 
 const Amounts = (props) => {
   const { 
     amount,
     boneType,
+    customRMB,
     boneRatio, 
     organRatio, 
     liverRatio, 
@@ -41,9 +53,14 @@ const Amounts = (props) => {
   const [totalVegAmount, setTotalVegAmount] = useState(getPercentage(amount, (veggieRatio + seedRatio + fruitRatio)));
   const [muscleAmount, setMuscleAmount] = useState(getMuscleAmount(amount, boneAmount, organAmount, liverAmount, totalVegAmount));
 
+  const [numDays, setNumDays] = useState(7);
+  const [showBulk, setShowBulk] = useState(false);
+
   useEffect(() => {
-    setBoneAmount(getBoneAmount(amount, boneRatio, boneType));
-  }, [amount, boneRatio, boneType]);
+    const bonePerc = customRMB || boneType;
+
+    setBoneAmount(getBoneAmount(amount, boneRatio, bonePerc));
+  }, [amount, boneRatio, boneType, customRMB]);
 
   useEffect(() => {
     setOrganAmount(getPercentage(amount, organRatio));
@@ -72,54 +89,73 @@ const Amounts = (props) => {
 
   useEffect(() => {
     setMuscleAmount(getMuscleAmount(amount, boneAmount, organAmount, liverAmount, totalVegAmount));
+    setShowBulk(false);
   }, [amount, boneAmount, organAmount, liverAmount, totalVegAmount]);
 
   return (
-    <Paper elevation={0} square className={classes.elevation0}> 
-      <Box component="h3" fontWeight="fontWeightLight" mx={1} pt={1}>What to feed each day</Box>
-      <Table className={classes.table} size="small">
-        <TableBody>
-          <TableRow>
-            <TableCell>Boneless Meat</TableCell>
-            <TableCell align="right">{`${muscleAmount} ${unitDetails.food}`}</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell>Raw Meaty Bone</TableCell>
-            <TableCell align="right">{`${boneAmount} ${unitDetails.food}`}</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell>Liver</TableCell>
-            <TableCell align="right">{`${liverAmount} ${unitDetails.food}`}</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell>Organ</TableCell>
-            <TableCell align="right">{`${organAmount} ${unitDetails.food}`}</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell>Vegetables</TableCell>
-            <TableCell align="right">{`${vegAmount} ${unitDetails.food}`}</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell>Nuts/Seeds</TableCell>
-            <TableCell align="right">{`${seedAmount} ${unitDetails.food}`}</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell>Fruit</TableCell>
-            <TableCell align="right">{`${fruitAmount} ${unitDetails.food}`}</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell className={classes.lastRow}>Total Veg/Fruit/Seeds</TableCell>
-            <TableCell className={classes.lastRow} align="right">{`${totalVegAmount} ${unitDetails.food}`}</TableCell>
-          </TableRow>
-        </TableBody>
-      </Table>
-    </Paper>
+    <React.Fragment>
+      <DailyTable 
+        muscleAmount={muscleAmount}
+        boneAmount={boneAmount}
+        liverAmount={liverAmount}
+        organAmount={organAmount}
+        vegAmount={vegAmount}
+        seedAmount={seedAmount}
+        fruitAmount={fruitAmount}
+        totalVegAmount={totalVegAmount}
+        unitDetails={unitDetails}
+        title="What to feed each day"
+      />      
+      <Paper elevation={0} square> 
+       <Box component="h3" fontWeight="fontWeightLight" mx={1} pt={1}>Bulk Helper</Box>
+        <Box component="div" className={classes.buttonWrapper}>
+          <TextField
+            className={classes.formControlWide}
+            id="numDays" 
+            label="How long"
+            value={numDays}
+            type="number"
+            onChange={e => setNumDays(Number(e.target.value))}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">days</InputAdornment>
+              ),
+            }}
+            helperText="minimum of 2 days"
+          />
+          <Button 
+            size="small"
+            variant="outlined"
+            color="secondary" 
+            onClick={() => setShowBulk(true)}
+          >
+            Generate
+          </Button>
+        </Box>
+        {showBulk && (numDays > 1) &&
+          <BulkTable
+            muscleAmount={muscleAmount}
+            boneAmount={boneAmount}
+            liverAmount={liverAmount}
+            organAmount={organAmount}
+            vegAmount={vegAmount}
+            seedAmount={seedAmount}
+            fruitAmount={fruitAmount}
+            totalVegAmount={totalVegAmount}
+            unitDetails={unitDetails}
+            numDays={numDays}
+            title={`Bulk Amounts for ${numDays} days`}
+          />
+        }
+      </Paper>
+    </React.Fragment>
   );
 };
 
 Amounts.propTypes = {
   amount: PropTypes.number.isRequired,
   boneType: PropTypes.number.isRequired,
+  customRMB: PropTypes.number.isRequired,
   boneRatio: PropTypes.number.isRequired,
   liverRatio: PropTypes.number.isRequired,
   organRatio: PropTypes.number.isRequired,

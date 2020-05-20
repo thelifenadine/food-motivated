@@ -2,11 +2,14 @@ import round from '../../calculations/round';
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { 
-  Grid, FormControl, NativeSelect, InputLabel, Paper, InputAdornment, Box, TextField
+  Grid, FormControl, NativeSelect, InputLabel, Paper, InputAdornment, Box, TextField, Button
 } from '@material-ui/core';
 
 import Amounts from './Amounts';
 import toPercent from '../../calculations/toPercent';
+import rmbOptions from '../../form/rawMeatyBoneOptions';
+import ageOptions from '../../form/ageOptions';
+import unitOptions from '../../form/unitOptions';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -14,7 +17,11 @@ const useStyles = makeStyles((theme) => ({
   },
   formControl: {
     margin: theme.spacing(1),
-    minWidth: 10,
+    minWidth: 110,
+  },
+  formControlWide: {
+    margin: theme.spacing(1),
+    minWidth: 150,
   },
   numericSmall: {
     width: 55,
@@ -25,34 +32,26 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
   },
   numericLarge: {
-    width: 100,
+    width: 110,
     margin: theme.spacing(1),
   },
   nativeSelect: {
     fontWeight: 'fontWeightLight',
+  },
+  buttonWrapper: {
+    '& > *': {
+      margin: theme.spacing(1),
+    },
+  },
+  visible: {
+    display: 'block',
+  }, 
+  hidden: {
+    display: 'none',
   }
 }));
 
-const rmbOptions = [
-  { name: 'Duck Head', value: 75, key: 'duck-head' },
-  { name: 'Duck Neck', value: 50, key: 'duck-neck' },
-  { name: 'Duck Wing', value: 39, key: 'duck-wing' },
-  { name: 'Duck Foot', value: 60, key: 'duck-food' },
-  { name: 'Chicken Wing', value: 46, key: 'chicken-wing' },
-  { name: 'Chicken Foot', value: 60, key: 'chicken-foot' },
-];
-
-const unitOptions = [
-  { name: 'English', value: 'english', key: 'english' },
-  { name: 'Metric', value: 'metric', key: 'metric' },
-];
-
-const ageOptions = [
-  { name: 'Adult', value: 'adult', key: 'adult' },
-  { name: 'Puppy', value: 'puppy', key: 'puppy' },
-];
-
-const ageDefaults = {
+const defaultRatios = {
   adult: {
     muscle: 70,
     bone: 10,
@@ -98,18 +97,19 @@ const DogCalculator = () => {
 
   // settings
   const [weight, setWeight] = useState(68);
-  const [maintenance, setMaintenance] = useState(3);
+  const [maintenance, setMaintenance] = useState(2.5);
   const [age, setAge] = useState('adult');
 
-  const [muscleRatio, setMuscleRatio] = useState(ageDefaults[age].muscle);
-  const [boneRatio, setBoneRatio] = useState(ageDefaults[age].bone);
-  const [liverRatio, setLiverRatio] = useState(ageDefaults[age].liver);
-  const [organRatio, setOrganRatio] = useState(ageDefaults[age].organ);
-  const [veggieRatio, setVeggieRatio] = useState(ageDefaults[age].veggie);
-  const [seedRatio, setSeedRatio] = useState(ageDefaults[age].seed);
-  const [fruitRatio, setFruitRatio] = useState(ageDefaults[age].fruit);
+  const [muscleRatio, setMuscleRatio] = useState(defaultRatios[age].muscle);
+  const [boneRatio, setBoneRatio] = useState(defaultRatios[age].bone);
+  const [liverRatio, setLiverRatio] = useState(defaultRatios[age].liver);
+  const [organRatio, setOrganRatio] = useState(defaultRatios[age].organ);
+  const [veggieRatio, setVeggieRatio] = useState(defaultRatios[age].veggie);
+  const [seedRatio, setSeedRatio] = useState(defaultRatios[age].seed);
+  const [fruitRatio, setFruitRatio] = useState(defaultRatios[age].fruit);
 
-  const [boneType, setBoneType] = useState(75);
+  const [customRMB, setCustomRMB] = useState(0);
+  const [boneType, setBoneType] = useState(rmbOptions[0].value);
   const [unit, setUnit] = useState('english');
   const [unitDetails, setUnitDetails] = useState(unitData[unit]);
   const [amount, setAmount] = useState(getTotalAmount(weight, maintenance, unitDetails.perUnit));
@@ -123,12 +123,12 @@ const DogCalculator = () => {
   }, [unit]);
 
   useEffect(() => {
-    setBoneRatio(ageDefaults[age].bone);
-    setLiverRatio(ageDefaults[age].liver);
-    setOrganRatio(ageDefaults[age].organ);
-    setVeggieRatio(ageDefaults[age].veggie);
-    setSeedRatio(ageDefaults[age].seed);
-    setFruitRatio(ageDefaults[age].fruit);
+    setBoneRatio(defaultRatios[age].bone);
+    setLiverRatio(defaultRatios[age].liver);
+    setOrganRatio(defaultRatios[age].organ);
+    setVeggieRatio(defaultRatios[age].veggie);
+    setSeedRatio(defaultRatios[age].seed);
+    setFruitRatio(defaultRatios[age].fruit);
   }, [age]);
 
   useEffect(() => {
@@ -155,28 +155,11 @@ const DogCalculator = () => {
                   <option key={option.key} value={option.value}>{option.name}</option> 
                 ))}
               </NativeSelect>
-            </FormControl>    
-            <FormControl className={classes.formControl}>
-              <InputLabel htmlFor="unit">Age</InputLabel>
-              <NativeSelect
-                className={classes.nativeSelect}
-                name="age"
-                id="age"
-                onChange={e => setAge(e.target.value)}
-                defaultValue={'adult'}
-              >
-                {ageOptions.map(option => (
-                  <option key={option.key} value={option.value}>{option.name}</option> 
-                ))}
-              </NativeSelect>
-            </FormControl>    
-          </Paper>
-          <Paper elevation={0} square>       
-            <Box component="h3" fontWeight="fontWeightLight" mx={1} pt={1}>Dog Info</Box>     
+            </FormControl>           
             <TextField
               className={classes.numericLarge}
               id="weight" 
-              label="Weight"
+              label="Dog Weight"
               value={weight}
               type="number"
               onChange={e => setWeight(Number(e.target.value))}
@@ -193,7 +176,7 @@ const DogCalculator = () => {
               value={maintenance}
               type="number"
               onChange={e => setMaintenance(Number(e.target.value))}
-              helperText="2.0-3.0%"
+              helperText="Usually 2.0-3.0%"
               inputProps={{
                 min: 0,
                 max: 100,
@@ -219,38 +202,22 @@ const DogCalculator = () => {
               }}
             />  
           </Paper>
-          <Paper elevation={0} square>     
-            <Box component="h3" fontWeight="fontWeightLight" mx={1} pt={1}>Type of Raw Meaty Bone</Box>    
-            <FormControl className={classes.formControl}>
-              <InputLabel htmlFor="bone">RMB Type</InputLabel>
-              <NativeSelect
-                className={classes.nativeSelect}
-                name="boneType"
-                id="bone"
-                onChange={e => setBoneType(Number(e.target.value))}
-                defaultValue={75}
-              >
-                {rmbOptions.map(option => (
-                  <option key={option.key} value={option.value}>{option.name}</option> 
-                ))}
-              </NativeSelect>
-            </FormControl>
-            <TextField
-              className={classes.numericLarge}
-              id="boneRatio" 
-              label="RMB Ratio"
-              value={boneType}
-              type="number"
-              disabled
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">%</InputAdornment>
-                ),
-              }}
-            />
-          </Paper>
           <Paper elevation={0} square> 
             <Box component="h3" fontWeight="fontWeightLight" mx={1} pt={1}>Desired Ratios </Box>
+            <Box component="div" className={classes.buttonWrapper}>
+              <Box component="span" fontWeight="fontWeightLight">Set Ratio Defaults: </Box>
+              {ageOptions.map(option => (
+                <Button 
+                  size="small"
+                  variant="outlined"
+                  color="secondary"
+                  key={option.key} 
+                  onClick={() => setAge(option.value)}
+                >
+                  {option.name}
+                </Button>
+              ))}
+            </Box>
             <TextField
               className={classes.numericSmall}
               id="muscleRatio" 
@@ -343,10 +310,54 @@ const DogCalculator = () => {
               }}
             />
           </Paper>
+          <Paper elevation={0} square>     
+            <Box component="h3" fontWeight="fontWeightLight" mx={1} pt={1}>Bone Content</Box>    
+            <FormControl className={classes.formControl}>
+              <InputLabel htmlFor="bone">RMB Type</InputLabel>
+              <NativeSelect
+                className={classes.nativeSelect}
+                name="boneType"
+                id="bone"
+                onChange={e => setBoneType(Number(e.target.value))}
+                defaultValue={rmbOptions[0].value}
+              >
+                {rmbOptions.map(option => (
+                  <option key={option.key} value={option.value}>{option.name}</option> 
+                ))}
+              </NativeSelect>
+            </FormControl>
+            <TextField
+              className={{[classes.numericLarge]: true, [classes.hidden]: (boneType === 0)}}
+              id="boneRatio" 
+              label="RMB Ratio"
+              value={boneType}
+              type="number"
+              disabled
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">%</InputAdornment>
+                ),
+              }}
+            />
+            <TextField
+              className={{[classes.numericLarge]: true, [classes.hidden]: (boneType !== 0)}}
+              id="customBoneRatio" 
+              label="Enter RMB %"
+              value={customRMB}
+              type="number"
+              onChange={e => setCustomRMB(Number(e.target.value))}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">%</InputAdornment>
+                ),
+              }}
+            />
+          </Paper>
         </Grid>
         <Grid item sm={6} xs={12}>
           <Amounts 
             amount={amount}
+            customRMB={customRMB}
             boneType={boneType}
             boneRatio={boneRatio}
             organRatio={organRatio}
