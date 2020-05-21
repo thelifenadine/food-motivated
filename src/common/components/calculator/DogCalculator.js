@@ -1,91 +1,17 @@
 import round from '../../calculations/round';
 import React, { useState, useEffect } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import classnames from 'classnames';
 import { 
-  Grid, FormControl, NativeSelect, InputLabel, Paper, InputAdornment, Box, TextField, Button
+  Grid, FormControl, NativeSelect, InputLabel, Paper, InputAdornment, Box, TextField, Button, Hidden
 } from '@material-ui/core';
 
-import Amounts from './Amounts';
+import WhatToFeed from './WhatToFeed';
 import toPercent from '../../calculations/toPercent';
 import rmbOptions from '../../form/rawMeatyBoneOptions';
-import ageOptions from '../../form/ageOptions';
-import unitOptions from '../../form/unitOptions';
+import ratioDefaultOptions, { ratioDefaultData } from '../../form/ratioDefaultOptions';
+import unitOptions, { unitData } from '../../form/unitOptions';
+import useStyles from '../../styles/useStyles';
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-  },
-  formControl: {
-    margin: theme.spacing(1),
-    minWidth: 110,
-  },
-  formControlWide: {
-    margin: theme.spacing(1),
-    minWidth: 150,
-  },
-  numericSmall: {
-    width: 55,
-    margin: theme.spacing(1),
-  },
-  numericMed: {
-    width: 65,
-    margin: theme.spacing(1),
-  },
-  numericLarge: {
-    width: 110,
-    margin: theme.spacing(1),
-  },
-  nativeSelect: {
-    fontWeight: 'fontWeightLight',
-  },
-  buttonWrapper: {
-    '& > *': {
-      margin: theme.spacing(1),
-    },
-  },
-  visible: {
-    display: 'block',
-  }, 
-  hidden: {
-    display: 'none',
-  }
-}));
-
-const defaultRatios = {
-  adult: {
-    muscle: 70,
-    bone: 10,
-    liver: 5,
-    organ: 5,
-    veggie: 7,
-    seed: 2,
-    fruit: 1,
-  },
-  puppy: {
-    muscle: 58,
-    bone: 17,
-    liver: 7,
-    organ: 7,
-    veggie: 7,
-    seed: 2,
-    fruit: 1,
-  },
-};
-
-const unitData = {
-  english: {
-    dog: 'lb',
-    food: 'oz',
-    perUnit: 16,
-  },
-  metric: {
-    dog: 'kg',
-    food: 'g',
-    perUnit: 1000,
-  }
-};
-
-// set metric here and pass to other components
 const getTotalAmount = (weight, maintenancePercentage, unitAmount = 16) => {
   const weightByUnit = weight * unitAmount;
   const totalAmountInOunces = weightByUnit * toPercent(maintenancePercentage);
@@ -95,21 +21,20 @@ const getTotalAmount = (weight, maintenancePercentage, unitAmount = 16) => {
 const DogCalculator = () => {
   const classes = useStyles();
 
-  // settings
   const [weight, setWeight] = useState(68);
   const [maintenance, setMaintenance] = useState(2.5);
-  const [age, setAge] = useState('adult');
+  const [age, setAge] = useState('barfAdult');
 
-  const [muscleRatio, setMuscleRatio] = useState(defaultRatios[age].muscle);
-  const [boneRatio, setBoneRatio] = useState(defaultRatios[age].bone);
-  const [liverRatio, setLiverRatio] = useState(defaultRatios[age].liver);
-  const [organRatio, setOrganRatio] = useState(defaultRatios[age].organ);
-  const [veggieRatio, setVeggieRatio] = useState(defaultRatios[age].veggie);
-  const [seedRatio, setSeedRatio] = useState(defaultRatios[age].seed);
-  const [fruitRatio, setFruitRatio] = useState(defaultRatios[age].fruit);
+  const [muscleRatio, setMuscleRatio] = useState(ratioDefaultData[age].muscle);
+  const [boneRatio, setBoneRatio] = useState(ratioDefaultData[age].bone);
+  const [liverRatio, setLiverRatio] = useState(ratioDefaultData[age].liver);
+  const [organRatio, setOrganRatio] = useState(ratioDefaultData[age].organ);
+  const [veggieRatio, setVeggieRatio] = useState(ratioDefaultData[age].veggie);
+  const [seedRatio, setSeedRatio] = useState(ratioDefaultData[age].seed);
+  const [fruitRatio, setFruitRatio] = useState(ratioDefaultData[age].fruit);
 
   const [customRMB, setCustomRMB] = useState(0);
-  const [boneType, setBoneType] = useState(rmbOptions[0].value);
+  const [rmbPercent, setBoneType] = useState(rmbOptions[0].value);
   const [unit, setUnit] = useState('english');
   const [unitDetails, setUnitDetails] = useState(unitData[unit]);
   const [amount, setAmount] = useState(getTotalAmount(weight, maintenance, unitDetails.perUnit));
@@ -123,12 +48,12 @@ const DogCalculator = () => {
   }, [unit]);
 
   useEffect(() => {
-    setBoneRatio(defaultRatios[age].bone);
-    setLiverRatio(defaultRatios[age].liver);
-    setOrganRatio(defaultRatios[age].organ);
-    setVeggieRatio(defaultRatios[age].veggie);
-    setSeedRatio(defaultRatios[age].seed);
-    setFruitRatio(defaultRatios[age].fruit);
+    setBoneRatio(ratioDefaultData[age].bone);
+    setLiverRatio(ratioDefaultData[age].liver);
+    setOrganRatio(ratioDefaultData[age].organ);
+    setVeggieRatio(ratioDefaultData[age].veggie);
+    setSeedRatio(ratioDefaultData[age].seed);
+    setFruitRatio(ratioDefaultData[age].fruit);
   }, [age]);
 
   useEffect(() => {
@@ -138,7 +63,17 @@ const DogCalculator = () => {
 
   return (
     <div className={classes.root}>
-      <Grid container spacing={2}>
+      <Grid container spacing={1}>
+        <Hidden mdUp implementation="css">
+          <Grid item xs={12}>
+            <Paper elevation={0} square> 
+              <Box component="h3" fontWeight="fontWeightLight" mx={1} pt={1} mb={0}>
+                Ads to pay for this website - DONATE
+                Create account and name for the website, then paypal.me link
+              </Box>
+            </Paper>
+          </Grid>
+        </Hidden>
         <Grid item xs={12} sm={6}>
           <Paper elevation={0} square>       
             <Box component="h3" fontWeight="fontWeightLight" mx={1} pt={1}>Options</Box>     
@@ -165,7 +100,7 @@ const DogCalculator = () => {
               onChange={e => setWeight(Number(e.target.value))}
               InputProps={{
                 endAdornment: (
-                  <InputAdornment position="end">{unitDetails.dog}</InputAdornment>
+                  <InputAdornment position="end">{unitDetails.lg}</InputAdornment>
                 ),
               }}
             />      
@@ -176,7 +111,7 @@ const DogCalculator = () => {
               value={maintenance}
               type="number"
               onChange={e => setMaintenance(Number(e.target.value))}
-              helperText="Usually 2.0-3.0%"
+              helperText="Start at 2.0-3.0%"
               inputProps={{
                 min: 0,
                 max: 100,
@@ -197,7 +132,7 @@ const DogCalculator = () => {
               disabled
               InputProps={{
                 endAdornment: (
-                  <InputAdornment position="end">{unitDetails.food}</InputAdornment>
+                  <InputAdornment position="end">{unitDetails.sm}</InputAdornment>
                 ),
               }}
             />  
@@ -205,8 +140,8 @@ const DogCalculator = () => {
           <Paper elevation={0} square> 
             <Box component="h3" fontWeight="fontWeightLight" mx={1} pt={1}>Desired Ratios </Box>
             <Box component="div" className={classes.buttonWrapper}>
-              <Box component="span" fontWeight="fontWeightLight">Set Ratio Defaults: </Box>
-              {ageOptions.map(option => (
+              <Box component="span" fontWeight="fontWeightLight">Reset defaults for: </Box>
+              {ratioDefaultOptions.map(option => (
                 <Button 
                   size="small"
                   variant="outlined"
@@ -316,7 +251,7 @@ const DogCalculator = () => {
               <InputLabel htmlFor="bone">RMB Type</InputLabel>
               <NativeSelect
                 className={classes.nativeSelect}
-                name="boneType"
+                name="rmbPercent"
                 id="bone"
                 onChange={e => setBoneType(Number(e.target.value))}
                 defaultValue={rmbOptions[0].value}
@@ -327,10 +262,10 @@ const DogCalculator = () => {
               </NativeSelect>
             </FormControl>
             <TextField
-              className={{[classes.numericLarge]: true, [classes.hidden]: (boneType === 0)}}
+              className={classnames({[classes.numericLarge]: true, [classes.hidden]: (rmbPercent === 0)})}
               id="boneRatio" 
               label="RMB Ratio"
-              value={boneType}
+              value={rmbPercent}
               type="number"
               disabled
               InputProps={{
@@ -340,7 +275,7 @@ const DogCalculator = () => {
               }}
             />
             <TextField
-              className={{[classes.numericLarge]: true, [classes.hidden]: (boneType !== 0)}}
+              className={classnames({[classes.numericLarge]: true, [classes.hidden]: (rmbPercent !== 0)})}
               id="customBoneRatio" 
               label="Enter RMB %"
               value={customRMB}
@@ -354,11 +289,19 @@ const DogCalculator = () => {
             />
           </Paper>
         </Grid>
-        <Grid item sm={6} xs={12}>
-          <Amounts 
+        <Grid item xs={12} sm={6}>
+          <Hidden smDown implementation="css">
+            <Paper elevation={0} square> 
+              <Box component="h3" fontWeight="fontWeightLight" mx={1} pt={1}>
+                Ads to pay for this website - DONATE
+                Create account and name for the website, then paypal.me link
+              </Box>
+            </Paper>
+          </Hidden>
+          <WhatToFeed 
             amount={amount}
             customRMB={customRMB}
-            boneType={boneType}
+            rmbPercent={rmbPercent}
             boneRatio={boneRatio}
             organRatio={organRatio}
             liverRatio={liverRatio}
@@ -374,12 +317,3 @@ const DogCalculator = () => {
 };
 
 export default DogCalculator;
-
-// could do this if you're not using a lot of effects
-// const [inputs, setInput] = useState({
-//   muscleRatio: 70,
-//   boneRatio: 10,
-// });
-// const handleNumericInputChange = (event) => {
-//   setInput({ ...inputs, [event.target.name]: Number(event.target.value) });
-// };

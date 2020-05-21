@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
-import recipes from './recipes';
+import animal from './animal';
 import app from './app';
 
 export default combineReducers({
   app,
-  recipes,
+  animal,
 });
