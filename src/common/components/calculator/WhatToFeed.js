@@ -5,64 +5,61 @@ import AmountsTable from './AmountsTable';
 import BulkHelper from './BulkHelper';
 import getBoneAmount from '../../calculations/getBoneAmount';
 import getMuscleAmount from '../../calculations/getMuscleAmount';
-import getPercentage from '../../calculations/getPercentage';
+import getAmountByPercent from '../../calculations/getAmountByPercent.js';
 
 const WhatToFeed = (props) => {
   const { 
     amount,
     rmbPercent,
-    customRMB,
-    boneRatio, 
-    organRatio, 
-    liverRatio, 
-    veggieRatio,
-    seedRatio,
-    fruitRatio,
+    bonePercentage, 
+    organPercentage, 
+    liverPercentage, 
+    veggiePercentage,
+    seedPercentage,
+    fruitPercentage,
     unitDetails,
   } = props;
 
   const [shouldShowBulkTable, setShowBulkTable] = useState(false);
 
-  const [boneAmount, setBoneAmount] = useState(getBoneAmount(amount, boneRatio, rmbPercent));
-  const [liverAmount, setLiverAmount] = useState(getPercentage(amount, liverRatio));
-  const [organAmount, setOrganAmount] = useState(getPercentage(amount, organRatio));
+  const [boneAmount, setBoneAmount] = useState(getBoneAmount(amount, bonePercentage, rmbPercent));
+  const [liverAmount, setLiverAmount] = useState(getAmountByPercent(amount, liverPercentage));
+  const [organAmount, setOrganAmount] = useState(getAmountByPercent(amount, organPercentage));
 
-  const [vegAmount, setVegAmount] = useState(getPercentage(amount, veggieRatio));
-  const [seedAmount, setSeedAmount] = useState(getPercentage(amount, seedRatio));
-  const [fruitAmount, setFruitAmount] = useState(getPercentage(amount, fruitRatio));
-  const [totalVegAmount, setTotalVegAmount] = useState(getPercentage(amount, (veggieRatio + seedRatio + fruitRatio)));
+  const [vegAmount, setVegAmount] = useState(getAmountByPercent(amount, veggiePercentage));
+  const [seedAmount, setSeedAmount] = useState(getAmountByPercent(amount, seedPercentage));
+  const [fruitAmount, setFruitAmount] = useState(getAmountByPercent(amount, fruitPercentage));
+  const [totalVegAmount, setTotalVegAmount] = useState(getAmountByPercent(amount, (veggiePercentage + seedPercentage + fruitPercentage)));
   const [muscleAmount, setMuscleAmount] = useState(getMuscleAmount(amount, boneAmount, organAmount, liverAmount, totalVegAmount));
 
   useEffect(() => {
-    const bonePerc = customRMB || rmbPercent;
-
-    setBoneAmount(getBoneAmount(amount, boneRatio, bonePerc));
-  }, [amount, boneRatio, rmbPercent, customRMB]);
+    setBoneAmount(getBoneAmount(amount, bonePercentage, rmbPercent));
+  }, [amount, bonePercentage, rmbPercent]);
 
   useEffect(() => {
-    setOrganAmount(getPercentage(amount, organRatio));
-  }, [amount, organRatio]);
+    setOrganAmount(getAmountByPercent(amount, organPercentage));
+  }, [amount, organPercentage]);
 
   useEffect(() => {
-    setLiverAmount(getPercentage(amount, liverRatio));
-  }, [amount, liverRatio]);
+    setLiverAmount(getAmountByPercent(amount, liverPercentage));
+  }, [amount, liverPercentage]);
 
   useEffect(() => {
-    setVegAmount(getPercentage(amount, veggieRatio));
-  }, [amount, veggieRatio]);
+    setVegAmount(getAmountByPercent(amount, veggiePercentage));
+  }, [amount, veggiePercentage]);
 
   useEffect(() => {
-    setSeedAmount(getPercentage(amount, seedRatio));
-  }, [amount, seedRatio]);
+    setSeedAmount(getAmountByPercent(amount, seedPercentage));
+  }, [amount, seedPercentage]);
 
   useEffect(() => {
-    setFruitAmount(getPercentage(amount, fruitRatio));
-  }, [amount, fruitRatio]);
+    setFruitAmount(getAmountByPercent(amount, fruitPercentage));
+  }, [amount, fruitPercentage]);
 
   useEffect(() => {
-    const totalVeggies = veggieRatio + seedRatio + fruitRatio;
-    setTotalVegAmount(getPercentage(amount, totalVeggies));
-  }, [amount, veggieRatio, seedRatio, fruitRatio]);
+    const totalVeggies = veggiePercentage + seedPercentage + fruitPercentage;
+    setTotalVegAmount(getAmountByPercent(amount, totalVeggies));
+  }, [amount, veggiePercentage, seedPercentage, fruitPercentage]);
 
   useEffect(() => {
     setMuscleAmount(getMuscleAmount(amount, boneAmount, organAmount, liverAmount, totalVegAmount));
@@ -72,6 +69,7 @@ const WhatToFeed = (props) => {
   return (
     <React.Fragment>
       <AmountsTable 
+        totalAmount={amount}
         muscleAmount={muscleAmount}
         boneAmount={boneAmount}
         rmbPercent={rmbPercent}
@@ -84,6 +82,7 @@ const WhatToFeed = (props) => {
         title="What to feed each day"
       />      
       <BulkHelper
+        totalAmount={amount}
         muscleAmount={muscleAmount}
         boneAmount={boneAmount}
         rmbPercent={rmbPercent}
@@ -103,13 +102,12 @@ const WhatToFeed = (props) => {
 WhatToFeed.propTypes = {
   amount: PropTypes.number.isRequired,
   rmbPercent: PropTypes.number.isRequired,
-  customRMB: PropTypes.number.isRequired,
-  boneRatio: PropTypes.number.isRequired,
-  liverRatio: PropTypes.number.isRequired,
-  organRatio: PropTypes.number.isRequired,
-  veggieRatio: PropTypes.number.isRequired,
-  seedRatio: PropTypes.number.isRequired,
-  fruitRatio: PropTypes.number.isRequired,
+  bonePercentage: PropTypes.number.isRequired,
+  liverPercentage: PropTypes.number.isRequired,
+  organPercentage: PropTypes.number.isRequired,
+  veggiePercentage: PropTypes.number.isRequired,
+  seedPercentage: PropTypes.number.isRequired,
+  fruitPercentage: PropTypes.number.isRequired,
   unitDetails: PropTypes.object.isRequired,
 };
 

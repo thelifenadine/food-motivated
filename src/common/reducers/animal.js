@@ -5,14 +5,14 @@ const initialState = {
     unitOfMeasurement: 'english',
     weight: 68,
     maintenancePercentage: 2.5,
-    muscleRatio: 70,
-    boneRatio: 10,
-    liverRatio: 5,
-    organRatio: 5,
-    vegetableRatio: 7,
-    seedRatio: 2,
-    fruitRatio: 1,
-    lastRMBRatio: 50,
+    musclePercentage: 70,
+    bonePercentage: 10,
+    liverPercentage: 5,
+    organPercentage: 5,
+    vegetablePercentage: 7,
+    seedPercentage: 2,
+    fruitPercentage: 1,
+    lastRMBPercentage: 50,
   }
 };
 

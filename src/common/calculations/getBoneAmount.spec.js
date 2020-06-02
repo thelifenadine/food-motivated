@@ -2,9 +2,9 @@ import proxyquire from 'proxyquire';
 import { should } from "chai";
 should();
 
-describe('getBoneAmount(amount, boneRatio, boneType)', () => {
+describe('getBoneAmount(amount, bonePercentage, boneType)', () => {
   let getBoneAmount;
-  let defaultBoneRatio = 11;
+  let defaultBonePercentage = 11;
   let defaultBoneType = 60;
   let defaultTotalAmount = 32.6;
   
@@ -15,7 +15,7 @@ describe('getBoneAmount(amount, boneRatio, boneType)', () => {
   });
 
   it('should get the correct amount', () => {
-    const result = getBoneAmount(defaultTotalAmount, defaultBoneRatio, defaultBoneType);
+    const result = getBoneAmount(defaultTotalAmount, defaultBonePercentage, defaultBoneType);
     result.should.equal(6);
   });
 });

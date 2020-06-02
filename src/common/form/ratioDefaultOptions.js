@@ -5,6 +5,52 @@ export default [
   { name: 'PMR Puppy', value: 'pmrPuppy', key: 'pmr-puppy' },
 ];
 
+export const plans = [
+  { 
+    name: 'pmr',
+    defaults: {
+      adult: {
+        muscle: 80,
+        bone: 10,
+        liver: 5,
+        organ: 5,
+      },
+      puppy: {
+        muscle: 69,
+        bone: 17,
+        liver: 7,
+        organ: 7,
+        veggie: 0,
+        seed: 0,
+        fruit: 0,
+        fibre: 0,
+      },
+    },
+  }, { 
+    name: 'barf',
+    defaults: {
+      adult: {
+        muscle: 70,
+        bone: 10,
+        liver: 5,
+        organ: 5,
+        veggie: 7,
+        seed: 2,
+        fruit: 1,
+      },
+      puppy: {
+        muscle: 58,
+        bone: 17,
+        liver: 7,
+        organ: 7,
+        veggie: 7,
+        seed: 2,
+        fruit: 1,
+      },
+    },
+  }
+];
+
 export const ratioDefaultData = {
   barfAdult: {
     muscle: 70,
@@ -41,6 +87,6 @@ export const ratioDefaultData = {
     veggie: 0,
     seed: 0,
     fruit: 0,
-  }
+  },
 };
 

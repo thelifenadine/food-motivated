@@ -2,11 +2,14 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import round from '../../calculations/round';
 import AmountsTable from './AmountsTable';
-import { Paper, Box, Button, TextField, InputAdornment } from '@material-ui/core';
+import { Button, TextField, InputAdornment } from '@material-ui/core';
 import useStyles from '../../styles/useStyles';
+import Header2 from './Header2';
+import Section from './Section';
 
 const BulkHelper = (props) => {
   const { 
+    totalAmount,
     muscleAmount,
     boneAmount,
     liverAmount,
@@ -23,6 +26,7 @@ const BulkHelper = (props) => {
   const classes = useStyles();
   const [numDays, setNumDays] = useState(7);
 
+  const [totalUpdatedAmount, setTotalUpdatedAmount] = useState(totalAmount);
   const [boneUpdatedAmount, setBoneUpdatedAmount] = useState(boneAmount);
   const [liverUpdatedAmount, setLiverUpdatedAmount] = useState(liverAmount);
   const [organUpdatedAmount, setOrganUpdatedAmount] = useState(organAmount);
@@ -34,6 +38,8 @@ const BulkHelper = (props) => {
 
   /* eslint ignore react-hooks/exhaustive-deps */
   useEffect(() => {
+    setTotalUpdatedAmount(round(totalAmount * numDays));
+    setBoneUpdatedAmount(round(boneAmount * numDays));
     setBoneUpdatedAmount(round(boneAmount * numDays));
     setLiverUpdatedAmount(round(liverAmount * numDays));
     setOrganUpdatedAmount(round(organAmount * numDays));
@@ -44,11 +50,11 @@ const BulkHelper = (props) => {
   }, [numDays]);
 
   return (
-    <Paper elevation={0} square> 
-      <Box component="h3" fontWeight="fontWeightLight" mx={1} pt={1}>Bulk Helper</Box>
-      <Box component="div" className={classes.buttonWrapper}>
+    <React.Fragment>
+      <Section> 
+        <Header2>Bulk Helper</Header2>
         <TextField
-          className={classes.formControlWide}
+          className={classes.numericLarge}
           id="numDays" 
           label="How long"
           value={numDays}
@@ -61,6 +67,7 @@ const BulkHelper = (props) => {
           }}
           helperText="minimum of 2 days"
         />
+        
         <Button 
           size="small"
           variant="outlined"
@@ -69,26 +76,30 @@ const BulkHelper = (props) => {
         >
           Generate
         </Button>
-      </Box>
+      </Section> 
       {shouldShowBulkTable && (numDays > 1) &&
-        <AmountsTable 
-          muscleAmount={muscleUpdatedAmount}
-          boneAmount={boneUpdatedAmount}
-          liverAmount={liverUpdatedAmount}
-          organAmount={organUpdatedAmount}
-          vegAmount={vegUpdatedAmount}
-          seedAmount={seedUpdatedAmount}
-          fruitAmount={fruitUpdatedAmount}
-          unitDetails={unitDetails}
-          rmbPercent={rmbPercent}
-          title={`Bulk Amounts for ${numDays} days`}
-        />  
+        <Section> 
+          <AmountsTable 
+            totalAmount={totalUpdatedAmount}
+            muscleAmount={muscleUpdatedAmount}
+            boneAmount={boneUpdatedAmount}
+            liverAmount={liverUpdatedAmount}
+            organAmount={organUpdatedAmount}
+            vegAmount={vegUpdatedAmount}
+            seedAmount={seedUpdatedAmount}
+            fruitAmount={fruitUpdatedAmount}
+            unitDetails={unitDetails}
+            rmbPercent={rmbPercent}
+            title={`Bulk Amounts for ${numDays} days`}
+          />  
+        </Section>
       }
-    </Paper> 
+    </React.Fragment>
   );
 };
 
 BulkHelper.propTypes = {
+  totalAmount: PropTypes.number.isRequired,
   muscleAmount: PropTypes.number.isRequired,
   boneAmount: PropTypes.number.isRequired,
   rmbPercent: PropTypes.number.isRequired,

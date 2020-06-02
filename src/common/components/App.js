@@ -4,7 +4,7 @@ import { CssBaseline, Container } from '@material-ui/core';
 import { ThemeProvider } from '@material-ui/core/styles';
 
 import Header from './header/Header';
-import DogCalculator from './calculator/DogCalculator';
+import DogCalculator from './calculator/';
 import theme from '../theme';
 
 const App = () => {

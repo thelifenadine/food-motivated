@@ -1,11 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Paper, Box, Table, TableBody, TableRow, TableCell } from '@material-ui/core';
+import { Table, TableBody, TableRow, TableCell } from '@material-ui/core';
 import round from '../../calculations/round';
 import useStyles from '../../styles/useStyles';
+import Header2 from './Header2';
+import Section from './Section';
 
 const DailyTable = (props) => {
   const { 
+    totalAmount,
     muscleAmount,
     boneAmount,
     rmbPercent,
@@ -17,17 +20,21 @@ const DailyTable = (props) => {
     unitDetails,
     title,
   } = props;
-  const classes = useStyles();
 
+  const classes = useStyles();
   const addedContent = (amount) => (
     (amount < unitDetails.perUnit) ? '' : `${round(amount / unitDetails.perUnit)} ${unitDetails.lg} / `
   );
 
   return (
-    <Paper elevation={0} square> 
-      <Box component="h3" fontWeight="fontWeightLight" mx={1} pt={1}>{title}</Box>
-      <Table className={classes.table} size="small">
+    <Section> 
+      <Header2>{title}</Header2>
+      <Table size="small" className={classes.table}>
         <TableBody>
+          <TableRow>
+            <TableCell className={classes.firstRow}>Total Amount</TableCell>
+            <TableCell className={classes.firstRow} align="right">{`${addedContent(totalAmount)}${totalAmount} ${unitDetails.sm}`}</TableCell>
+          </TableRow>
           <TableRow>
             <TableCell>Boneless Meat</TableCell>
             <TableCell align="right">{`${addedContent(muscleAmount)}${muscleAmount} ${unitDetails.sm}`}</TableCell>
@@ -58,11 +65,12 @@ const DailyTable = (props) => {
           </TableRow>
         </TableBody>
       </Table>
-    </Paper>
+    </Section>
   );
 };
 
 DailyTable.propTypes = {
+  totalAmount: PropTypes.number.isRequired,
   muscleAmount: PropTypes.number.isRequired,
   boneAmount: PropTypes.number.isRequired,
   rmbPercent: PropTypes.number.isRequired,
