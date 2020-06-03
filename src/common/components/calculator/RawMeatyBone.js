@@ -1,39 +1,53 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { 
-  FormControl, NativeSelect, InputLabel, InputAdornment, TextField,
+  FormControl, NativeSelect, InputLabel, InputAdornment, TextField, makeStyles,
 } from '@material-ui/core';
-
-import useStyles from '../../styles/useStyles';
+import rmbOptions from '../../form/rawMeatyBoneOptions';
 import Header2 from './Header2';
 import Section from './Section';
 
-const RawMeatyBone = (props) => {
-  const { 
-    rmbOption,
-    setRmbOption,
-    customRMB,
-    setCustomRMB,
-    rmbOptions,
-  } = props;
+const useStyles = makeStyles((theme) => ({
+  formControl: {
+    margin: theme.spacing(2),
+  },
+  rmbOption: {
+    margin: theme.spacing(2),
+    width: 115,
+  },
+  rmbCustom: {
+    margin: theme.spacing(2),
+    width: 135,
+  },
+}));
 
-  const classes = useStyles({ rmbOption });
+const RawMeatyBone = ({ setRmbPercent }) => {
+  const classes = useStyles();
 
-  const onOptionChange = (e) => {
+  const [customRMB, setCustomRMB] = useState(0);
+  const [rmbOption, setRmbOption] = useState(rmbOptions[0].value);
+
+  const onDropDownChange = (e) => {
     const optionValue = Number(e.target.value);  
     setCustomRMB(0);
     setRmbOption(optionValue);
   };
 
+  useEffect(() => {
+    const rmbContent = (rmbOption === 0) ? customRMB : rmbOption;
+
+    setRmbPercent(rmbContent);
+  }, [rmbOption, customRMB, setRmbPercent]);
+  
   return (
     <Section>
       <Header2>Raw Meaty Bone</Header2>    
       <FormControl className={classes.formControl}>
-        <InputLabel htmlFor="bone">RMB Type</InputLabel>
+        <InputLabel htmlFor="boneType">RMB Type</InputLabel>
         <NativeSelect
-          name="rmbOption"
-          id="bone"
-          onChange={onOptionChange}
+          name="boneType"
+          id="boneType"
+          onChange={onDropDownChange}
           defaultValue={rmbOptions[0].value}
         >
           {rmbOptions.map(option => (
@@ -41,42 +55,42 @@ const RawMeatyBone = (props) => {
           ))}
         </NativeSelect>
       </FormControl>
-      <TextField
-        className={classes.rmbOption}
-        id="rmbOption" 
-        label="Bone Content"
-        value={rmbOption}
-        type="number"
-        disabled
-        InputProps={{
-          endAdornment: (
-            <InputAdornment position="end">%</InputAdornment>
-          ),
-        }}
-      />
-      <TextField
-        className={classes.rmbCustom}
-        id="customRMB" 
-        label="Enter RMB %"
-        value={customRMB}
-        type="number"
-        onChange={e => setCustomRMB(Number(e.target.value))}
-        InputProps={{
-          endAdornment: (
-            <InputAdornment position="end">%</InputAdornment>
-          ),
-        }}
-      />
+      {rmbOption !== 0 &&
+        <TextField
+          className={classes.rmbOption}
+          id="rmbOption" 
+          label="Bone Content"
+          value={rmbOption}
+          type="number"
+          disabled
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">%</InputAdornment>
+            ),
+          }}
+        />      
+      }
+      {rmbOption === 0 &&
+        <TextField
+          className={classes.rmbCustom}
+          id="customRMB" 
+          label="Enter RMB %"
+          value={customRMB}
+          type="number"
+          onChange={e => setCustomRMB(Number(e.target.value))}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">%</InputAdornment>
+            ),
+          }}
+        />
+      }
     </Section>
   );
 };
 
 RawMeatyBone.propTypes = {
-  rmbOption: PropTypes.number.isRequired,
-  setRmbOption: PropTypes.func.isRequired,
-  customRMB: PropTypes.number.isRequired,
-  setCustomRMB: PropTypes.func.isRequired,
-  rmbOptions: PropTypes.array.isRequired,
+  setRmbPercent: PropTypes.func.isRequired,
 };
 
 export default RawMeatyBone;

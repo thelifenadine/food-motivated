@@ -4,28 +4,26 @@ import { CssBaseline, Container } from '@material-ui/core';
 import { ThemeProvider } from '@material-ui/core/styles';
 
 import Header from './header/Header';
-import DogCalculator from './calculator/';
+import DogMealCalculator from './calculator/DogMealCalculator';
 import theme from '../theme';
 
-const App = () => {
-  return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <Header />
-      <Container fixed>
-        <Switch>
-          <Route exact path="/">
-            <Home />
-          </Route>
-          <Route path="/calculator">
-            <DogCalculator />
-          </Route>
-          <NotFound default />
-        </Switch>
-      </Container>
-    </ThemeProvider>
-  );
-};
+const App = () => (
+  <ThemeProvider theme={theme}>
+    <CssBaseline />
+    <Header />
+    <Container fixed>
+      <Switch>
+        <Route exact path="/">
+          <Home />
+        </Route>
+        <Route path="/calculator">
+          <DogMealCalculator />
+        </Route>
+        <NotFound default />
+      </Switch>
+    </Container>
+  </ThemeProvider>
+);
 
 const Home = () => {
   return (

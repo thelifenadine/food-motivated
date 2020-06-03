@@ -1,15 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import round from '../../calculations/round';
 import AmountsTable from './AmountsTable';
-import { Button, TextField, InputAdornment } from '@material-ui/core';
-import useStyles from '../../styles/useStyles';
+import { Button, TextField, InputAdornment, makeStyles } from '@material-ui/core';
 import Header2 from './Header2';
 import Section from './Section';
 
+const useStyles = makeStyles((theme) => ({
+  numericLarge: {
+    margin: theme.spacing(2),
+    width: 110,
+  },
+}));
+
 const BulkHelper = (props) => {
   const { 
-    totalAmount,
+    totalDailyAmount,
     muscleAmount,
     boneAmount,
     liverAmount,
@@ -26,7 +31,7 @@ const BulkHelper = (props) => {
   const classes = useStyles();
   const [numDays, setNumDays] = useState(7);
 
-  const [totalUpdatedAmount, setTotalUpdatedAmount] = useState(totalAmount);
+  const [totalUpdatedAmount, setTotalUpdatedAmount] = useState(totalDailyAmount);
   const [boneUpdatedAmount, setBoneUpdatedAmount] = useState(boneAmount);
   const [liverUpdatedAmount, setLiverUpdatedAmount] = useState(liverAmount);
   const [organUpdatedAmount, setOrganUpdatedAmount] = useState(organAmount);
@@ -38,15 +43,15 @@ const BulkHelper = (props) => {
 
   /* eslint ignore react-hooks/exhaustive-deps */
   useEffect(() => {
-    setTotalUpdatedAmount(round(totalAmount * numDays));
-    setBoneUpdatedAmount(round(boneAmount * numDays));
-    setBoneUpdatedAmount(round(boneAmount * numDays));
-    setLiverUpdatedAmount(round(liverAmount * numDays));
-    setOrganUpdatedAmount(round(organAmount * numDays));
-    setVegUpdatedAmount(round(vegAmount * numDays));
-    setSeedUpdatedAmount(round(seedAmount * numDays));
-    setFruitUpdatedAmount(round(fruitAmount * numDays));
-    setMuscleUpdatedAmount(round(muscleAmount * numDays));
+    setTotalUpdatedAmount(totalDailyAmount * numDays);
+    setBoneUpdatedAmount(boneAmount * numDays);
+    setBoneUpdatedAmount(boneAmount * numDays);
+    setLiverUpdatedAmount(liverAmount * numDays);
+    setOrganUpdatedAmount(organAmount * numDays);
+    setVegUpdatedAmount(vegAmount * numDays);
+    setSeedUpdatedAmount(seedAmount * numDays);
+    setFruitUpdatedAmount(fruitAmount * numDays);
+    setMuscleUpdatedAmount(muscleAmount * numDays);
   }, [numDays]);
 
   return (
@@ -99,7 +104,7 @@ const BulkHelper = (props) => {
 };
 
 BulkHelper.propTypes = {
-  totalAmount: PropTypes.number.isRequired,
+  totalDailyAmount: PropTypes.number.isRequired,
   muscleAmount: PropTypes.number.isRequired,
   boneAmount: PropTypes.number.isRequired,
   rmbPercent: PropTypes.number.isRequired,

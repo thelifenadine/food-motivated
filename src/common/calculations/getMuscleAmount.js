@@ -1,8 +1,6 @@
-import round from './round';
-
-const getMuscleAmount = (amount, boneAmount, organAmount, liverAmount, totalVegAmount) => {
-  const newMuscleAmount = amount - boneAmount - organAmount - liverAmount - totalVegAmount;
-  return round(newMuscleAmount);
+const getMuscleAmount = (totalAmount, nonMuscleAmounts) => {
+  const sum = nonMuscleAmounts.reduce((a, b) => (a + b), 0);
+  return totalAmount - sum;
 };
 
 export default getMuscleAmount;

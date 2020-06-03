@@ -9,13 +9,12 @@ describe('getTotalAmount(weight, maintenancePercentage, unitAmount)', () => {
   
   before(() => {
     getTotalAmount = proxyquire.noCallThru().load('./getTotalAmount', {
-      // './toPercent': (arg) => (arg / 100),
     }).default;
   });
 
   it('should get the correct amount in ounces by default', () => {
     const result = getTotalAmount(weight, maintenancePercentage);
-    result.should.equal(27.2);
+    result.should.eql(27.200000000000003);
   });
 
   it('should get the correct amount in grams if passed in', () => {

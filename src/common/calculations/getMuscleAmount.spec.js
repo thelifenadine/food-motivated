@@ -12,12 +12,11 @@ describe('getMuscleAmount(amount, boneAmount, organAmount, liverAmount, totalVeg
   
   before(() => {
     getMuscleAmount = proxyquire.noCallThru().load('./getMuscleAmount', {
-      // './round': () => (),
     }).default;
   });
 
   it('should get the correct amount', () => {
-    const result = getMuscleAmount(amount, boneAmount, organAmount, liverAmount, totalVegAmount);
-    result.should.equal(20.2);
+    const result = getMuscleAmount(amount, [boneAmount, organAmount, liverAmount, totalVegAmount]);
+    result.should.equal(20.200000000000003);
   });
 });

@@ -8,7 +8,6 @@ describe('round()', () => {
   
   before(() => {
     round = proxyquire.noCallThru().load('./round', {
-      //'lodash/round': (arg) => (0.5),
     }).default;
   });
 

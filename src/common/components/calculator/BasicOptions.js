@@ -1,23 +1,44 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { 
   FormControl, NativeSelect, InputLabel, InputAdornment, TextField, makeStyles,
 } from '@material-ui/core';
-import unitOptions from '../../form/unitOptions';
-import useStyles from '../../styles/useStyles';
+
 import Header2 from './Header2';
 import Section from './Section';
 
+import round from '../../calculations/round';
+import getTotalAmount from '../../calculations/getTotalAmount';
+import unitOptions from '../../form/unitOptions';
+
+const useStyles = makeStyles((theme) => ({
+  formControl: {
+    margin: theme.spacing(2),
+  },
+  numericLarge: {
+    margin: theme.spacing(2),
+    width: 110,
+  },
+}));
+
 const BasicOptions = ({
   setUnit,
-  weight,
-  setWeight,
-  maintenance,
-  setMaintenance,
-  amount,
+  setDailyAmount,
+  totalDailyAmount,
   unitDetails,
 }) => {
   const classes = useStyles();
+  const [weight, setWeight] = useState(68);
+  const [maintenance, setMaintenance] = useState(2.5);
+  const [roundedDailyAmount, setRoundedDailyAmount] = useState(round(totalDailyAmount));
+
+  useEffect(() => {
+    setDailyAmount(getTotalAmount(weight, maintenance, unitDetails.perUnit));
+  }, [setDailyAmount, weight, maintenance, unitDetails]);
+
+  useEffect(() => {
+    setRoundedDailyAmount(round(totalDailyAmount));
+  }, [totalDailyAmount]);
 
   return (
     <Section>
@@ -69,9 +90,9 @@ const BasicOptions = ({
       />
       <TextField
         className={classes.numericLarge}
-        id="amount" 
+        id="totalDailyAmount" 
         label="Daily Amount"
-        value={amount}
+        value={roundedDailyAmount}
         type="number"
         disabled
         InputProps={{
@@ -86,11 +107,8 @@ const BasicOptions = ({
 
 BasicOptions.propTypes = {
   setUnit: PropTypes.func.isRequired,
-  weight: PropTypes.number.isRequired,
-  setWeight: PropTypes.func.isRequired,
-  maintenance: PropTypes.number.isRequired,
-  setMaintenance: PropTypes.func.isRequired,
-  amount: PropTypes.number.isRequired,
+  totalDailyAmount: PropTypes.number.isRequired,
+  setDailyAmount: PropTypes.func.isRequired,
   unitDetails: PropTypes.object.isRequired,
 };
 
