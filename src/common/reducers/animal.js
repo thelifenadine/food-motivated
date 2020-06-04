@@ -17,7 +17,7 @@ const initialState = {
 };
 
 export default createMappedReducer(initialState, {
-  ['CREATE_RECIPE'](state) {
+  ['ADD_DOG'](state, action) {
     return state;
   },
 });
