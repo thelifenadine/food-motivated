@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
 import { 
   FormControl, NativeSelect, InputLabel, InputAdornment, TextField, makeStyles,
 } from '@material-ui/core';
@@ -8,33 +8,36 @@ import Header2 from './Header2';
 import Section from './Section';
 
 import round from '../../calculations/round';
-import getTotalAmount from '../../calculations/getTotalAmount';
 import unitOptions from '../../form/unitOptions';
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
-    margin: theme.spacing(2),
+    margin: theme.spacing(1),
   },
   numericLarge: {
-    margin: theme.spacing(2),
+    margin: theme.spacing(1),
     width: 110,
   },
 }));
 
-const BasicOptions = ({
-  setUnit,
-  setDailyAmount,
-  totalDailyAmount,
-  unitDetails,
-}) => {
+const BasicOptions = () => {
   const classes = useStyles();
-  const [weight, setWeight] = useState(68);
-  const [maintenance, setMaintenance] = useState(2.5);
+  const dispatch = useDispatch();
+  const settings = useSelector(state => state.calculator);
+  const { totalDailyAmount, unitDetails, maintenancePercentage } = settings;
+
+  const [weight, setWeight] = useState(settings.weight);
+  const [maintenance, setMaintenance] = useState(maintenancePercentage);
   const [roundedDailyAmount, setRoundedDailyAmount] = useState(round(totalDailyAmount));
 
   useEffect(() => {
-    setDailyAmount(getTotalAmount(weight, maintenance, unitDetails.perUnit));
-  }, [setDailyAmount, weight, maintenance, unitDetails]);
+    dispatch({
+      type: 'UPDATE_DAILY_AMOUNT',
+      weight,
+      maintenance,
+      unit: unitDetails.perUnit,
+    });
+  }, [weight, maintenance, unitDetails]);
 
   useEffect(() => {
     setRoundedDailyAmount(round(totalDailyAmount));
@@ -48,7 +51,7 @@ const BasicOptions = ({
         <NativeSelect
           name="unit"
           id="unit"
-          onChange={e => setUnit(e.target.value)}
+          onChange={e => dispatch({ type: 'UPDATE_UNIT_DETAILS', key: e.target.value })}
           defaultValue={'english'}
         >
           {unitOptions.map(option => (
@@ -103,13 +106,6 @@ const BasicOptions = ({
       />  
     </Section>
   );
-};
-
-BasicOptions.propTypes = {
-  setUnit: PropTypes.func.isRequired,
-  totalDailyAmount: PropTypes.number.isRequired,
-  setDailyAmount: PropTypes.func.isRequired,
-  unitDetails: PropTypes.object.isRequired,
 };
 
 export default BasicOptions;

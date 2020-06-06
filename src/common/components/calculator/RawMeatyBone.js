@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
 import { 
   FormControl, NativeSelect, InputLabel, InputAdornment, TextField, makeStyles,
 } from '@material-ui/core';
@@ -9,20 +9,21 @@ import Section from './Section';
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
-    margin: theme.spacing(2),
+    margin: theme.spacing(1),
   },
   rmbOption: {
-    margin: theme.spacing(2),
+    margin: theme.spacing(1),
     width: 115,
   },
   rmbCustom: {
-    margin: theme.spacing(2),
+    margin: theme.spacing(1),
     width: 135,
   },
 }));
 
-const RawMeatyBone = ({ setRmbPercent }) => {
+const RawMeatyBone = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
 
   const [customRMB, setCustomRMB] = useState(0);
   const [rmbOption, setRmbOption] = useState(rmbOptions[0].value);
@@ -36,8 +37,11 @@ const RawMeatyBone = ({ setRmbPercent }) => {
   useEffect(() => {
     const rmbContent = (rmbOption === 0) ? customRMB : rmbOption;
 
-    setRmbPercent(rmbContent);
-  }, [rmbOption, customRMB, setRmbPercent]);
+    dispatch({
+      type: 'UPDATE_RMB_PERCENT',
+      rmbPercent: rmbContent,
+    });
+  }, [rmbOption, customRMB]);
   
   return (
     <Section>
@@ -87,10 +91,6 @@ const RawMeatyBone = ({ setRmbPercent }) => {
       }
     </Section>
   );
-};
-
-RawMeatyBone.propTypes = {
-  setRmbPercent: PropTypes.func.isRequired,
 };
 
 export default RawMeatyBone;

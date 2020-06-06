@@ -1,14 +1,13 @@
-import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { InputAdornment, Box, TextField, Button, makeStyles } from '@material-ui/core';
-import getMuscleAmount from '../../calculations/getMuscleAmount';
-import ratioDefaultOptions, { ratioDefaultData } from '../../form/ratioDefaultOptions';
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { InputAdornment, TextField, Button, makeStyles } from '@material-ui/core';
+import ratioDefaultOptions from '../../form/ratioDefaultOptions';
 import Header2 from './Header2';
 import Section from './Section';
 
 const useStyles = makeStyles((theme) => ({
   numericSmall: {
-    margin: theme.spacing(2),
+    margin: theme.spacing(1),
     width: 55,
   },
   buttonWrapper: {
@@ -18,53 +17,46 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   inlineButtonText: {
-    margin: theme.spacing(2),
+    margin: theme.spacing(1),
     fontWeight: 300,
     fontSize: 15,
   },
 }));
 
-const PercentageOptions = ({
-  percentages,
-  setPercentages,
-}) => {
+const PercentageOptions = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const { percentages } = useSelector(state => state.calculator);
   const { muscle, bone, organ, liver, veggie, fruit, seed } = percentages;
 
   const onFormPercentageChange = (e, updatedProperty) => {
-    setPercentages({
-      ...percentages,
-      [updatedProperty]: Number(e.target.value),
+    dispatch({
+      type: 'UPDATE_PERCENTAGES', 
+      updatedProperty,
+      updatedValue: Number(e.target.value),
     });
   };
-
-  /* eslint ignore react-hooks/exhaustive-deps */
-  useEffect(() => {
-    const musclePercentage = getMuscleAmount(100, [bone, liver, organ, veggie, fruit, seed]);
-
-    setPercentages({
-      ...percentages,
-      muscle: musclePercentage,
-    });
-  }, [bone, organ, liver, veggie, fruit, seed]);
 
   return (
     <Section>
       <Header2>Desired Percentages</Header2>
-      <Box component="div" className={classes.buttonWrapper}>
-        <Box component="span" className={classes.inlineButtonText}>Reset defaults for: </Box>
+      <div className={classes.buttonWrapper}>
+        <span className={classes.inlineButtonText}>Reset defaults for: </span>
         {ratioDefaultOptions.map(option => (
           <Button 
             size="small"
             variant="outlined"
             color="secondary"
             key={option.key} 
-            onClick={() => setPercentages(ratioDefaultData[option.value])}
+            onClick={() => dispatch({
+              type: 'RESET_PERCENTAGE_DEFAULTS',
+              defaultsKey: option.value,
+            })}
           >
             {option.name}
           </Button>
         ))}
-      </Box>
+      </div>
       <TextField
         className={classes.numericSmall}
         id="musclePercentage" 
@@ -158,11 +150,6 @@ const PercentageOptions = ({
       />
     </Section>
   );
-};
-
-PercentageOptions.propTypes = {
-  percentages: PropTypes.object.isRequired,
-  setPercentages: PropTypes.func.isRequired,
 };
 
 export default PercentageOptions;

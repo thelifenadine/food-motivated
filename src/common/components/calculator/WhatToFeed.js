@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 
 import AmountsTable from './AmountsTable';
 import BulkHelper from './BulkHelper';
@@ -8,12 +8,10 @@ import getBoneAmount from '../../calculations/getBoneAmount';
 import getMuscleAmount from '../../calculations/getMuscleAmount';
 import getAmountByPercent from '../../calculations/getAmountByPercent.js';
 
-const WhatToFeed = ({
-  totalDailyAmount,
-  rmbPercent,
-  percentages,
-  unitDetails,
-}) => {
+const WhatToFeed = () => {
+  const settings = useSelector(state => state.calculator);
+  const { totalDailyAmount, unitDetails, rmbPercent, percentages } = settings;
+
   const { bone, organ, liver, veggie, seed, fruit } = percentages;
   const [shouldShowBulkTable, setShowBulkTable] = useState(false);
 
@@ -88,13 +86,6 @@ const WhatToFeed = ({
       />
     </React.Fragment>
   );
-};
-
-WhatToFeed.propTypes = {
-  totalDailyAmount: PropTypes.number.isRequired,
-  rmbPercent: PropTypes.number.isRequired,
-  percentages: PropTypes.object.isRequired,
-  unitDetails: PropTypes.object.isRequired,
 };
 
 export default WhatToFeed;

@@ -7,9 +7,16 @@ import Section from './Section';
 
 const useStyles = makeStyles((theme) => ({
   numericLarge: {
-    margin: theme.spacing(2),
+    margin: theme.spacing(1),
     width: 110,
   },
+  button: {
+    justifyContent: 'flex-end',
+    height: 30,
+  },
+  content: {
+    display: 'flex',
+  }
 }));
 
 const BulkHelper = (props) => {
@@ -58,29 +65,31 @@ const BulkHelper = (props) => {
     <React.Fragment>
       <Section> 
         <Header2>Bulk Helper</Header2>
-        <TextField
-          className={classes.numericLarge}
-          id="numDays" 
-          label="How long"
-          value={numDays}
-          type="number"
-          onChange={e => setNumDays(Number(e.target.value))}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">days</InputAdornment>
-            ),
-          }}
-          helperText="minimum of 2 days"
-        />
-        
-        <Button 
-          size="small"
-          variant="outlined"
-          color="secondary" 
-          onClick={() => setShowBulkTable(true)}
-        >
-          Generate
-        </Button>
+        <div className={classes.content}>
+          <TextField
+            className={classes.numericLarge}
+            id="numDays" 
+            label="How long"
+            value={numDays}
+            type="number"
+            onChange={e => setNumDays(Number(e.target.value))}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">days</InputAdornment>
+              ),
+            }}
+            helperText="minimum of 2 days"
+          />
+          <Button 
+            className={classes.button}
+            size="small"
+            variant="outlined"
+            color="secondary" 
+            onClick={() => setShowBulkTable(true)}
+          >
+            Generate
+          </Button>
+        </div>
       </Section> 
       {shouldShowBulkTable && (numDays > 1) &&
         <Section> 

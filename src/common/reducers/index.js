@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
-import animal from './animal';
 import app from './app';
+import calculator from './calculator';
 
 export default combineReducers({
   app,
-  animal,
+  calculator,
 });
