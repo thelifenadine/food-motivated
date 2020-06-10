@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { 
   FormControl, NativeSelect, InputLabel, InputAdornment, TextField, makeStyles,
 } from '@material-ui/core';
+import { updateRMB } from '../../actions/calculator';
 import rmbOptions from '../../form/rawMeatyBoneOptions';
 import Header2 from './Header2';
 import Section from './Section';
@@ -34,13 +35,11 @@ const RawMeatyBone = () => {
     setRmbOption(optionValue);
   };
 
+  /* eslint ignore react-hooks/exhaustive-deps */
   useEffect(() => {
-    const rmbContent = (rmbOption === 0) ? customRMB : rmbOption;
+    const rmbPercent = (rmbOption === 0) ? customRMB : rmbOption;
 
-    dispatch({
-      type: 'UPDATE_RMB_PERCENT',
-      rmbPercent: rmbContent,
-    });
+    dispatch(updateRMB(rmbPercent));
   }, [rmbOption, customRMB]);
   
   return (

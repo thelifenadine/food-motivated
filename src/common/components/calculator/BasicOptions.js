@@ -4,11 +4,12 @@ import {
   FormControl, NativeSelect, InputLabel, InputAdornment, TextField, makeStyles,
 } from '@material-ui/core';
 
-import Header2 from './Header2';
-import Section from './Section';
-
 import round from '../../calculations/round';
 import unitOptions from '../../form/unitOptions';
+
+import { updateOptions } from '../../actions/calculator';
+import Header2 from './Header2';
+import Section from './Section';
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -24,20 +25,9 @@ const BasicOptions = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const settings = useSelector(state => state.calculator);
-  const { totalDailyAmount, unitDetails, maintenancePercentage } = settings;
+  const { totalDailyAmount, weight, unitDetails, maintenance } = settings;
 
-  const [weight, setWeight] = useState(settings.weight);
-  const [maintenance, setMaintenance] = useState(maintenancePercentage);
   const [roundedDailyAmount, setRoundedDailyAmount] = useState(round(totalDailyAmount));
-
-  useEffect(() => {
-    dispatch({
-      type: 'UPDATE_DAILY_AMOUNT',
-      weight,
-      maintenance,
-      unit: unitDetails.perUnit,
-    });
-  }, [weight, maintenance, unitDetails]);
 
   useEffect(() => {
     setRoundedDailyAmount(round(totalDailyAmount));
@@ -51,7 +41,7 @@ const BasicOptions = () => {
         <NativeSelect
           name="unit"
           id="unit"
-          onChange={e => dispatch({ type: 'UPDATE_UNIT_DETAILS', key: e.target.value })}
+          onChange={e => dispatch(updateOptions(weight, maintenance, e.target.value))}
           defaultValue={'english'}
         >
           {unitOptions.map(option => (
@@ -65,7 +55,7 @@ const BasicOptions = () => {
         label="Dog Weight"
         value={weight}
         type="number"
-        onChange={e => setWeight(Number(e.target.value))}
+        onChange={e => dispatch(updateOptions(Number(e.target.value), maintenance))}
         InputProps={{
           endAdornment: (
             <InputAdornment position="end">{unitDetails.lg}</InputAdornment>
@@ -78,7 +68,7 @@ const BasicOptions = () => {
         label="Maintenance"
         value={maintenance}
         type="number"
-        onChange={e => setMaintenance(Number(e.target.value))}
+        onChange={e => dispatch(updateOptions(weight, Number(e.target.value)))}
         helperText="Start at 2.0-3.0%"
         inputProps={{
           min: 0,

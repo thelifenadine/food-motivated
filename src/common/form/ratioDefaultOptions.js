@@ -5,42 +5,45 @@ export default [
   { name: 'PMR Puppy', value: 'pmrPuppy', key: 'pmr-puppy' },
 ];
 
-export const ratioDefaultData = {
+export const percentageDefaults = {
   barfAdult: {
     muscle: 70,
     bone: 10,
-    liver: 5,
-    organ: 5,
-    veggie: 7,
-    seed: 2,
-    fruit: 1,
+    other: {
+      liver: 5,
+      organ: 5,
+      veggie: 7,
+      seed: 2,
+      fruit: 1,
+    }
   },
   barfPuppy: {
     muscle: 58,
     bone: 17,
-    liver: 7,
-    organ: 7,
-    veggie: 7,
-    seed: 2,
-    fruit: 1,
+    other: {
+      liver: 7,
+      organ: 7,
+      veggie: 7,
+      seed: 2,
+      fruit: 1,
+    },
   },
   pmrAdult: {
     muscle: 80,
     bone: 10,
-    liver: 5,
-    organ: 5,
-    veggie: 0,
-    seed: 0,
-    fruit: 0,
+    other: {
+      liver: 5,
+      organ: 5,
+    },
   },
   pmrPuppy: {
     muscle: 69,
     bone: 17,
-    liver: 7,
-    organ: 7,
-    veggie: 0,
-    seed: 0,
-    fruit: 0,
+    other: {
+      liver: 7,
+      organ: 7,
+      fibre: 1,
+    },
   },
 };
 

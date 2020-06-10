@@ -1,16 +1,20 @@
+import map from 'lodash/map';
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Table, TableBody, TableRow, TableCell, makeStyles } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
 import round from '../../calculations/round';
 import Header2 from './Header2';
 import Section from './Section';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   firstRow: {
     fontWeight: 600,
   },
-  lastRow: {
-    borderBottom: '#fff solid 1px',
+  table: {
+    margin: theme.spacing(1),
+    '& > tbody tr td': {
+      borderBottom: '1px solid #eee',
+    },
   },
 }));
 
@@ -29,11 +33,7 @@ const AmountsTable = ({
   muscleAmount,
   boneAmount,
   rmbPercent,
-  liverAmount,
-  organAmount,
-  vegAmount,
-  seedAmount,
-  fruitAmount,
+  otherAmounts,
   unitDetails,
   title,
 }) => {
@@ -43,42 +43,28 @@ const AmountsTable = ({
   return (
     <Section> 
       <Header2>{title}</Header2>
-      <Table size="small">
-        <TableBody>
-          <TableRow>
-            <TableCell className={classes.firstRow}>Total Amount</TableCell>
-            <TableCell className={classes.firstRow} align="right">{createCellContent(totalAmount)}</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell>Boneless Meat</TableCell>
-            <TableCell align="right">{createCellContent(muscleAmount)}</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell>Raw Meaty Bone at {rmbPercent}%</TableCell>
-            <TableCell align="right">{createCellContent(boneAmount)}</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell>Liver</TableCell>
-            <TableCell align="right">{createCellContent(liverAmount)}</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell>Organ</TableCell>
-            <TableCell align="right">{createCellContent(organAmount)}</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell>Vegetables</TableCell>
-            <TableCell align="right">{createCellContent(vegAmount)}</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell>Nuts/Seeds</TableCell>
-            <TableCell align="right">{createCellContent(seedAmount)}</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell className={classes.lastRow}>Fruit</TableCell>
-            <TableCell className={classes.lastRow} align="right">{createCellContent(fruitAmount)}</TableCell>
-          </TableRow>
-        </TableBody>
-      </Table>
+      <table className={classes.table}>
+        <tbody>
+          <tr>
+            <td className={classes.firstRow}>Total Amount</td>
+            <td className={classes.firstRow} align="right">{createCellContent(totalAmount)}</td>
+          </tr>
+          <tr>
+            <td>Boneless Meat</td>
+            <td align="right">{createCellContent(muscleAmount)}</td>
+          </tr>
+          <tr>
+            <td>Raw Meaty Bone at {rmbPercent}%</td>
+            <td align="right">{createCellContent(boneAmount)}</td>
+          </tr>
+          {map(otherAmounts, (value, key) => (
+            <tr key={key}>
+              <td>{key}</td>
+              <td align="right">{createCellContent(value)}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </Section>
   );
 };
@@ -88,11 +74,7 @@ AmountsTable.propTypes = {
   muscleAmount: PropTypes.number.isRequired,
   boneAmount: PropTypes.number.isRequired,
   rmbPercent: PropTypes.number.isRequired,
-  liverAmount: PropTypes.number.isRequired,
-  organAmount: PropTypes.number.isRequired,
-  vegAmount: PropTypes.number.isRequired,
-  seedAmount: PropTypes.number.isRequired,
-  fruitAmount: PropTypes.number.isRequired,
+  otherAmounts: PropTypes.object.isRequired,
   unitDetails: PropTypes.object.isRequired,
   title: PropTypes.string.isRequired,
 };

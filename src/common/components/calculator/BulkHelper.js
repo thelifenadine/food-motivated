@@ -1,3 +1,4 @@
+import mapValues from 'lodash/mapValues';
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import AmountsTable from './AmountsTable';
@@ -24,11 +25,7 @@ const BulkHelper = (props) => {
     totalDailyAmount,
     muscleAmount,
     boneAmount,
-    liverAmount,
-    organAmount,
-    vegAmount,
-    seedAmount,
-    fruitAmount,
+    otherAmounts,
     unitDetails,
     rmbPercent,
     setShowBulkTable,
@@ -38,26 +35,17 @@ const BulkHelper = (props) => {
   const classes = useStyles();
   const [numDays, setNumDays] = useState(7);
 
-  const [totalUpdatedAmount, setTotalUpdatedAmount] = useState(totalDailyAmount);
-  const [boneUpdatedAmount, setBoneUpdatedAmount] = useState(boneAmount);
-  const [liverUpdatedAmount, setLiverUpdatedAmount] = useState(liverAmount);
-  const [organUpdatedAmount, setOrganUpdatedAmount] = useState(organAmount);
-
-  const [vegUpdatedAmount, setVegUpdatedAmount] = useState(vegAmount);
-  const [seedUpdatedAmount, setSeedUpdatedAmount] = useState(seedAmount);
-  const [fruitUpdatedAmount, setFruitUpdatedAmount] = useState(fruitAmount);
-  const [muscleUpdatedAmount, setMuscleUpdatedAmount] = useState(muscleAmount);
+  const [totalAmountUpdated, setTotalUpdatedAmount] = useState(totalDailyAmount);
+  const [boneAmountUpdated, setBoneUpdatedAmount] = useState(boneAmount);
+  const [otherAmountsUpdated, setOtherUpdatedAmount] = useState(otherAmounts);
+  const [muscleAmountUpdated, setMuscleUpdatedAmount] = useState(muscleAmount);
 
   /* eslint ignore react-hooks/exhaustive-deps */
   useEffect(() => {
+    const updatedOther = mapValues(otherAmounts, value => value * numDays);
     setTotalUpdatedAmount(totalDailyAmount * numDays);
+    setOtherUpdatedAmount(updatedOther);
     setBoneUpdatedAmount(boneAmount * numDays);
-    setBoneUpdatedAmount(boneAmount * numDays);
-    setLiverUpdatedAmount(liverAmount * numDays);
-    setOrganUpdatedAmount(organAmount * numDays);
-    setVegUpdatedAmount(vegAmount * numDays);
-    setSeedUpdatedAmount(seedAmount * numDays);
-    setFruitUpdatedAmount(fruitAmount * numDays);
     setMuscleUpdatedAmount(muscleAmount * numDays);
   }, [numDays]);
 
@@ -94,14 +82,10 @@ const BulkHelper = (props) => {
       {shouldShowBulkTable && (numDays > 1) &&
         <Section> 
           <AmountsTable 
-            totalAmount={totalUpdatedAmount}
-            muscleAmount={muscleUpdatedAmount}
-            boneAmount={boneUpdatedAmount}
-            liverAmount={liverUpdatedAmount}
-            organAmount={organUpdatedAmount}
-            vegAmount={vegUpdatedAmount}
-            seedAmount={seedUpdatedAmount}
-            fruitAmount={fruitUpdatedAmount}
+            totalAmount={totalAmountUpdated}
+            muscleAmount={muscleAmountUpdated}
+            boneAmount={boneAmountUpdated}
+            otherAmounts={otherAmountsUpdated}
             unitDetails={unitDetails}
             rmbPercent={rmbPercent}
             title={`Bulk Amounts for ${numDays} days`}
@@ -117,11 +101,7 @@ BulkHelper.propTypes = {
   muscleAmount: PropTypes.number.isRequired,
   boneAmount: PropTypes.number.isRequired,
   rmbPercent: PropTypes.number.isRequired,
-  liverAmount: PropTypes.number.isRequired,
-  organAmount: PropTypes.number.isRequired,
-  vegAmount: PropTypes.number.isRequired,
-  seedAmount: PropTypes.number.isRequired,
-  fruitAmount: PropTypes.number.isRequired,
+  otherAmounts: PropTypes.object.isRequired,
   unitDetails: PropTypes.object.isRequired,
   shouldShowBulkTable: PropTypes.bool.isRequired,
   setShowBulkTable: PropTypes.func.isRequired,
