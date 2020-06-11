@@ -4,12 +4,14 @@ should();
 
 describe('getMuscleAmount(amount, boneAmount, otherAmounts)', () => {
   let getMuscleAmount;
-  let amount = 32.6;
-  let boneAmount = 6;
+  let totalDailyAmount = 33;
+  let boneAmount = 10;
   let otherAmounts = {
-    organ: 1.6,
-    liver: 1.6,
-    veggie: 3.2,
+    organ: 2,
+    liver: 2,
+    veggie: 2,
+    fruit: 1,
+    seed: 1,
   };
   
   before(() => {
@@ -17,8 +19,12 @@ describe('getMuscleAmount(amount, boneAmount, otherAmounts)', () => {
     }).default;
   });
 
-  it('should get the correct amount', () => {
-    const result = getMuscleAmount(amount, boneAmount, otherAmounts);
-    result.should.equal(20.200000000000003);
+  it('the muscle amount should be the total minus all the other amounts', () => {
+    const result = getMuscleAmount(totalDailyAmount, boneAmount, otherAmounts);
+    const { organ, liver, veggie, fruit, seed } = otherAmounts;
+    const sum = organ + liver + veggie + fruit + seed + boneAmount;
+
+    result.should.eql(15);
+    result.should.eql(totalDailyAmount - sum);
   });
 });

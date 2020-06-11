@@ -8,7 +8,7 @@ import {
 
 import createMappedReducer from './utils/createMappedReducer';
 import getTotalDailyAmount from '../calculations/getTotalDailyAmount';
-import { percentageDefaults } from '../form/ratioDefaultOptions';
+import { percentageDefaults } from '../form/percentageDefaultOptions';
 import { unitData } from '../form/unitOptions';
 import { getMusclePercentage } from '../calculations/getMuscleAmount';
 import getAmounts from '../calculations/getAmounts';
@@ -45,8 +45,8 @@ const updateOptions = (state, action) => {
 
   return {
     ...state,
-    weight: weight,
-    maintenance: maintenance,
+    weight,
+    maintenance,
     unitDetails: updatedUnitDetails,
     totalDailyAmount: updatedDailyAmount,
     ...getAmounts(updatedDailyAmount, bonePercentage, rmbPercent, otherPercentages),

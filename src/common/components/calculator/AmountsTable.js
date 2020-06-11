@@ -1,7 +1,7 @@
 import map from 'lodash/map';
 import React from 'react';
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core';
+import { makeStyles, Table, TableBody, TableRow, TableCell } from '@material-ui/core';
 import round from '../../calculations/round';
 import Header2 from './Header2';
 import Section from './Section';
@@ -14,7 +14,14 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
     '& > tbody tr td': {
       borderBottom: '1px solid #eee',
+      paddingLeft: 0,
+      paddingRight: theme.spacing(1),
+      paddingBottom: theme.spacing(.5),
+      paddingTop: theme.spacing(.5),
     },
+  },
+  capitalize: {
+    textTransform: 'capitalize',
   },
 }));
 
@@ -43,28 +50,28 @@ const AmountsTable = ({
   return (
     <Section> 
       <Header2>{title}</Header2>
-      <table className={classes.table}>
-        <tbody>
-          <tr>
-            <td className={classes.firstRow}>Total Amount</td>
-            <td className={classes.firstRow} align="right">{createCellContent(totalAmount)}</td>
-          </tr>
-          <tr>
-            <td>Boneless Meat</td>
-            <td align="right">{createCellContent(muscleAmount)}</td>
-          </tr>
-          <tr>
-            <td>Raw Meaty Bone at {rmbPercent}%</td>
-            <td align="right">{createCellContent(boneAmount)}</td>
-          </tr>
+      <Table className={classes.table}>
+        <TableBody>
+          <TableRow>
+            <TableCell className={classes.firstRow}>Total Amount</TableCell>
+            <TableCell className={classes.firstRow} align="right">{createCellContent(totalAmount)}</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>Boneless Meat</TableCell>
+            <TableCell align="right">{createCellContent(muscleAmount)}</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>Raw Meaty Bone at {rmbPercent}%</TableCell>
+            <TableCell align="right">{createCellContent(boneAmount)}</TableCell>
+          </TableRow>
           {map(otherAmounts, (value, key) => (
-            <tr key={key}>
-              <td>{key}</td>
-              <td align="right">{createCellContent(value)}</td>
-            </tr>
+            <TableRow key={key}>
+              <TableCell className={classes.capitalize}>{key}</TableCell>
+              <TableCell align="right">{createCellContent(value)}</TableCell>
+            </TableRow>
           ))}
-        </tbody>
-      </table>
+        </TableBody>
+      </Table>
     </Section>
   );
 };

@@ -8,12 +8,12 @@ import PercentageOptions from './PercentageOptions';
 
 const DogMealCalculator = () => (
   <Grid container spacing={1}>
-    <Grid item xs={12} sm={6}>
+    <Grid item xs={12} md={6}>
       <BasicOptions />
       <PercentageOptions />
       <RawMeatyBone />
     </Grid>
-    <Grid item xs={12} sm={6}>
+    <Grid item xs={12} md={6}>
       <WhatToFeed />
     </Grid>
   </Grid>

@@ -3,7 +3,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { InputAdornment, TextField, Button, makeStyles } from '@material-ui/core';
 
-import ratioDefaultOptions from '../../form/ratioDefaultOptions';
+import percentageDefaultOptions from '../../form/percentageDefaultOptions';
 import { updateBonePercentage, updateOtherPercentage, resetDefaultPercentages } from '../../actions/calculator';
 import Header2 from './Header2';
 import Section from './Section';
@@ -35,7 +35,7 @@ const PercentageOptions = () => {
       <Header2>Desired Percentages</Header2>
       <div className={classes.buttonWrapper}>
         <span className={classes.inlineButtonText}>Reset defaults for: </span>
-        {ratioDefaultOptions.map(option => (
+        {percentageDefaultOptions.map(option => (
           <Button 
             size="small"
             variant="outlined"

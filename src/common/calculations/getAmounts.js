@@ -1,8 +1,8 @@
 import mapValues from 'lodash/mapValues';
 
 import getMuscleAmount from './getMuscleAmount';
-import getAmountByPercent from './getAmountByPercent.js';
 import getBoneAmount from './getBoneAmount';
+import getAmountByPercent from './getAmountByPercent.js';
 
 const getAmounts = (totalDailyAmount, bonePercentage, rmbPercent, otherPercentages) => {
   const updatedBoneAmount = getBoneAmount(totalDailyAmount, bonePercentage, rmbPercent);
