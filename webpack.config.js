@@ -1,4 +1,3 @@
-var serverConfig = require('./webpack.server.js');
-var browserConfig = require('./webpack.dev.js');
+var browserConfig = require('./webpack.prod.js');
 
-module.exports = [browserConfig, serverConfig];
+module.exports = [browserConfig];
