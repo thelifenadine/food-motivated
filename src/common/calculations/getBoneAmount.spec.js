@@ -1,20 +1,30 @@
 import proxyquire from 'proxyquire';
+import round from './round';
 import { should } from "chai";
 should();
 
-describe('getBoneAmount(amount, bonePercentage, boneType)', () => {
+describe('getBoneAmount(amount, bonePercentage, rmbPercent)', () => {
   let getBoneAmount;
-  let defaultBonePercentage = 11;
-  let defaultBoneType = 60;
-  let defaultTotalAmount = 32;
-  
+
   before(() => {
-    getBoneAmount = proxyquire.noCallThru().load('./getBoneAmount', {
-    }).default;
+    getBoneAmount = proxyquire.noCallThru().load('./getBoneAmount', {}).default;
   });
 
-  it('should get the correct amount', () => {
-    const result = getBoneAmount(defaultTotalAmount, defaultBonePercentage, defaultBoneType);
-    result.should.equal(5.866666666666667);
+  it('should calculate correctly for test 1', () => {
+    const adultBonePercentage = 10;
+    const testAmountOunces = 32;
+    const duckFeet = 60;
+
+    const result = getBoneAmount(testAmountOunces, adultBonePercentage, duckFeet);
+    round(result).should.eql(5.3);
+  });
+
+  it('should calculate correctly for test 2', () => {
+    const puppyBonePercentage = 17;
+    const testAmountGrams = 1250;
+    const duckNeck = 50;
+  
+    const result = getBoneAmount(testAmountGrams, puppyBonePercentage, duckNeck);
+    round(result).should.eql(425);
   });
 });

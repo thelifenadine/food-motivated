@@ -1,15 +1,14 @@
-import mapValues from 'lodash/mapValues';
 import proxyquire from 'proxyquire';
 import { should } from "chai";
 should();
 
-describe('getAmountByPercent(amount, percentAmount)', () => {
-  let getAmountByPercent;
+describe('getAmountsByPercents(amount, percentAmount)', () => {
+  let getAmountsByPercents;
   
   const totalDailyAmount = 32.6;
   
   before(() => {
-    getAmountByPercent = proxyquire.noCallThru().load('./getAmountByPercent', {
+    getAmountsByPercents = proxyquire.noCallThru().load('./getAmountsByPercents', {
       './toPercent': (arg) => (arg / 100),
     }).default;
   });
@@ -23,7 +22,7 @@ describe('getAmountByPercent(amount, percentAmount)', () => {
       fruit: 1,
     };
 
-    mapValues(barfPercentages, value => getAmountByPercent(totalDailyAmount, value)).should.eql({
+    getAmountsByPercents(totalDailyAmount, barfPercentages).should.eql({
       fruit: 0.326,
       liver: 1.6300000000000001,
       organ: 1.6300000000000001,
@@ -41,7 +40,7 @@ describe('getAmountByPercent(amount, percentAmount)', () => {
       fruit: 1,
     };
 
-    mapValues(barfPuppyPercentages, value => getAmountByPercent(totalDailyAmount, value)).should.eql({
+    getAmountsByPercents(totalDailyAmount, barfPuppyPercentages).should.eql({
       fruit: 0.326,
       liver: 2.2820000000000005,
       organ: 2.2820000000000005,
@@ -56,7 +55,7 @@ describe('getAmountByPercent(amount, percentAmount)', () => {
       organ: 5,
     };
 
-    mapValues(pmrPercentages, value => getAmountByPercent(totalDailyAmount, value)).should.eql({
+    getAmountsByPercents(totalDailyAmount, pmrPercentages).should.eql({
       liver: 1.6300000000000001,
       organ: 1.6300000000000001,
     });
@@ -69,7 +68,7 @@ describe('getAmountByPercent(amount, percentAmount)', () => {
       fibre: 1,
     };
 
-    mapValues(pmrPercentages, value => getAmountByPercent(totalDailyAmount, value)).should.eql({
+    getAmountsByPercents(totalDailyAmount, pmrPercentages).should.eql({
       liver: 2.2820000000000005,
       organ: 2.2820000000000005,
       fibre: 0.326,

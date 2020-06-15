@@ -3,14 +3,14 @@ import { should } from "chai";
 should();
 
 describe('reducers/calculator', () => {
-  let instance;
+  let file;
 
   before(() => {
-    instance = proxyquire.noCallThru().load('./calculator', {});
+    file = proxyquire.noCallThru().load('./calculator', {});
   });
 
   it('should update the muscle and organ percentages but all of the amounts', () => {
-    const { initialState, updateOtherPercentages } = instance; 
+    const { initialState, updateOtherPercentages } = file; 
 
     const result = updateOtherPercentages(initialState, {
       updatedProperty: 'organ',
