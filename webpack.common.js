@@ -28,6 +28,15 @@ module.exports = {
           <meta charset="utf-8"/>
           <meta name="description" content="A calculator to create recipes for feeding dogs raw meals.">
           <title>${htmlWebpackPlugin.options.title}</title>
+          <!-- Global site tag (gtag.js) - Google Analytics -->
+          <script async src="https://www.googletagmanager.com/gtag/js?id=UA-169425839-1"></script>
+          <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'UA-169425839-1');
+          </script>
         </head>
         <body>
           <div id="app"></div>
