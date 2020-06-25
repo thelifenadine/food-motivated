@@ -12,9 +12,6 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
     publicPath: '/',
   },
-  // devServer: {
-  //   contentBase: './dist',
-  // },
   plugins: [
     new CleanWebpackPlugin(),
     new webpack.DefinePlugin({
@@ -25,6 +22,7 @@ module.exports = {
       templateContent: ({htmlWebpackPlugin}) => `<!DOCTYPE html>
       <html>
         <head>
+          <meta name="viewport" content="width=device-width, initial-scale=1">
           <meta charset="utf-8"/>
           <meta name="description" content="A calculator to create recipes for feeding dogs raw meals.">
           <title>${htmlWebpackPlugin.options.title}</title>

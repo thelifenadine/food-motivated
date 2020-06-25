@@ -11,13 +11,6 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
     width: 110,
   },
-  button: {
-    justifyContent: 'flex-end',
-    height: 30,
-  },
-  content: {
-    display: 'flex',
-  }
 }));
 
 const BulkHelper = (props) => {
@@ -53,7 +46,7 @@ const BulkHelper = (props) => {
     <React.Fragment>
       <Section> 
         <Header2>Bulk Helper</Header2>
-        <div className={classes.content}>
+        <div>
           <TextField
             className={classes.numericLarge}
             id="numDays" 
@@ -69,7 +62,6 @@ const BulkHelper = (props) => {
             helperText="minimum of 2 days"
           />
           <Button 
-            className={classes.button}
             size="small"
             variant="outlined"
             color="secondary" 
@@ -80,17 +72,15 @@ const BulkHelper = (props) => {
         </div>
       </Section> 
       {shouldShowBulkTable && (numDays > 1) &&
-        <Section> 
-          <AmountsTable 
-            totalAmount={totalAmountUpdated}
-            muscleAmount={muscleAmountUpdated}
-            boneAmount={boneAmountUpdated}
-            otherAmounts={otherAmountsUpdated}
-            unitDetails={unitDetails}
-            rmbPercent={rmbPercent}
-            title={`Bulk Amounts for ${numDays} days`}
-          />  
-        </Section>
+        <AmountsTable 
+          totalAmount={totalAmountUpdated}
+          muscleAmount={muscleAmountUpdated}
+          boneAmount={boneAmountUpdated}
+          otherAmounts={otherAmountsUpdated}
+          unitDetails={unitDetails}
+          rmbPercent={rmbPercent}
+          title={`Bulk Amounts for ${numDays} days`}
+        />  
       }
     </React.Fragment>
   );
