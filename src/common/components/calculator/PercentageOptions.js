@@ -1,10 +1,16 @@
 import map from 'lodash/map';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { InputAdornment, TextField, Button, makeStyles } from '@material-ui/core';
-
-import percentageDefaultOptions from '../../form/percentageDefaultOptions';
-import { updateBonePercentage, updateOtherPercentage, resetDefaultPercentages } from '../../actions/calculator';
+import {
+  FormControl, FormLabel, FormControlLabel, RadioGroup, Radio, Button,
+  InputAdornment, TextField, makeStyles
+} from '@material-ui/core';
+import {
+  updateBonePercentage,
+  updateOtherPercentage,
+  setAge,
+  setMealType,
+} from '../../actions/calculator';
 import Header2 from './Header2';
 import Section from './Section';
 
@@ -13,43 +19,85 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
     width: 55,
   },
+  radioWrapper: {
+    margin: theme.spacing(1),
+    marginTop: theme.spacing(2),
+  },
+  radio: {
+    paddingTop: theme.spacing(0.5),
+    paddingBottom: theme.spacing(0.5),
+  },
+  radioLabel: {
+    fontSize: 14,
+    marginRight: theme.spacing(1),
+  },
+  formLabel: {
+    fontSize: 14,
+    marginBottom: theme.spacing(1),
+  },
   buttonWrapper: {
     '& > *': {
-      margin: theme.spacing(0.5),
-      fontSize: 11,
+      margin: theme.spacing(1),
+      marginRight: theme.spacing(0.5),
     },
-  },
-  inlineButtonText: {
-    margin: theme.spacing(1),
-    fontWeight: 300,
-    fontSize: 15,
   },
 }));
 
 const PercentageOptions = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const { otherPercentages, musclePercentage, bonePercentage } = useSelector(state => state.calculator);
+  const {
+    otherPercentages, musclePercentage, bonePercentage, isAdult, isPuppy, mealType,
+  } = useSelector(state => state.calculator);
+
   return (
     <Section>
-      <Header2>Desired Percentages</Header2>
-      <div className={classes.buttonWrapper}>
-        <span className={classes.inlineButtonText}>Reset defaults for: </span>
-        {percentageDefaultOptions.map(option => (
-          <Button 
-            size="small"
-            variant="outlined"
-            color="secondary"
-            key={option.key} 
-            onClick={() => dispatch(resetDefaultPercentages(option.value))}
+      <Header2>Percentages</Header2>
+      <div className={classes.radioWrapper}>
+        <FormControl component="fieldset" margin="none" variant="outlined">
+          <FormLabel component="legend" classes={{ root: classes.formLabel }}>Meal Type</FormLabel>
+          <RadioGroup
+            value={mealType} aria-label={mealType} name="mealType-radios"
+            onChange={(e) => dispatch(setMealType(e.target.value))}
+            row
           >
-            {option.name}
-          </Button>
-        ))}
+            <FormControlLabel
+              label="BARF"
+              value="barf"
+              control={<Radio size="small" classes={{ root: classes.radio }} />}
+              classes={{ label: classes.radioLabel }}
+            />
+            <FormControlLabel
+              label="PMR"
+              value="pmr"
+              control={<Radio size="small" classes={{ root: classes.radio }} />}
+              classes={{ label: classes.radioLabel }}
+            />
+          </RadioGroup>
+        </FormControl>
+      </div>
+      <div className={classes.buttonWrapper}>
+        <span>Lifestage Preset:</span>
+        <Button
+          size="small"
+          color="secondary"
+          variant={isAdult ? "contained" : "outlined"}
+          onClick={() => dispatch(setAge({ isPuppy: false, isAdult: true }))}
+        >
+          Adult
+        </Button>
+        <Button
+          size="small"
+          color="secondary"
+          variant={isPuppy ? "contained" : "outlined"}
+          onClick={() => dispatch(setAge({ isPuppy: true, isAdult: false }))}
+        >
+          Puppy
+        </Button>
       </div>
       <TextField
         className={classes.numericSmall}
-        id="musclePercentage" 
+        id="musclePercentage"
         label="Muscle"
         value={musclePercentage}
         type="number"
@@ -62,7 +110,7 @@ const PercentageOptions = () => {
       />
       <TextField
         className={classes.numericSmall}
-        id="bonePercentage" 
+        id="bonePercentage"
         label="Bone"
         value={bonePercentage}
         type="number"
@@ -76,8 +124,8 @@ const PercentageOptions = () => {
       {map(otherPercentages, (value, key) => (
         <TextField
           className={classes.numericSmall}
-          id={`${key}Percentage`} 
-          key={`${key}Percentage`} 
+          id={`${key}Percentage`}
+          key={`${key}Percentage`}
           label={key}
           value={value}
           type="number"
@@ -87,7 +135,7 @@ const PercentageOptions = () => {
               <InputAdornment position="end">%</InputAdornment>
             ),
           }}
-        />        
+        />
       ))}
     </Section>
   );

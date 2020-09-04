@@ -11,10 +11,13 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
     width: 110,
   },
+  bulkTable: {
+    marginBottom: 50,
+  }
 }));
 
 const BulkHelper = (props) => {
-  const { 
+  const {
     totalDailyAmount,
     muscleAmount,
     boneAmount,
@@ -33,7 +36,6 @@ const BulkHelper = (props) => {
   const [otherAmountsUpdated, setOtherUpdatedAmount] = useState(otherAmounts);
   const [muscleAmountUpdated, setMuscleUpdatedAmount] = useState(muscleAmount);
 
-  /* eslint ignore react-hooks/exhaustive-deps */
   useEffect(() => {
     const updatedOther = mapValues(otherAmounts, value => value * numDays);
     setTotalUpdatedAmount(totalDailyAmount * numDays);
@@ -42,14 +44,19 @@ const BulkHelper = (props) => {
     setMuscleUpdatedAmount(muscleAmount * numDays);
   }, [numDays]);
 
+  const handleButtonClick = () => {
+    // TODO: scroll down
+    setShowBulkTable(true);
+  };
+
   return (
-    <React.Fragment>
-      <Section> 
+    <div className={classes.bulkTable}>
+      <Section>
         <Header2>Bulk Helper</Header2>
         <div>
           <TextField
             className={classes.numericLarge}
-            id="numDays" 
+            id="numDays"
             label="How long"
             value={numDays}
             type="number"
@@ -61,18 +68,18 @@ const BulkHelper = (props) => {
             }}
             helperText="minimum of 2 days"
           />
-          <Button 
+          <Button
             size="small"
             variant="outlined"
-            color="secondary" 
-            onClick={() => setShowBulkTable(true)}
+            color="secondary"
+            onClick={handleButtonClick}
           >
             Generate
           </Button>
         </div>
-      </Section> 
+      </Section>
       {shouldShowBulkTable && (numDays > 1) &&
-        <AmountsTable 
+        <AmountsTable
           totalAmount={totalAmountUpdated}
           muscleAmount={muscleAmountUpdated}
           boneAmount={boneAmountUpdated}
@@ -80,9 +87,9 @@ const BulkHelper = (props) => {
           unitDetails={unitDetails}
           rmbPercent={rmbPercent}
           title={`Bulk Amounts for ${numDays} days`}
-        />  
+        />
       }
-    </React.Fragment>
+    </div>
   );
 };
 

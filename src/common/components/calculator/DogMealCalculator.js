@@ -12,7 +12,7 @@ const DogMealCalculator = () => (
   <Grid container spacing={1}>
     <Grid item xs={12} md={6}>
       <Section>
-        <Header2>Dog Raw Food Calculator - Recipe Helper</Header2>
+        <Header2>Raw Dog Food Calculator - Recipe Helper</Header2>
       </Section>
       <BasicOptions />
       <PercentageOptions />

@@ -5,11 +5,13 @@ export default [
 
 export const unitData = {
   english: {
+    name: 'english',
     lg: 'lb',
     sm: 'oz',
     perUnit: 16,
   },
   metric: {
+    name: 'metric',
     lg: 'kg',
     sm: 'g',
     perUnit: 1000,

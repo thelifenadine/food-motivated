@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { 
+import {
   FormControl, NativeSelect, InputLabel, InputAdornment, TextField, makeStyles,
 } from '@material-ui/core';
 import { updateRMB } from '../../actions/calculator';
@@ -30,21 +30,20 @@ const RawMeatyBone = () => {
   const [rmbOption, setRmbOption] = useState(rmbOptions[0].value);
 
   const onDropDownChange = (e) => {
-    const optionValue = Number(e.target.value);  
+    const optionValue = Number(e.target.value);
     setCustomRMB(0);
     setRmbOption(optionValue);
   };
 
-  /* eslint ignore react-hooks/exhaustive-deps */
   useEffect(() => {
     const rmbPercent = (rmbOption === 0) ? customRMB : rmbOption;
 
     dispatch(updateRMB(rmbPercent));
   }, [rmbOption, customRMB]);
-  
+
   return (
     <Section>
-      <Header2>Raw Meaty Bone</Header2>    
+      <Header2>Raw Meaty Bone</Header2>
       <FormControl className={classes.formControl}>
         <InputLabel htmlFor="boneType">RMB Type</InputLabel>
         <NativeSelect
@@ -54,14 +53,14 @@ const RawMeatyBone = () => {
           defaultValue={rmbOptions[0].value}
         >
           {rmbOptions.map(option => (
-            <option key={option.key} value={option.value}>{option.name}</option> 
+            <option key={option.key} value={option.value}>{option.name}</option>
           ))}
         </NativeSelect>
       </FormControl>
       {rmbOption !== 0 &&
         <TextField
           className={classes.rmbOption}
-          id="rmbOption" 
+          id="rmbOption"
           label="Bone Content"
           value={rmbOption}
           type="number"
@@ -71,12 +70,12 @@ const RawMeatyBone = () => {
               <InputAdornment position="end">%</InputAdornment>
             ),
           }}
-        />      
+        />
       }
       {rmbOption === 0 &&
         <TextField
           className={classes.rmbCustom}
-          id="customRMB" 
+          id="customRMB"
           label="Enter RMB %"
           value={customRMB}
           type="number"

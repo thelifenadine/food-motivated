@@ -1,9 +1,13 @@
-import { 
+import some from 'lodash/some';
+import { loadState, saveState } from '../localStorage/calculatorState';
+
+import {
   UPDATE_OPTIONS,
   UPDATE_BONE_PERCENTAGE,
   UPDATE_OTHER_PERCENTAGE,
-  RESET_PERCENTAGE_DEFAULTS,
   UPDATE_RMB_PERCENT,
+  SET_AGE,
+  SET_MEAL_TYPE,
 } from '../actions/calculator';
 
 import createMappedReducer from './utils/createMappedReducer';
@@ -20,10 +24,13 @@ const weight = 68;
 const maintenance = 3.0;
 const initialUnit = 'english';
 const totalDailyAmount = getTotalDailyAmount(weight, maintenance, initialUnit.perUnit);
-const { muscle, bone, other } = percentageDefaults['barfAdult'];
+const { muscle, bone, other } = percentageDefaults['barf']['adult'];
 
-export const initialState = {
+export const initialState = loadState() || {
   unitDetails: unitData[initialUnit],
+  isAdult: true,
+  isPuppy: false,
+  mealType: 'barf',
   weight,
   maintenance,
   totalDailyAmount,
@@ -43,7 +50,7 @@ const updateOptions = (state, action) => {
   const updatedUnitDetails = unitName ? unitData[unitName] : { ...unitDetails };
   const updatedDailyAmount = getTotalDailyAmount(weight, maintenance, updatedUnitDetails.perUnit);
 
-  return {
+  const updatedState = {
     ...state,
     weight,
     maintenance,
@@ -51,12 +58,91 @@ const updateOptions = (state, action) => {
     totalDailyAmount: updatedDailyAmount,
     ...getAmounts(updatedDailyAmount, bonePercentage, rmbPercent, otherPercentages),
   };
+
+  saveState(updatedState);
+  return updatedState;
 };
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // PercentageOptions
+const getPresetPercentages = (state, mealType, age) => {
+  const { totalDailyAmount, rmbPercent } = state;
+  const { muscle, bone, other } = percentageDefaults[mealType][age];
+
+  const updatedState = {
+    otherPercentages: other,
+    bonePercentage: bone,
+    musclePercentage: muscle,
+    ...getAmounts(totalDailyAmount, bone, rmbPercent, other),
+  };
+  saveState(updatedState);
+  return updatedState;
+};
+
+export const setAge = (state, { isPuppy, isAdult }) => {
+  const { mealType } = state;
+  const age = isPuppy ? 'puppy' : 'adult';
+
+  const updatedState = {
+    ...state,
+    isPuppy,
+    isAdult,
+    ...getPresetPercentages(state, mealType, age),
+  };
+
+  saveState(updatedState);
+  return updatedState;
+};
+
+export const setMealType = (state, { mealType }) => {
+  const { isPuppy } = state;
+  const age = isPuppy ? 'puppy' : 'adult';
+
+  const updatedState = {
+    ...state,
+    mealType,
+    ...getPresetPercentages(state, mealType, age),
+  };
+
+  saveState(updatedState);
+  return updatedState;
+};
+
+const checkPresetAgeSettings = (mealType, bonePercentage, otherPercentages, ) => {
+  if (percentageDefaults[mealType]['adult'].bone === bonePercentage) {
+    const adultHasMismatch = some(percentageDefaults[mealType]['adult'].other, (value, key) => {
+      return otherPercentages[key] !== value;
+    });
+
+    if (!adultHasMismatch) {
+      return {
+        isAdult: true,
+        isPuppy: false,
+      };
+    }
+  }
+
+  if (percentageDefaults[mealType]['puppy'].bone === bonePercentage) {
+    const puppyHasMismatch = some(percentageDefaults[mealType]['puppy'].other, (value, key) => {
+      return otherPercentages[key] !== value; // as soon as you find a mismatch return
+    });
+
+    if (!puppyHasMismatch) {
+      return {
+        isAdult: false,
+        isPuppy: true,
+      };
+    }
+  }
+
+  return {
+    isAdult: false,
+    isPuppy: false,
+  };
+};
+
 export const updateOtherPercentages = (state, { updatedProperty, updatedValue }) => {
-  const { totalDailyAmount, otherPercentages, bonePercentage, rmbPercent } = state;
+  const { totalDailyAmount, otherPercentages, bonePercentage, rmbPercent, mealType } = state;
 
   const updatedOtherPercentages = {
     ...otherPercentages,
@@ -65,38 +151,33 @@ export const updateOtherPercentages = (state, { updatedProperty, updatedValue })
 
   const updatedMusclePercentage = getMusclePercentage(bonePercentage, updatedOtherPercentages);
 
-  return {
+  const updatedState = {
     ...state,
+    ...checkPresetAgeSettings(mealType, bonePercentage, updatedOtherPercentages),
     otherPercentages: updatedOtherPercentages,
     musclePercentage: updatedMusclePercentage,
     ...getAmounts(totalDailyAmount, bonePercentage, rmbPercent, updatedOtherPercentages),
   };
+
+  saveState(updatedState);
+  return updatedState;
 };
 
 const updateBonePercentage = (state, action) => {
-  const { totalDailyAmount, otherPercentages, rmbPercent } = state;
+  const { totalDailyAmount, otherPercentages, rmbPercent, mealType } = state;
   const { updatedBonePercentage } = action;
   const updatedMusclePercentage = getMusclePercentage(updatedBonePercentage, otherPercentages);
 
-  return {
+  const updatedState = {
     ...state,
+    ...checkPresetAgeSettings(mealType, updatedBonePercentage, otherPercentages),
     bonePercentage: updatedBonePercentage,
     musclePercentage: updatedMusclePercentage,
     ...getAmounts(totalDailyAmount, updatedBonePercentage, rmbPercent, otherPercentages),
   };
-};
 
-const resetPercentages = (state, action) => {
-  const { totalDailyAmount, rmbPercent } = state;
-  const { muscle, bone, other } = percentageDefaults[action.defaultsKey];
-
-  return {
-    ...state,
-    otherPercentages: other,
-    bonePercentage: bone,
-    musclePercentage: muscle,
-    ...getAmounts(totalDailyAmount, bone, rmbPercent, other),
-  };
+  saveState(updatedState);
+  return updatedState;
 };
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -104,17 +185,21 @@ const resetPercentages = (state, action) => {
 const updateRMB = (state, action) => {
   const { totalDailyAmount, bonePercentage, otherPercentages } = state;
 
-  return {
+  const updatedState = {
     ...state,
     rmbPercent: action.rmbPercent,
     ...getAmounts(totalDailyAmount, bonePercentage, action.rmbPercent, otherPercentages),
   };
+
+  saveState(updatedState);
+  return updatedState;
 };
 
 export default createMappedReducer(initialState, {
   [UPDATE_OPTIONS]: updateOptions,
   [UPDATE_BONE_PERCENTAGE]: updateBonePercentage,
   [UPDATE_OTHER_PERCENTAGE]: updateOtherPercentages,
-  [RESET_PERCENTAGE_DEFAULTS]: resetPercentages,
   [UPDATE_RMB_PERCENT]: updateRMB,
+  [SET_AGE]: setAge,
+  [SET_MEAL_TYPE]: setMealType,
 });

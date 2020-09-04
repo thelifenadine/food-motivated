@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { 
+import {
   FormControl, NativeSelect, InputLabel, InputAdornment, TextField, makeStyles,
 } from '@material-ui/core';
 
@@ -35,23 +35,23 @@ const BasicOptions = () => {
 
   return (
     <Section>
-      <Header2>Options</Header2>     
+      <Header2>Options</Header2>
       <FormControl className={classes.formControl}>
         <InputLabel htmlFor="unit">Unit</InputLabel>
         <NativeSelect
           name="unit"
           id="unit"
           onChange={e => dispatch(updateOptions(weight, maintenance, e.target.value))}
-          defaultValue={'english'}
+          value={unitDetails.name}
         >
           {unitOptions.map(option => (
-            <option key={option.key} value={option.value}>{option.name}</option> 
+            <option key={option.key} value={option.value}>{option.name}</option>
           ))}
         </NativeSelect>
-      </FormControl>           
+      </FormControl>
       <TextField
         className={classes.numericLarge}
-        id="weight" 
+        id="weight"
         label="Dog Weight"
         value={weight}
         type="number"
@@ -61,10 +61,10 @@ const BasicOptions = () => {
             <InputAdornment position="end">{unitDetails.lg}</InputAdornment>
           ),
         }}
-      />      
+      />
       <TextField
         className={classes.numericLarge}
-        id="maintenance" 
+        id="maintenance"
         label="Maintenance"
         value={maintenance}
         type="number"
@@ -83,7 +83,7 @@ const BasicOptions = () => {
       />
       <TextField
         className={classes.numericLarge}
-        id="totalDailyAmount" 
+        id="totalDailyAmount"
         label="Daily Amount"
         value={roundedDailyAmount}
         type="number"
@@ -93,7 +93,7 @@ const BasicOptions = () => {
             <InputAdornment position="end">{unitDetails.sm}</InputAdornment>
           ),
         }}
-      />  
+      />
     </Section>
   );
 };

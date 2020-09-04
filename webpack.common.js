@@ -18,13 +18,15 @@ module.exports = {
       __isBrowser__: "true"
     }),
     new HtmlWebpackPlugin({
-      title: 'Dog Raw Food Calculator',
+      favicon: "./src/assets/favicon.ico",
+      title: 'Raw Dog Food Calculator',
       templateContent: ({htmlWebpackPlugin}) => `<!DOCTYPE html>
       <html>
         <head>
+          <meta name=”robots” content="index, nofollow">
           <meta name="viewport" content="width=device-width, initial-scale=1">
           <meta charset="utf-8"/>
-          <meta name="description" content="A calculator to create recipes for feeding dogs raw meals.">
+          <meta name="description" content="A calculator to create recipes for feeding dogs raw meals. DIY Raw Dog Food Helper.">
           <title>${htmlWebpackPlugin.options.title}</title>
           <!-- Global site tag (gtag.js) - Google Analytics -->
           <script async src="https://www.googletagmanager.com/gtag/js?id=UA-169425839-1"></script>

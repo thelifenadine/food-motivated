@@ -10,7 +10,7 @@ describe('reducers/calculator', () => {
   });
 
   it('should update the muscle and organ percentages but all of the amounts', () => {
-    const { initialState, updateOtherPercentages } = file; 
+    const { initialState, updateOtherPercentages } = file;
 
     const result = updateOtherPercentages(initialState, {
       updatedProperty: 'organ',
@@ -19,6 +19,7 @@ describe('reducers/calculator', () => {
 
     result.should.eql({
       ...initialState,
+      isAdult: false,
       musclePercentage: 69,
       otherPercentages: {
         ...initialState.otherPercentages,
