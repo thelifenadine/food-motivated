@@ -31,6 +31,7 @@ export const initialState = loadState() || {
   isAdult: true,
   isPuppy: false,
   mealType: 'barf',
+  age: 'adult',
   weight,
   maintenance,
   totalDailyAmount,
@@ -87,6 +88,7 @@ export const setAge = (state, { isPuppy, isAdult }) => {
     ...state,
     isPuppy,
     isAdult,
+    age,
     ...getPresetPercentages(state, mealType, age),
   };
 
@@ -95,11 +97,13 @@ export const setAge = (state, { isPuppy, isAdult }) => {
 };
 
 export const setMealType = (state, { mealType }) => {
-  const { isPuppy } = state;
-  const age = isPuppy ? 'puppy' : 'adult';
+  const { age } = state;
+  console.log('age', age);
 
   const updatedState = {
     ...state,
+    isPuppy: (age === 'puppy'),
+    isAdult: (age === 'adult'),
     mealType,
     ...getPresetPercentages(state, mealType, age),
   };
