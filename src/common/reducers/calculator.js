@@ -113,7 +113,7 @@ export const setMealType = (state, { mealType }) => {
   return updatedState;
 };
 
-const checkPresetAgeSettings = (mealType, bonePercentage, otherPercentages, ) => {
+const validatePresetAgeSettings = (mealType, bonePercentage, otherPercentages, ) => {
   if (percentageDefaults[mealType]['adult'].bone === bonePercentage) {
     const adultHasMismatch = some(percentageDefaults[mealType]['adult'].other, (value, key) => {
       return otherPercentages[key] !== value;
@@ -158,7 +158,7 @@ export const updateOtherPercentages = (state, { updatedProperty, updatedValue })
 
   const updatedState = {
     ...state,
-    ...checkPresetAgeSettings(mealType, bonePercentage, updatedOtherPercentages),
+    ...validatePresetAgeSettings(mealType, bonePercentage, updatedOtherPercentages),
     otherPercentages: updatedOtherPercentages,
     musclePercentage: updatedMusclePercentage,
     ...getAmounts(totalDailyAmount, bonePercentage, rmbPercent, updatedOtherPercentages),
@@ -175,7 +175,7 @@ const updateBonePercentage = (state, action) => {
 
   const updatedState = {
     ...state,
-    ...checkPresetAgeSettings(mealType, updatedBonePercentage, otherPercentages),
+    ...validatePresetAgeSettings(mealType, updatedBonePercentage, otherPercentages),
     bonePercentage: updatedBonePercentage,
     musclePercentage: updatedMusclePercentage,
     ...getAmounts(totalDailyAmount, updatedBonePercentage, rmbPercent, otherPercentages),
