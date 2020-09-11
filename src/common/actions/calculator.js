@@ -48,10 +48,11 @@ export function updateOtherPercentage(updatedValue, propertyName)  {
 }
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // RawMeatyBone
-export function updateRMB(rmbPercent) {
+export function updateRMB(rmbPercent, isCustomRmb) {
   return {
     type: UPDATE_RMB_PERCENT,
     rmbPercent,
+    isCustomRmb,
   };
 }
 

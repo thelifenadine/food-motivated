@@ -20,8 +20,8 @@ import getAmounts from '../calculations/getAmounts';
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // INITIAL STATE
 const initialRMB = 44;
-const weight = 68;
-const maintenance = 3.0;
+const weight = 50;
+const maintenance = 2.5;
 const initialUnit = 'english';
 const totalDailyAmount = getTotalDailyAmount(weight, maintenance, initialUnit.perUnit);
 const { muscle, bone, other } = percentageDefaults['barf']['adult'];
@@ -36,6 +36,7 @@ export const initialState = loadState() || {
   maintenance,
   totalDailyAmount,
   rmbPercent: initialRMB,
+  isCustomRmb: false,
   musclePercentage: muscle,
   bonePercentage: bone,
   otherPercentages: other,
@@ -192,6 +193,7 @@ const updateRMB = (state, action) => {
   const updatedState = {
     ...state,
     rmbPercent: action.rmbPercent,
+    isCustomRmb: action.isCustomRmb,
     ...getAmounts(totalDailyAmount, bonePercentage, action.rmbPercent, otherPercentages),
   };
 

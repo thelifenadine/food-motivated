@@ -1,7 +1,9 @@
 import toPercent from './toPercent';
 
 const getBoneAmount = (amount, bonePercent, rmbPercent) => {
-  const newBoneAmount = (amount * toPercent(bonePercent)) / toPercent(rmbPercent);  
+  if (rmbPercent === 0) return 0;
+
+  const newBoneAmount = (amount * toPercent(bonePercent)) / toPercent(rmbPercent);
   return newBoneAmount;
 };
 
