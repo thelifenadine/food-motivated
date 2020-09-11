@@ -29,8 +29,9 @@ const RawMeatyBone = () => {
   const { rmbPercent, isCustomRmb } = settings;
 
   const onDropDownChange = (e) => {
-    const optionValue = Number(e.target.value);
-    dispatch(updateRMB(optionValue, optionValue === 0));
+    const ddValue = Number(e.target.value);
+    // the "custom" dropdown value is 0, so pass true for isCustom
+    dispatch(updateRMB(ddValue, ddValue === 0));
   };
 
   return (

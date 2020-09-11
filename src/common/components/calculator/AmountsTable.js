@@ -32,10 +32,10 @@ const getCellContentCreator = (unitDetails) => (amount) => {
     return smallUnitAmount;
   }
 
-  return `${round(amount / unitDetails.perUnit)} ${unitDetails.lg} / ${smallUnitAmount}`;  
+  return `${round(amount / unitDetails.perUnit)} ${unitDetails.lg} / ${smallUnitAmount}`;
 };
 
-const AmountsTable = ({ 
+const AmountsTable = ({
   totalAmount,
   muscleAmount,
   boneAmount,
@@ -46,9 +46,8 @@ const AmountsTable = ({
 }) => {
   const classes = useStyles();
   const createCellContent = getCellContentCreator(unitDetails);
-
   return (
-    <Section> 
+    <Section>
       <Header2>{title}</Header2>
       <Table className={classes.table}>
         <TableBody>
