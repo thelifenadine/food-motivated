@@ -1,9 +1,12 @@
-import { 
+import { loadState, saveState } from '../localStorage/calculatorState';
+
+import {
   UPDATE_OPTIONS,
   UPDATE_BONE_PERCENTAGE,
   UPDATE_OTHER_PERCENTAGE,
-  RESET_PERCENTAGE_DEFAULTS,
   UPDATE_RMB_PERCENT,
+  SET_AGE,
+  SET_MEAL_TYPE,
 } from '../actions/calculator';
 
 import createMappedReducer from './utils/createMappedReducer';
@@ -13,21 +16,30 @@ import { unitData } from '../form/unitOptions';
 import { getMusclePercentage } from '../calculations/getMuscleAmount';
 import getAmounts from '../calculations/getAmounts';
 
+// these are reducer helpers... should maybe move to a new folder
+import getButtonStatuses from '../calculations/getButtonStatuses';
+import getPresetPercentages from '../calculations/getPresetPercentages';
+
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // INITIAL STATE
 const initialRMB = 44;
-const weight = 68;
-const maintenance = 3.0;
+const weight = 50;
+const maintenance = 2.5;
 const initialUnit = 'english';
 const totalDailyAmount = getTotalDailyAmount(weight, maintenance, initialUnit.perUnit);
-const { muscle, bone, other } = percentageDefaults['barfAdult'];
+const { muscle, bone, other } = percentageDefaults['barf']['adult'];
 
-export const initialState = {
+const initialState = loadState() || {
   unitDetails: unitData[initialUnit],
+  isAdult: true,
+  isPuppy: false,
+  mealType: 'barf',
+  age: 'adult',
   weight,
   maintenance,
   totalDailyAmount,
   rmbPercent: initialRMB,
+  isCustomRmb: false,
   musclePercentage: muscle,
   bonePercentage: bone,
   otherPercentages: other,
@@ -36,14 +48,14 @@ export const initialState = {
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // BasicOptions
-const updateOptions = (state, action) => {
+export const updateOptions = (state, action) => {
   const { otherPercentages, bonePercentage, rmbPercent, unitDetails } = state;
   const { weight, maintenance, unitName } = action;
 
   const updatedUnitDetails = unitName ? unitData[unitName] : { ...unitDetails };
   const updatedDailyAmount = getTotalDailyAmount(weight, maintenance, updatedUnitDetails.perUnit);
 
-  return {
+  const updatedState = {
     ...state,
     weight,
     maintenance,
@@ -51,12 +63,46 @@ const updateOptions = (state, action) => {
     totalDailyAmount: updatedDailyAmount,
     ...getAmounts(updatedDailyAmount, bonePercentage, rmbPercent, otherPercentages),
   };
+
+  saveState(updatedState);
+  return updatedState;
 };
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // PercentageOptions
+export const setAge = (state, { isPuppy, isAdult }) => {
+  const { mealType } = state;
+  const age = isPuppy ? 'puppy' : 'adult';
+
+  const updatedState = {
+    ...state,
+    isPuppy,
+    isAdult,
+    age,
+    ...getPresetPercentages(state, mealType, age),
+  };
+
+  saveState(updatedState);
+  return updatedState;
+};
+
+export const setMealType = (state, { mealType }) => {
+  const { age } = state;
+
+  const updatedState = {
+    ...state,
+    isPuppy: (age === 'puppy'),
+    isAdult: (age === 'adult'),
+    mealType,
+    ...getPresetPercentages(state, mealType, age),
+  };
+
+  saveState(updatedState);
+  return updatedState;
+};
+
 export const updateOtherPercentages = (state, { updatedProperty, updatedValue }) => {
-  const { totalDailyAmount, otherPercentages, bonePercentage, rmbPercent } = state;
+  const { totalDailyAmount, otherPercentages, bonePercentage, rmbPercent, mealType } = state;
 
   const updatedOtherPercentages = {
     ...otherPercentages,
@@ -65,56 +111,56 @@ export const updateOtherPercentages = (state, { updatedProperty, updatedValue })
 
   const updatedMusclePercentage = getMusclePercentage(bonePercentage, updatedOtherPercentages);
 
-  return {
+  const updatedState = {
     ...state,
     otherPercentages: updatedOtherPercentages,
     musclePercentage: updatedMusclePercentage,
+    ...getButtonStatuses(mealType, bonePercentage, updatedOtherPercentages),
     ...getAmounts(totalDailyAmount, bonePercentage, rmbPercent, updatedOtherPercentages),
   };
+
+  saveState(updatedState);
+  return updatedState;
 };
 
-const updateBonePercentage = (state, action) => {
-  const { totalDailyAmount, otherPercentages, rmbPercent } = state;
+export const updateBonePercentage = (state, action) => {
+  const { totalDailyAmount, otherPercentages, rmbPercent, mealType } = state;
   const { updatedBonePercentage } = action;
   const updatedMusclePercentage = getMusclePercentage(updatedBonePercentage, otherPercentages);
 
-  return {
+  const updatedState = {
     ...state,
     bonePercentage: updatedBonePercentage,
     musclePercentage: updatedMusclePercentage,
+    ...getButtonStatuses(mealType, updatedBonePercentage, otherPercentages),
     ...getAmounts(totalDailyAmount, updatedBonePercentage, rmbPercent, otherPercentages),
   };
-};
 
-const resetPercentages = (state, action) => {
-  const { totalDailyAmount, rmbPercent } = state;
-  const { muscle, bone, other } = percentageDefaults[action.defaultsKey];
-
-  return {
-    ...state,
-    otherPercentages: other,
-    bonePercentage: bone,
-    musclePercentage: muscle,
-    ...getAmounts(totalDailyAmount, bone, rmbPercent, other),
-  };
+  saveState(updatedState);
+  return updatedState;
 };
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // RawMeatyBone
-const updateRMB = (state, action) => {
+export const updateRMB = (state, action) => {
   const { totalDailyAmount, bonePercentage, otherPercentages } = state;
 
-  return {
+  const updatedState = {
     ...state,
     rmbPercent: action.rmbPercent,
+    isCustomRmb: action.isCustomRmb,
     ...getAmounts(totalDailyAmount, bonePercentage, action.rmbPercent, otherPercentages),
   };
+
+  saveState(updatedState);
+  return updatedState;
 };
 
 export default createMappedReducer(initialState, {
   [UPDATE_OPTIONS]: updateOptions,
   [UPDATE_BONE_PERCENTAGE]: updateBonePercentage,
   [UPDATE_OTHER_PERCENTAGE]: updateOtherPercentages,
-  [RESET_PERCENTAGE_DEFAULTS]: resetPercentages,
   [UPDATE_RMB_PERCENT]: updateRMB,
+  [SET_AGE]: setAge,
+  [SET_MEAL_TYPE]: setMealType,
 });

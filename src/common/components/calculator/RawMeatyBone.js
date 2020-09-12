@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { 
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import {
   FormControl, NativeSelect, InputLabel, InputAdornment, TextField, makeStyles,
 } from '@material-ui/core';
 import { updateRMB } from '../../actions/calculator';
@@ -25,45 +25,37 @@ const useStyles = makeStyles((theme) => ({
 const RawMeatyBone = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-
-  const [customRMB, setCustomRMB] = useState(0);
-  const [rmbOption, setRmbOption] = useState(rmbOptions[0].value);
+  const settings = useSelector(state => state.calculator);
+  const { rmbPercent, isCustomRmb } = settings;
 
   const onDropDownChange = (e) => {
-    const optionValue = Number(e.target.value);  
-    setCustomRMB(0);
-    setRmbOption(optionValue);
+    const ddValue = Number(e.target.value);
+    // the "custom" dropdown value is 0, so pass true for isCustom
+    dispatch(updateRMB(ddValue, ddValue === 0));
   };
 
-  /* eslint ignore react-hooks/exhaustive-deps */
-  useEffect(() => {
-    const rmbPercent = (rmbOption === 0) ? customRMB : rmbOption;
-
-    dispatch(updateRMB(rmbPercent));
-  }, [rmbOption, customRMB]);
-  
   return (
     <Section>
-      <Header2>Raw Meaty Bone</Header2>    
+      <Header2>Raw Meaty Bone</Header2>
       <FormControl className={classes.formControl}>
         <InputLabel htmlFor="boneType">RMB Type</InputLabel>
         <NativeSelect
           name="boneType"
           id="boneType"
           onChange={onDropDownChange}
-          defaultValue={rmbOptions[0].value}
+          value={isCustomRmb ? 0 : rmbPercent}
         >
           {rmbOptions.map(option => (
-            <option key={option.key} value={option.value}>{option.name}</option> 
+            <option key={option.key} value={option.value}>{option.name}</option>
           ))}
         </NativeSelect>
       </FormControl>
-      {rmbOption !== 0 &&
+      {!isCustomRmb &&
         <TextField
           className={classes.rmbOption}
-          id="rmbOption" 
+          id="rmbOption"
           label="Bone Content"
-          value={rmbOption}
+          value={rmbPercent}
           type="number"
           disabled
           InputProps={{
@@ -71,16 +63,16 @@ const RawMeatyBone = () => {
               <InputAdornment position="end">%</InputAdornment>
             ),
           }}
-        />      
+        />
       }
-      {rmbOption === 0 &&
+      {isCustomRmb &&
         <TextField
           className={classes.rmbCustom}
-          id="customRMB" 
+          id="customRMB"
           label="Enter RMB %"
-          value={customRMB}
+          value={rmbPercent}
           type="number"
-          onChange={e => setCustomRMB(Number(e.target.value))}
+          onChange={e => dispatch(updateRMB(Number(e.target.value), true))}
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">%</InputAdornment>

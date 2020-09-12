@@ -1,27 +1,49 @@
 const webpack = require('webpack');
 const path = require('path');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-// const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   entry: {
     app: './src/client/index.js',
   },
   output: {
-    //filename: '[name].[contenthash].js',
     filename: '[name].bundle.js',
     path: path.resolve(__dirname, 'dist'),
     publicPath: '/',
   },
-  // devServer: {
-  //   contentBase: './dist',
-  // },
   plugins: [
-    // new MiniCssExtractPlugin({ filename: '[name].css' }),
     new CleanWebpackPlugin(),
     new webpack.DefinePlugin({
       __isBrowser__: "true"
-    })
+    }),
+    new HtmlWebpackPlugin({
+      favicon: "./src/assets/favicon.ico",
+      title: 'Raw Dog Food Calculator',
+      templateContent: ({htmlWebpackPlugin}) => `<!DOCTYPE html>
+      <html>
+        <head>
+          <meta name=”robots” content="index, nofollow">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <meta charset="utf-8"/>
+          <meta name="description" content="A calculator to create recipes for feeding dogs raw meals. DIY Raw Dog Food Helper.">
+          <title>${htmlWebpackPlugin.options.title}</title>
+          <!-- Global site tag (gtag.js) - Google Analytics -->
+          <script async src="https://www.googletagmanager.com/gtag/js?id=UA-169425839-1"></script>
+          <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'UA-169425839-1');
+          </script>
+        </head>
+        <body>
+          <div id="app"></div>
+        </body>
+      </html>
+    `
+    }),
   ],
   module: {
     rules: [
@@ -36,18 +58,17 @@ module.exports = {
         'file-loader',
       ],
     },
-    {
-      test: /\.html$/,
-      exclude: /node_modules/,
-      use: [
-        {
-          loader: "html-loader"
-        }
-      ]
-    }
+    // {
+    //   test: /\.html$/,
+    //   exclude: /node_modules/,
+    //   use: [
+    //     {
+    //       loader: "html-loader"
+    //     }
+    //   ]
+    // }
   ]},
   optimization: {
-    //moduleIds: 'hashed',
     runtimeChunk: 'single',
     splitChunks: {
       cacheGroups: {
