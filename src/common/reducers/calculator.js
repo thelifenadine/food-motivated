@@ -1,4 +1,3 @@
-import some from 'lodash/some';
 import { loadState, saveState } from '../localStorage/calculatorState';
 
 import {
@@ -17,6 +16,10 @@ import { unitData } from '../form/unitOptions';
 import { getMusclePercentage } from '../calculations/getMuscleAmount';
 import getAmounts from '../calculations/getAmounts';
 
+// these are reducer helpers... should maybe move to a new folder
+import getButtonStatuses from '../calculations/getButtonStatuses';
+import getPresetPercentages from '../calculations/getPresetPercentages';
+
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // INITIAL STATE
 const initialRMB = 44;
@@ -26,7 +29,7 @@ const initialUnit = 'english';
 const totalDailyAmount = getTotalDailyAmount(weight, maintenance, initialUnit.perUnit);
 const { muscle, bone, other } = percentageDefaults['barf']['adult'];
 
-export const initialState = loadState() || {
+const initialState = loadState() || {
   unitDetails: unitData[initialUnit],
   isAdult: true,
   isPuppy: false,
@@ -45,7 +48,7 @@ export const initialState = loadState() || {
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // BasicOptions
-const updateOptions = (state, action) => {
+export const updateOptions = (state, action) => {
   const { otherPercentages, bonePercentage, rmbPercent, unitDetails } = state;
   const { weight, maintenance, unitName } = action;
 
@@ -67,20 +70,6 @@ const updateOptions = (state, action) => {
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // PercentageOptions
-const getPresetPercentages = (state, mealType, age) => {
-  const { totalDailyAmount, rmbPercent } = state;
-  const { muscle, bone, other } = percentageDefaults[mealType][age];
-
-  const updatedState = {
-    otherPercentages: other,
-    bonePercentage: bone,
-    musclePercentage: muscle,
-    ...getAmounts(totalDailyAmount, bone, rmbPercent, other),
-  };
-  saveState(updatedState);
-  return updatedState;
-};
-
 export const setAge = (state, { isPuppy, isAdult }) => {
   const { mealType } = state;
   const age = isPuppy ? 'puppy' : 'adult';
@@ -99,7 +88,6 @@ export const setAge = (state, { isPuppy, isAdult }) => {
 
 export const setMealType = (state, { mealType }) => {
   const { age } = state;
-  console.log('age', age);
 
   const updatedState = {
     ...state,
@@ -111,39 +99,6 @@ export const setMealType = (state, { mealType }) => {
 
   saveState(updatedState);
   return updatedState;
-};
-
-const validatePresetAgeSettings = (mealType, bonePercentage, otherPercentages, ) => {
-  if (percentageDefaults[mealType]['adult'].bone === bonePercentage) {
-    const adultHasMismatch = some(percentageDefaults[mealType]['adult'].other, (value, key) => {
-      return otherPercentages[key] !== value;
-    });
-
-    if (!adultHasMismatch) {
-      return {
-        isAdult: true,
-        isPuppy: false,
-      };
-    }
-  }
-
-  if (percentageDefaults[mealType]['puppy'].bone === bonePercentage) {
-    const puppyHasMismatch = some(percentageDefaults[mealType]['puppy'].other, (value, key) => {
-      return otherPercentages[key] !== value; // as soon as you find a mismatch return
-    });
-
-    if (!puppyHasMismatch) {
-      return {
-        isAdult: false,
-        isPuppy: true,
-      };
-    }
-  }
-
-  return {
-    isAdult: false,
-    isPuppy: false,
-  };
 };
 
 export const updateOtherPercentages = (state, { updatedProperty, updatedValue }) => {
@@ -158,9 +113,9 @@ export const updateOtherPercentages = (state, { updatedProperty, updatedValue })
 
   const updatedState = {
     ...state,
-    ...validatePresetAgeSettings(mealType, bonePercentage, updatedOtherPercentages),
     otherPercentages: updatedOtherPercentages,
     musclePercentage: updatedMusclePercentage,
+    ...getButtonStatuses(mealType, bonePercentage, updatedOtherPercentages),
     ...getAmounts(totalDailyAmount, bonePercentage, rmbPercent, updatedOtherPercentages),
   };
 
@@ -168,16 +123,16 @@ export const updateOtherPercentages = (state, { updatedProperty, updatedValue })
   return updatedState;
 };
 
-const updateBonePercentage = (state, action) => {
+export const updateBonePercentage = (state, action) => {
   const { totalDailyAmount, otherPercentages, rmbPercent, mealType } = state;
   const { updatedBonePercentage } = action;
   const updatedMusclePercentage = getMusclePercentage(updatedBonePercentage, otherPercentages);
 
   const updatedState = {
     ...state,
-    ...validatePresetAgeSettings(mealType, updatedBonePercentage, otherPercentages),
     bonePercentage: updatedBonePercentage,
     musclePercentage: updatedMusclePercentage,
+    ...getButtonStatuses(mealType, updatedBonePercentage, otherPercentages),
     ...getAmounts(totalDailyAmount, updatedBonePercentage, rmbPercent, otherPercentages),
   };
 
@@ -187,7 +142,7 @@ const updateBonePercentage = (state, action) => {
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // RawMeatyBone
-const updateRMB = (state, action) => {
+export const updateRMB = (state, action) => {
   const { totalDailyAmount, bonePercentage, otherPercentages } = state;
 
   const updatedState = {
