@@ -23,6 +23,26 @@ export const percentageDefaults = {
       },
     },
   },
+  'barf-traditional': {
+    adult: {
+      muscle: 70,
+      bone: 10,
+      other: {
+        liver: 5,
+        organ: 5,
+        veggie: 10,
+      },
+    },
+    puppy: {
+      muscle: 58,
+      bone: 17,
+      other: {
+        liver: 7,
+        organ: 7,
+        veggie: 10,
+      },
+    },
+  },
   pmr: {
     adult: {
       muscle: 78,
@@ -40,6 +60,24 @@ export const percentageDefaults = {
         liver: 7,
         organ: 7,
         fibre: 2,
+      },
+    },
+  },
+  'pmr-traditional': {
+    adult: {
+      muscle: 80,
+      bone: 10,
+      other: {
+        liver: 5,
+        organ: 5,
+      },
+    },
+    puppy: {
+      muscle: 69,
+      bone: 17,
+      other: {
+        liver: 7,
+        organ: 7,
       },
     },
   },

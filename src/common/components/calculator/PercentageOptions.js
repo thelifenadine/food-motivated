@@ -73,6 +73,18 @@ const PercentageOptions = () => {
               control={<Radio size="small" classes={{ root: classes.radio }} />}
               classes={{ label: classes.radioLabel }}
             />
+            <FormControlLabel
+              label="Traditional BARF"
+              value="barf-traditional"
+              control={<Radio size="small" classes={{ root: classes.radio }} />}
+              classes={{ label: classes.radioLabel }}
+            />
+            <FormControlLabel
+              label="Traditional PMR"
+              value="pmr-traditional"
+              control={<Radio size="small" classes={{ root: classes.radio }} />}
+              classes={{ label: classes.radioLabel }}
+            />
           </RadioGroup>
         </FormControl>
       </div>

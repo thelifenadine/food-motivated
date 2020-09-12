@@ -16,7 +16,6 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-
 const WhatToFeed = () => {
   const classes = useStyles();
   const settings = useSelector(state => state.calculator);
