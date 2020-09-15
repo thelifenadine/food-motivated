@@ -7,7 +7,7 @@
     "start": "webpack-dev-server --open",
     "build-prod": "webpack --config webpack.prod.js",
     "api": "babel-node src/server/api.js",
-    "test": "eslint ./src/**/*.spec.js & mocha ./src/**/*.spec.js --require @babel/register --reporter spec || exit 0"
+    "test": "eslint ./src/**/*.spec.js & mocha ./src/**/*.spec.js --require @babel/register --require ./test/helpers.js --reporter spec || exit 0"
   },
   "keywords": [
     "recipes"
@@ -26,6 +26,8 @@
     "babel-loader": "8.1.0",
     "chai": "4.2.0",
     "clean-webpack-plugin": "3.0.0",
+    "enzyme": "3.11.0",
+    "enzyme-adapter-react-16": "1.15.4",
     "eslint": "6.8.0",
     "eslint-loader": "4.0.0",
     "eslint-plugin-babel": "5.3.0",

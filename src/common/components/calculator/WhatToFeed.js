@@ -11,9 +11,6 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
     width: 110,
   },
-  bulkTable: {
-    marginBottom: 50,
-  }
 }));
 
 const WhatToFeed = () => {
