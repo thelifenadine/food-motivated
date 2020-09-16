@@ -16,7 +16,7 @@ describe('getBoneAmount(amount, bonePercentage, rmbPercent)', () => {
     const duckFeet = 60;
 
     const result = getBoneAmount(testAmountOunces, adultBonePercentage, duckFeet);
-    round(result).should.eql(5.3);
+    round(result).should.eql(5.33);
   });
 
   it('should calculate correctly for test 2', () => {
