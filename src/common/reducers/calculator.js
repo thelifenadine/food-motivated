@@ -12,6 +12,7 @@ import {
 import createMappedReducer from './utils/createMappedReducer';
 import getTotalDailyAmount from '../calculations/getTotalDailyAmount';
 import { percentageDefaults } from '../form/percentageDefaultOptions';
+import { essentialNutrients } from '../form/essentialNutrients';
 import { unitData } from '../form/unitOptions';
 import { getMusclePercentage } from '../calculations/getMuscleAmount';
 import getAmounts from '../calculations/getAmounts';
@@ -20,15 +21,22 @@ import getAmounts from '../calculations/getAmounts';
 import getButtonStatuses from '../calculations/getButtonStatuses';
 import getPresetPercentages from '../calculations/getPresetPercentages';
 
+// TODO export and test
+const getEstimatedCalories = (amountPer1000kCal, totalAmount) => {
+  const calPerUnit = 1000 / amountPer1000kCal;
+  return calPerUnit * totalAmount;
+};
+
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // INITIAL STATE
 const initialRMB = 44;
 const weight = 50;
 const maintenance = 2.5;
 const initialUnit = 'english';
-const totalDailyAmount = getTotalDailyAmount(weight, maintenance, initialUnit.perUnit);
+const totalDailyAmount = getTotalDailyAmount(weight, maintenance, unitData[initialUnit].perUnit);
 const { muscle, bone, other } = percentageDefaults['barf']['adult'];
 
+// TODO, if there is a new property that is not in the loaded state, use initial state instead?
 const initialState = loadState() || {
   unitDetails: unitData[initialUnit],
   isAdult: true,
@@ -44,6 +52,8 @@ const initialState = loadState() || {
   bonePercentage: bone,
   otherPercentages: other,
   ...getAmounts(totalDailyAmount, bone, initialRMB, other),
+  essentialNutrients: essentialNutrients,
+  estimatedCalories: getEstimatedCalories(unitData[initialUnit].default1000kCal, totalDailyAmount),
 };
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -54,9 +64,11 @@ export const updateOptions = (state, action) => {
 
   const updatedUnitDetails = unitName ? unitData[unitName] : { ...unitDetails };
   const updatedDailyAmount = getTotalDailyAmount(weight, maintenance, updatedUnitDetails.perUnit);
+  const updatedEstimatedCalories = getEstimatedCalories(updatedUnitDetails.default1000kCal, updatedDailyAmount);
 
   const updatedState = {
     ...state,
+    estimatedCalories: updatedEstimatedCalories,
     weight,
     maintenance,
     unitDetails: updatedUnitDetails,

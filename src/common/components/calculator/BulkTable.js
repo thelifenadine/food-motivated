@@ -14,6 +14,8 @@ const BulkHelper = (props) => {
     unitDetails,
     rmbPercent,
     numDays,
+    age,
+    estimatedCalories,
   } = props;
 
   const [totalAmountUpdated, setTotalUpdatedAmount] = useState(totalDailyAmount * numDays);
@@ -36,6 +38,8 @@ const BulkHelper = (props) => {
       otherAmounts={otherAmountsUpdated}
       unitDetails={unitDetails}
       rmbPercent={rmbPercent}
+      age={age}
+      estimatedCalories={estimatedCalories}
       title={`Bulk Amounts for ${numDays} days`}
     />
   );
@@ -48,7 +52,9 @@ BulkHelper.propTypes = {
   rmbPercent: PropTypes.number.isRequired,
   otherAmounts: PropTypes.object.isRequired,
   unitDetails: PropTypes.object.isRequired,
+  age: PropTypes.string.isRequired,
   numDays: PropTypes.number.isRequired,
+  estimatedCalories: PropTypes.number.isRequired,
 };
 
 export default BulkHelper;

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  FormControl, NativeSelect, InputLabel, InputAdornment, TextField, makeStyles,
+  FormControl, NativeSelect, InputLabel, FormLabel, InputAdornment, TextField, makeStyles,
 } from '@material-ui/core';
 
 import round from '../../calculations/round';
@@ -19,13 +19,18 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
     width: 110,
   },
+  formLabel: {
+    fontSize: 14,
+    marginBottom: theme.spacing(1),
+    marginLeft: theme.spacing(1),
+  },
 }));
 
 const BasicOptions = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const settings = useSelector(state => state.calculator);
-  const { totalDailyAmount, weight, unitDetails, maintenance } = settings;
+  const { totalDailyAmount, weight, unitDetails, maintenance, estimatedCalories } = settings;
 
   const [roundedDailyAmount, setRoundedDailyAmount] = useState(round(totalDailyAmount));
 
@@ -91,6 +96,18 @@ const BasicOptions = () => {
         InputProps={{
           endAdornment: (
             <InputAdornment position="end">{unitDetails.sm}</InputAdornment>
+          ),
+        }}
+      />
+      <FormLabel component="legend" classes={{ root: classes.formLabel }}>Estimated Calories</FormLabel>
+      <TextField
+        className={classes.numericLarge}
+        id="amountPer1000kCal"
+        value={round(estimatedCalories, 0)}
+        helperText="Used to calculate essential nutrients"
+        InputProps={{
+          endAdornment: (
+            <InputAdornment position="end">kcal</InputAdornment>
           ),
         }}
       />

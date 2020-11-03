@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
 const WhatToFeed = () => {
   const classes = useStyles();
   const settings = useSelector(state => state.calculator);
-  const { totalDailyAmount, unitDetails, boneAmount, muscleAmount, otherAmounts, rmbPercent } = settings;
+  const { totalDailyAmount, unitDetails, boneAmount, muscleAmount, otherAmounts, rmbPercent, age, estimatedCalories } = settings;
   const [shouldShowBulkTable, setShowBulkTable] = useState(false);
   const [numDays, setNumDays] = useState(7);
 
@@ -33,6 +33,8 @@ const WhatToFeed = () => {
         rmbPercent={rmbPercent}
         otherAmounts={otherAmounts}
         unitDetails={unitDetails}
+        age={age}
+        estimatedCalories={estimatedCalories}
         title="What to feed each day"
       />
       <div className={classes.bulkTable}>
@@ -71,6 +73,8 @@ const WhatToFeed = () => {
             rmbPercent={rmbPercent}
             otherAmounts={otherAmounts}
             unitDetails={unitDetails}
+            age={age}
+            estimatedCalories={estimatedCalories}
             numDays={numDays}
           />
         }
