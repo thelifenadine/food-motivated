@@ -4,6 +4,12 @@ import PropTypes from 'prop-types';
 import AmountsTable from './AmountsTable';
 
 const getUpdatedOther = (otherAmounts, numDays) => mapValues(otherAmounts, value => value * numDays);
+const getUpdatedNutrients = (essentialNutrients, numDays) => mapValues(essentialNutrients, (nutrientInfo) => {
+  return {
+    ...nutrientInfo,
+    amount: nutrientInfo.amount * numDays,
+  };
+});
 
 const BulkHelper = (props) => {
   const {
@@ -14,17 +20,18 @@ const BulkHelper = (props) => {
     unitDetails,
     rmbPercent,
     numDays,
-    age,
-    estimatedCalories,
+    essentialNutrients,
   } = props;
 
   const [totalAmountUpdated, setTotalUpdatedAmount] = useState(totalDailyAmount * numDays);
   const [boneAmountUpdated, setBoneUpdatedAmount] = useState(boneAmount * numDays);
   const [otherAmountsUpdated, setOtherUpdatedAmount] = useState(getUpdatedOther(otherAmounts, numDays));
+  const [essentialNutrientsUpdated, setNutrientUpdatedAmount] = useState(getUpdatedNutrients(essentialNutrients, numDays));
   const [muscleAmountUpdated, setMuscleUpdatedAmount] = useState(muscleAmount * numDays);
 
   useEffect(() => {
     setOtherUpdatedAmount(getUpdatedOther(otherAmounts, numDays));
+    setNutrientUpdatedAmount(getUpdatedNutrients(essentialNutrients, numDays));
     setTotalUpdatedAmount(totalDailyAmount * numDays);
     setBoneUpdatedAmount(boneAmount * numDays);
     setMuscleUpdatedAmount(muscleAmount * numDays);
@@ -38,8 +45,7 @@ const BulkHelper = (props) => {
       otherAmounts={otherAmountsUpdated}
       unitDetails={unitDetails}
       rmbPercent={rmbPercent}
-      age={age}
-      estimatedCalories={estimatedCalories}
+      essentialNutrients={essentialNutrientsUpdated}
       title={`Bulk Amounts for ${numDays} days`}
     />
   );
@@ -52,9 +58,8 @@ BulkHelper.propTypes = {
   rmbPercent: PropTypes.number.isRequired,
   otherAmounts: PropTypes.object.isRequired,
   unitDetails: PropTypes.object.isRequired,
-  age: PropTypes.string.isRequired,
   numDays: PropTypes.number.isRequired,
-  estimatedCalories: PropTypes.number.isRequired,
+  essentialNutrients: PropTypes.object.isRequired,
 };
 
 export default BulkHelper;

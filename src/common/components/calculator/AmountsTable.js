@@ -3,7 +3,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles, Table, TableBody, TableRow, TableCell } from '@material-ui/core';
 import round from '../../calculations/round';
-import { essentialNutrients } from '../../form/essentialNutrients';
 import Header2 from './Header2';
 import Section from './Section';
 
@@ -36,13 +35,6 @@ const getCellContentCreator = (unitDetails) => (amount) => {
   return `${round(amount / unitDetails.perUnit)} ${unitDetails.lg} / ${smallUnitAmount}`;
 };
 
-const getNutrientCalculator = (age, estimatedCalories) => (nutrientInfo) => {
-  const nutrientAmount = nutrientInfo[age];
-  const nutrientPercentage = estimatedCalories / 1000;
-
-  return `${round(nutrientAmount * nutrientPercentage, 1)} ${nutrientInfo.unit}`;
-};
-
 const AmountsTable = ({
   totalAmount,
   muscleAmount,
@@ -50,13 +42,11 @@ const AmountsTable = ({
   rmbPercent,
   otherAmounts,
   unitDetails,
-  age,
-  estimatedCalories,
+  essentialNutrients,
   title,
 }) => {
   const classes = useStyles();
   const createCellContent = getCellContentCreator(unitDetails);
-  const getNutrientRA = getNutrientCalculator(age, estimatedCalories);
 
   return (
     <Section>
@@ -88,7 +78,7 @@ const AmountsTable = ({
           {map(essentialNutrients, (nutrientInfo, key) => (
             <TableRow key={key}>
               <TableCell className={classes.capitalize}>{nutrientInfo.name}</TableCell>
-              <TableCell align="right">{`${getNutrientRA(nutrientInfo)}`}</TableCell>
+              <TableCell align="right">{`${round(nutrientInfo.amount, 1)} ${nutrientInfo.unit}`}</TableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -104,9 +94,8 @@ AmountsTable.propTypes = {
   rmbPercent: PropTypes.number.isRequired,
   otherAmounts: PropTypes.object.isRequired,
   unitDetails: PropTypes.object.isRequired,
-  age: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
-  estimatedCalories: PropTypes.number.isRequired,
+  essentialNutrients: PropTypes.object.isRequired,
 };
 
 export default AmountsTable;

@@ -7,5 +7,5 @@ const getMuscleAmount = (total, bone, others) => {
 
 export default getMuscleAmount;
 
-export const getMusclePercentage = (bonePercentage, otherPercentages) => 
+export const getMusclePercentage = (bonePercentage, otherPercentages) =>
   getMuscleAmount(100, bonePercentage, otherPercentages);

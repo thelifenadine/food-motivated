@@ -1,6 +1,8 @@
+import mapValues from 'lodash/mapValues';
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Button, TextField, InputAdornment, makeStyles } from '@material-ui/core';
+import { essentialNutrients } from '../../form/essentialNutrients';
 import Header2 from './Header2';
 import AmountsTable from './AmountsTable';
 import Section from './Section';
@@ -24,6 +26,18 @@ const WhatToFeed = () => {
     setShowBulkTable(false);
   }, [totalDailyAmount, boneAmount, otherAmounts]);
 
+
+  const nutrientAmounts = mapValues(essentialNutrients, (nutrientInfo) => {
+    const nutrientAmount = nutrientInfo[age];
+    const nutrientPercentage = estimatedCalories / 1000;
+
+    return {
+      name: nutrientInfo.name,
+      amount: nutrientAmount * nutrientPercentage,
+      unit: nutrientInfo.unit,
+    };
+  });
+
   return (
     <React.Fragment>
       <AmountsTable
@@ -34,7 +48,7 @@ const WhatToFeed = () => {
         otherAmounts={otherAmounts}
         unitDetails={unitDetails}
         age={age}
-        estimatedCalories={estimatedCalories}
+        essentialNutrients={nutrientAmounts}
         title="What to feed each day"
       />
       <div className={classes.bulkTable}>
@@ -73,8 +87,7 @@ const WhatToFeed = () => {
             rmbPercent={rmbPercent}
             otherAmounts={otherAmounts}
             unitDetails={unitDetails}
-            age={age}
-            estimatedCalories={estimatedCalories}
+            essentialNutrients={nutrientAmounts}
             numDays={numDays}
           />
         }

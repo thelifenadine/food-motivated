@@ -12,7 +12,6 @@ import {
 import createMappedReducer from './utils/createMappedReducer';
 import getTotalDailyAmount from '../calculations/getTotalDailyAmount';
 import { percentageDefaults } from '../form/percentageDefaultOptions';
-import { essentialNutrients } from '../form/essentialNutrients';
 import { unitData } from '../form/unitOptions';
 import { getMusclePercentage } from '../calculations/getMuscleAmount';
 import getAmounts from '../calculations/getAmounts';
@@ -52,7 +51,6 @@ const initialState = loadState() || {
   bonePercentage: bone,
   otherPercentages: other,
   ...getAmounts(totalDailyAmount, bone, initialRMB, other),
-  essentialNutrients: essentialNutrients,
   estimatedCalories: getEstimatedCalories(unitData[initialUnit].default1000kCal, totalDailyAmount),
 };
 
