@@ -1,8 +1,6 @@
-import mapValues from 'lodash/mapValues';
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Button, TextField, InputAdornment, makeStyles } from '@material-ui/core';
-import { essentialNutrients } from '../../form/essentialNutrients';
 import Header2 from './Header2';
 import AmountsTable from './AmountsTable';
 import Section from './Section';
@@ -18,25 +16,16 @@ const useStyles = makeStyles((theme) => ({
 const WhatToFeed = () => {
   const classes = useStyles();
   const settings = useSelector(state => state.calculator);
-  const { totalDailyAmount, unitDetails, boneAmount, muscleAmount, otherAmounts, rmbPercent, age, estimatedCalories } = settings;
+  const {
+    totalDailyAmount, unitDetails, boneAmount, muscleAmount, otherAmounts,
+    rmbPercent, essentialNutrients
+  } = settings;
   const [shouldShowBulkTable, setShowBulkTable] = useState(false);
   const [numDays, setNumDays] = useState(7);
 
   useEffect(() => {
     setShowBulkTable(false);
   }, [totalDailyAmount, boneAmount, otherAmounts]);
-
-
-  const nutrientAmounts = mapValues(essentialNutrients, (nutrientInfo) => {
-    const nutrientAmount = nutrientInfo[age];
-    const nutrientPercentage = estimatedCalories / 1000;
-
-    return {
-      name: nutrientInfo.name,
-      amount: nutrientAmount * nutrientPercentage,
-      unit: nutrientInfo.unit,
-    };
-  });
 
   return (
     <React.Fragment>
@@ -47,8 +36,7 @@ const WhatToFeed = () => {
         rmbPercent={rmbPercent}
         otherAmounts={otherAmounts}
         unitDetails={unitDetails}
-        age={age}
-        essentialNutrients={nutrientAmounts}
+        essentialNutrients={essentialNutrients}
         title="What to feed each day"
       />
       <div className={classes.bulkTable}>
@@ -87,7 +75,7 @@ const WhatToFeed = () => {
             rmbPercent={rmbPercent}
             otherAmounts={otherAmounts}
             unitDetails={unitDetails}
-            essentialNutrients={nutrientAmounts}
+            essentialNutrients={essentialNutrients}
             numDays={numDays}
           />
         }

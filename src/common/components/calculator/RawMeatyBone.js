@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   FormControl, NativeSelect, InputLabel, InputAdornment, TextField, makeStyles,
 } from '@material-ui/core';
-import { updateRMB } from '../../actions/calculator';
+import { updateRMB, updateCustomRMB } from '../../actions/calculator';
 import rmbOptions from '../../form/rawMeatyBoneOptions';
 import Header2 from './Header2';
 import Section from './Section';
@@ -26,12 +26,12 @@ const RawMeatyBone = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const settings = useSelector(state => state.calculator);
-  const { rmbPercent, isCustomRmb } = settings;
+
+  const { rmbPercent, rmbKey, isCustomRmb } = settings;
 
   const onDropDownChange = (e) => {
-    const ddValue = Number(e.target.value);
-    // the "custom" dropdown value is 0, so pass true for isCustom
-    dispatch(updateRMB(ddValue, ddValue === 0));
+    const dropdownValue = e.target.value;
+    dispatch(updateRMB(dropdownValue, dropdownValue === 'custom'));
   };
 
   return (
@@ -43,10 +43,10 @@ const RawMeatyBone = () => {
           name="boneType"
           id="boneType"
           onChange={onDropDownChange}
-          value={isCustomRmb ? 0 : rmbPercent}
+          value={rmbKey}
         >
           {rmbOptions.map(option => (
-            <option key={option.key} value={option.value}>{option.name}</option>
+            <option key={option.key} value={option.key}>{option.name}</option>
           ))}
         </NativeSelect>
       </FormControl>
@@ -56,7 +56,6 @@ const RawMeatyBone = () => {
           id="rmbOption"
           label="Bone Content"
           value={rmbPercent}
-          type="number"
           disabled
           InputProps={{
             endAdornment: (
@@ -67,12 +66,13 @@ const RawMeatyBone = () => {
       }
       {isCustomRmb &&
         <TextField
+          // error={true}
+          // helperText="must be a number"
           className={classes.rmbCustom}
           id="customRMB"
           label="Enter RMB %"
           value={rmbPercent}
-          type="number"
-          onChange={e => dispatch(updateRMB(Number(e.target.value), true))}
+          onChange={e => dispatch(updateCustomRMB(e.target.value))}
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">%</InputAdornment>

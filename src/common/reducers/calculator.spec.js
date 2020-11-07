@@ -292,7 +292,8 @@ describe('reducers/calculator', () => {
   describe('UPDATE_RMB_PERCENT : updateRMB()', () => {
     describe('when the raw meaty bone percentage is updated', () => {
       let result;
-      const testRMB = 61;
+      const testRMB = 75;
+      const testKeyRMB = 'rabbit-heads';
 
       const { totalDailyAmount, bonePercentage, otherPercentages } = englishBarfState;
 
@@ -310,7 +311,7 @@ describe('reducers/calculator', () => {
         });
 
         result = file.updateRMB(englishBarfState, {
-          rmbPercent: testRMB,
+          rmbKey: testKeyRMB,
           isCustomRmb: false,
         });
       });
@@ -327,6 +328,7 @@ describe('reducers/calculator', () => {
       it('should update the rmbPercent, isCustom, and amounts', () => {
         result.should.eql({
           ...englishBarfState,
+          rmbKey: testKeyRMB,
           rmbPercent: testRMB,
           isCustomRmb: false,
           muscleAmount: 70,

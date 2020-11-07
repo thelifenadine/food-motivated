@@ -3,6 +3,7 @@ export const UPDATE_BONE_PERCENTAGE = 'UPDATE_BONE_PERCENTAGE';
 export const UPDATE_OTHER_PERCENTAGE = 'UPDATE_OTHER_PERCENTAGE';
 export const RESET_PERCENTAGE_DEFAULTS = 'RESET_PERCENTAGE_DEFAULTS';
 export const UPDATE_RMB_PERCENT = 'UPDATE_RMB_PERCENT';
+export const UPDATE_CUSTOM_RMB_PERCENT = 'UPDATE_CUSTOM_RMB_PERCENT';
 export const SET_MEAL_TYPE = 'SET_MEAL_TYPE';
 export const SET_AGE = 'SET_AGE';
 
@@ -48,11 +49,18 @@ export function updateOtherPercentage(updatedValue, propertyName)  {
 }
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // RawMeatyBone
-export function updateRMB(rmbPercent, isCustomRmb) {
+export function updateRMB(rmbKey, isCustomRmb) {
   return {
     type: UPDATE_RMB_PERCENT,
-    rmbPercent,
+    rmbKey,
     isCustomRmb,
+  };
+}
+
+export function updateCustomRMB(rmbPercent) {
+  return {
+    type: UPDATE_CUSTOM_RMB_PERCENT,
+    rmbPercent: Number(rmbPercent),
   };
 }
 
