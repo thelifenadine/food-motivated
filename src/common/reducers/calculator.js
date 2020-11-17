@@ -1,5 +1,4 @@
-import { saveState } from '../localStorage/calculatorState';
-import mapValues from 'lodash/mapValues';
+import { saveState, loadState } from '../localStorage/calculatorState';
 
 import {
   UPDATE_OPTIONS,
@@ -7,96 +6,101 @@ import {
   UPDATE_OTHER_PERCENTAGE,
   UPDATE_RMB_PERCENT,
   UPDATE_CUSTOM_RMB_PERCENT,
-  SET_AGE,
+  SET_LIFESTAGE_PRESET,
   SET_MEAL_TYPE,
 } from '../actions/calculator';
 
 import createMappedReducer from './utils/createMappedReducer';
+
+// constants
+import { percentageDefaults } from '../constants/percentageDefaultOptions';
+import { adult } from '../constants/lifestage';
+import { rmbLookup } from '../constants/rawMeatyBoneOptions';
+import { unitData } from '../constants/unitOptions';
+
+// calculations
 import getTotalDailyAmount from '../calculations/getTotalDailyAmount';
-import { percentageDefaults } from '../form/percentageDefaultOptions';
-import { essentialNutrients } from '../form/essentialNutrients';
-import { rmbLookup } from '../form/rawMeatyBoneOptions';
-import { unitData } from '../form/unitOptions';
 import { getMusclePercentage } from '../calculations/getMuscleAmount';
-
 import getAmounts from '../calculations/getAmounts';
+import getEssentialNutrientAmounts from '../calculations/getEssentialNutrientAmounts';
+import getEstimatedCalories from '../calculations/getEstimatedCalories';
 
-// these are reducer helpers... should maybe move to a new folder
-import getButtonStatuses from '../calculations/getButtonStatuses';
-import getPresetPercentages from '../calculations/getPresetPercentages';
-
-// TODO export and test
-const getEstimatedCalories = (amountPer1000kCal, totalAmount) => {
-  const calPerUnit = 1000 / amountPer1000kCal;
-  return calPerUnit * totalAmount;
-};
+// reducer helpers
+import getLifestageByPercentages from './helpers/getLifestageByPercentages';
+import getPercentagesAndAmounts from './helpers/getPercentagesAndAmounts';
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // INITIAL STATE
-const initialRMB = 44;
-const weight = 50;
-const maintenance = 2.5;
-const initialUnit = 'english';
-const initialAge = 'adult';
-const initialMealPlan = 'barf';
+export const getDefaultState = () => {
+  const defaultRMB = 44;
+  const defaultWeight = 50;
+  const defaultMaintenance = 2.5;
+  const defaultUnit = unitData['english'];
+  const defaultMealType = 'barf';
+  const defaultLifestage = adult;
+  const { muscle, bone, other } = percentageDefaults[defaultMealType][defaultLifestage];
 
-
-const totalDailyAmount = getTotalDailyAmount(weight, maintenance, unitData[initialUnit].perUnit);
-const { muscle, bone, other } = percentageDefaults[initialMealPlan][initialAge];
-
-const initialCalorieEstimate = getEstimatedCalories(unitData[initialUnit].default1000kCal, totalDailyAmount);
-
-const initialNutrientAmounts = mapValues(essentialNutrients, (nutrientInfo) => {
-  const nutrientAmount = nutrientInfo[initialAge];
-  const nutrientPercentage = initialCalorieEstimate / 1000;
+  const totalDailyAmount = getTotalDailyAmount(defaultWeight, defaultMaintenance, defaultUnit.perUnit);
+  const defaultCalorieEstimate = getEstimatedCalories(defaultUnit.default1000kCal, totalDailyAmount);
+  const defaultNutrientAmounts = getEssentialNutrientAmounts(defaultCalorieEstimate, defaultLifestage);
 
   return {
-    name: nutrientInfo.name,
-    amount: nutrientAmount * nutrientPercentage,
-    unit: nutrientInfo.unit,
+    unitDetails: defaultUnit,
+    mealType: defaultMealType,
+    lifestagePreset: defaultLifestage,
+    weight: defaultWeight,
+    maintenance: defaultMaintenance,
+    totalDailyAmount,
+    rmbPercent: defaultRMB,
+    rmbKey: rmbLookup['chicken-back'],
+    isCustomRmb: false,
+    musclePercentage: muscle,
+    bonePercentage: bone,
+    otherPercentages: other,
+    estimatedCalories: defaultCalorieEstimate,
+    essentialNutrients: defaultNutrientAmounts,
+    ...getAmounts(totalDailyAmount, defaultRMB, { bonePercentage: bone, otherPercentages: other }),
   };
-});
-
-// TODO, if there is a new property that is not in the loaded state, use initial state instead?
-export const initialState = {
-  unitDetails: unitData[initialUnit],
-  isAdult: true,
-  isPuppy: false,
-  mealType: initialMealPlan,
-  age: initialAge,
-  weight,
-  maintenance,
-  totalDailyAmount,
-  rmbPercent: initialRMB,
-  isCustomRmb: false,
-  musclePercentage: muscle,
-  bonePercentage: bone,
-  otherPercentages: other,
-  ...getAmounts(totalDailyAmount, bone, initialRMB, other),
-  estimatedCalories: initialCalorieEstimate,
-  essentialNutrients: initialNutrientAmounts,
 };
 
-//const getInitialState = () => loadState() || initialState;
+const getInitialState = () => loadState() || getDefaultState();
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // BasicOptions
+
+/*  effects
+unitDetails: (english vs metric)
+  --> totalDailyAmount, estimatedCalories
+    totalDailyAmount --> getAmounts, estimatedCalories
+                                        (--> essentialNutrients)
+weight
+  --> totalDailyAmount
+  totalDailyAmount --> getAmounts, estimatedCalories
+                                    (--> essentialNutrients)
+
+maintenance
+  --> totalDailyAmount
+  totalDailyAmount --> getAmounts, estimatedCalories
+                                    (--> essentialNutrients)
+
+*/
 export const updateOptions = (state, action) => {
-  const { otherPercentages, bonePercentage, rmbPercent, unitDetails } = state;
+  const { otherPercentages, bonePercentage, rmbPercent, lifestagePreset } = state;
   const { weight, maintenance, unitName } = action;
 
-  const updatedUnitDetails = unitName ? unitData[unitName] : { ...unitDetails };
+  const updatedUnitDetails = unitData[unitName];
   const updatedDailyAmount = getTotalDailyAmount(weight, maintenance, updatedUnitDetails.perUnit);
   const updatedEstimatedCalories = getEstimatedCalories(updatedUnitDetails.default1000kCal, updatedDailyAmount);
 
   const updatedState = {
     ...state,
-    estimatedCalories: updatedEstimatedCalories,
     weight,
     maintenance,
     unitDetails: updatedUnitDetails,
     totalDailyAmount: updatedDailyAmount,
-    ...getAmounts(updatedDailyAmount, bonePercentage, rmbPercent, otherPercentages),
+    estimatedCalories: updatedEstimatedCalories,
+    essentialNutrients: getEssentialNutrientAmounts(updatedEstimatedCalories, lifestagePreset),
+    ...getAmounts(updatedDailyAmount, rmbPercent, { bonePercentage, otherPercentages }),
   };
 
   saveState(updatedState);
@@ -105,31 +109,30 @@ export const updateOptions = (state, action) => {
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // PercentageOptions
-export const setAge = (state, { isPuppy, isAdult }) => {
-  const { mealType } = state;
-  const age = isPuppy ? 'puppy' : 'adult';
+
+// updatedLifestage updates the percentages, amounts, and essential nutrients
+export const setLifestagePreset = (state, { updatedLifestage }) => {
+  const { mealType, estimatedCalories } = state;
 
   const updatedState = {
     ...state,
-    isPuppy,
-    isAdult,
-    age,
-    ...getPresetPercentages(state, mealType, age),
+    lifestagePreset: updatedLifestage,
+    essentialNutrients: getEssentialNutrientAmounts(estimatedCalories, updatedLifestage),
+    ...getPercentagesAndAmounts(state, mealType, updatedLifestage),
   };
 
   saveState(updatedState);
   return updatedState;
 };
 
-export const setMealType = (state, { mealType }) => {
-  const { age } = state;
+// setMealType updates the percentages, and amounts
+export const setMealType = (state, { updatedMealType }) => {
+  const { lifestagePreset } = state;
 
   const updatedState = {
     ...state,
-    isPuppy: (age === 'puppy'),
-    isAdult: (age === 'adult'),
-    mealType,
-    ...getPresetPercentages(state, mealType, age),
+    mealType: updatedMealType,
+    ...getPercentagesAndAmounts(state, updatedMealType, lifestagePreset)
   };
 
   saveState(updatedState);
@@ -150,8 +153,8 @@ export const updateOtherPercentages = (state, { updatedProperty, updatedValue })
     ...state,
     otherPercentages: updatedOtherPercentages,
     musclePercentage: updatedMusclePercentage,
-    ...getButtonStatuses(mealType, bonePercentage, updatedOtherPercentages),
-    ...getAmounts(totalDailyAmount, bonePercentage, rmbPercent, updatedOtherPercentages),
+    lifestagePreset: getLifestageByPercentages(mealType, bonePercentage, updatedOtherPercentages),
+    ...getAmounts(totalDailyAmount, rmbPercent, { bonePercentage, otherPercentages: updatedOtherPercentages }),
   };
 
   saveState(updatedState);
@@ -167,8 +170,8 @@ export const updateBonePercentage = (state, action) => {
     ...state,
     bonePercentage: updatedBonePercentage,
     musclePercentage: updatedMusclePercentage,
-    ...getButtonStatuses(mealType, updatedBonePercentage, otherPercentages),
-    ...getAmounts(totalDailyAmount, updatedBonePercentage, rmbPercent, otherPercentages),
+    lifestagePreset: getLifestageByPercentages(mealType, updatedBonePercentage, otherPercentages),
+    ...getAmounts(totalDailyAmount, rmbPercent, { bonePercentage: updatedBonePercentage, otherPercentages }),
   };
 
   saveState(updatedState);
@@ -187,7 +190,7 @@ export const updateRMB = (state, action) => {
     rmbKey,
     rmbPercent: rmbPercent,
     isCustomRmb: isCustomRmb,
-    ...getAmounts(totalDailyAmount, bonePercentage, rmbPercent, otherPercentages),
+    ...getAmounts(totalDailyAmount, rmbPercent, { bonePercentage, otherPercentages }),
   };
 
   saveState(updatedState);
@@ -201,19 +204,20 @@ export const updateCustomRMB = (state, action) => {
   const updatedState = {
     ...state,
     rmbPercent,
-    ...getAmounts(totalDailyAmount, bonePercentage, rmbPercent, otherPercentages),
+    ...getAmounts(totalDailyAmount, rmbPercent, { bonePercentage, otherPercentages }),
   };
 
   saveState(updatedState);
   return updatedState;
 };
 
-export default createMappedReducer(initialState, {
+// ---------------------- exports -------------------------
+export default createMappedReducer(getInitialState(), {
   [UPDATE_OPTIONS]: updateOptions,
   [UPDATE_BONE_PERCENTAGE]: updateBonePercentage,
   [UPDATE_OTHER_PERCENTAGE]: updateOtherPercentages,
   [UPDATE_RMB_PERCENT]: updateRMB,
   [UPDATE_CUSTOM_RMB_PERCENT]: updateCustomRMB,
-  [SET_AGE]: setAge,
+  [SET_LIFESTAGE_PRESET]: setLifestagePreset,
   [SET_MEAL_TYPE]: setMealType,
 });

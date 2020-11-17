@@ -1,22 +1,4 @@
-import keys from 'lodash/keys';
-import { initialState } from '../reducers/calculator';
-
-
-function isStoreValid(json) {
-  let index = 0;
-  let isValid = true;
-
-  const properties = keys(initialState);
-  while (index < properties.length && isValid) {
-    if (typeof json[properties[index]] === 'undefined') {
-      isValid = false;
-    }
-
-    index++;
-  }
-
-  return isValid;
-}
+import isStoreValid from './isStoreValid';
 
 export function loadState() {
   try {

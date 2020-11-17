@@ -9,7 +9,7 @@ describe('getAmounts(totalDailyAmount, bonePercentage, rmbPercent, otherPercenta
   const getMuscleAmountStub = sinon.stub();
   const getBoneAmountStub = sinon.stub();
   const getAmountsByPercentsStub = sinon.stub();
-  
+
   before(() => {
     getAmounts = proxyquire.noCallThru().load('./getAmounts', {
       './getMuscleAmount': getMuscleAmountStub,
@@ -29,7 +29,7 @@ describe('getAmounts(totalDailyAmount, bonePercentage, rmbPercent, otherPercenta
 
     before(() => {
       setupStubs(21, 5.3, { fruit: 2 } );
-      result = getAmounts(32, 10, 60, { other: 'stuff' });
+      result = getAmounts(32, 60, { bonePercentage: 10, otherPercentages: { organ: 'stuff' } });
     });
 
     it('should return an object with the associated amounts', () => {
@@ -49,7 +49,7 @@ describe('getAmounts(totalDailyAmount, bonePercentage, rmbPercent, otherPercenta
     });
 
     it('getAmountsByPercents should be invoked with the correct args', () => {
-      sinon.assert.calledWith(getAmountsByPercentsStub, 32, { other: 'stuff' });
+      sinon.assert.calledWith(getAmountsByPercentsStub, 32, { organ: 'stuff' });
     });
   });
 });

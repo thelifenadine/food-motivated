@@ -4,9 +4,10 @@ import {
   FormControl, NativeSelect, InputLabel, InputAdornment, TextField, makeStyles,
 } from '@material-ui/core';
 import { updateRMB, updateCustomRMB } from '../../actions/calculator';
-import rmbOptions from '../../form/rawMeatyBoneOptions';
+import rmbOptions from '../../constants/rawMeatyBoneOptions';
 import Header2 from './Header2';
 import Section from './Section';
+import ValidatedTextField from '../form/ValidatedTextField';
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -22,12 +23,22 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const onPercentInput = (e, setIsInvalid, handleOnChange) => {
+  // + to cast to a number
+  const value = +e.target.value;
+
+  const isInvalid = isNaN(value);
+  setIsInvalid(isInvalid);
+
+  if (!isInvalid && value <= 100) {
+    handleOnChange(value);
+  }
+};
+
 const RawMeatyBone = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const settings = useSelector(state => state.calculator);
-
-  const { rmbPercent, rmbKey, isCustomRmb } = settings;
+  const { rmbPercent, rmbKey, isCustomRmb } = useSelector(state => state.calculator);
 
   const onDropDownChange = (e) => {
     const dropdownValue = e.target.value;
@@ -65,19 +76,15 @@ const RawMeatyBone = () => {
         />
       }
       {isCustomRmb &&
-        <TextField
-          // error={true}
-          // helperText="must be a number"
+        <ValidatedTextField
+          value={rmbPercent}
           className={classes.rmbCustom}
+          message="must be a number"
           id="customRMB"
           label="Enter RMB %"
-          value={rmbPercent}
-          onChange={e => dispatch(updateCustomRMB(e.target.value))}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">%</InputAdornment>
-            ),
-          }}
+          handleOnChange={(val) => dispatch(updateCustomRMB(val))}
+          onInput={onPercentInput}
+          inputAdornment="%"
         />
       }
     </Section>

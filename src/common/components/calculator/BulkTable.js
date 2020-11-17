@@ -11,7 +11,7 @@ const getUpdatedNutrients = (essentialNutrients, numDays) => mapValues(essential
   };
 });
 
-const BulkHelper = (props) => {
+const BulkTable = (props) => {
   const {
     totalDailyAmount,
     muscleAmount,
@@ -51,7 +51,7 @@ const BulkHelper = (props) => {
   );
 };
 
-BulkHelper.propTypes = {
+BulkTable.propTypes = {
   totalDailyAmount: PropTypes.number.isRequired,
   muscleAmount: PropTypes.number.isRequired,
   boneAmount: PropTypes.number.isRequired,
@@ -62,4 +62,4 @@ BulkHelper.propTypes = {
   essentialNutrients: PropTypes.object.isRequired,
 };
 
-export default BulkHelper;
+export default BulkTable;

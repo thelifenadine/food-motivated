@@ -8,9 +8,11 @@ import {
 import {
   updateBonePercentage,
   updateOtherPercentage,
-  setAge,
+  setLifestagePreset,
   setMealType,
 } from '../../actions/calculator';
+import { adult, puppy } from '../../constants/lifestage';
+
 import Header2 from './Header2';
 import Section from './Section';
 
@@ -47,7 +49,7 @@ const PercentageOptions = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const {
-    otherPercentages, musclePercentage, bonePercentage, isAdult, isPuppy, mealType,
+    otherPercentages, musclePercentage, bonePercentage, lifestagePreset, mealType,
   } = useSelector(state => state.calculator);
 
   return (
@@ -93,16 +95,16 @@ const PercentageOptions = () => {
         <Button
           size="small"
           color="secondary"
-          variant={isAdult ? "contained" : "outlined"}
-          onClick={() => dispatch(setAge({ isPuppy: false, isAdult: true }))}
+          variant={(lifestagePreset === adult) ? "contained" : "outlined"}
+          onClick={() => dispatch(setLifestagePreset(adult))}
         >
           Adult
         </Button>
         <Button
           size="small"
           color="secondary"
-          variant={isPuppy ? "contained" : "outlined"}
-          onClick={() => dispatch(setAge({ isPuppy: true, isAdult: false }))}
+          variant={(lifestagePreset === puppy) ? "contained" : "outlined"}
+          onClick={() => dispatch(setLifestagePreset(puppy))}
         >
           Puppy
         </Button>

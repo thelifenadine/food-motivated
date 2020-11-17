@@ -1,36 +1,35 @@
 export const UPDATE_OPTIONS = 'UPDATE_OPTIONS';
 export const UPDATE_BONE_PERCENTAGE = 'UPDATE_BONE_PERCENTAGE';
 export const UPDATE_OTHER_PERCENTAGE = 'UPDATE_OTHER_PERCENTAGE';
-export const RESET_PERCENTAGE_DEFAULTS = 'RESET_PERCENTAGE_DEFAULTS';
 export const UPDATE_RMB_PERCENT = 'UPDATE_RMB_PERCENT';
 export const UPDATE_CUSTOM_RMB_PERCENT = 'UPDATE_CUSTOM_RMB_PERCENT';
 export const SET_MEAL_TYPE = 'SET_MEAL_TYPE';
-export const SET_AGE = 'SET_AGE';
+export const SET_LIFESTAGE_PRESET = 'SET_LIFESTAGE_PRESET';
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // BasicOptions
 export function updateOptions(weight, maintenance, unitName) {
   return {
     type: UPDATE_OPTIONS,
-    weight,
-    maintenance,
+    weight: Number(weight),
+    maintenance: Number(maintenance),
     unitName,
   };
 }
+
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // PercentageOptions
-export function setMealType(mealType) {
+export function setMealType(updatedMealType) {
   return {
     type: SET_MEAL_TYPE,
-    mealType,
+    updatedMealType,
   };
 }
 
-export function setAge({ isPuppy, isAdult }) {
+export function setLifestagePreset(updatedLifestage) {
   return {
-    type: SET_AGE,
-    isPuppy,
-    isAdult,
+    type: SET_LIFESTAGE_PRESET,
+    updatedLifestage,
   };
 }
 
@@ -47,6 +46,7 @@ export function updateOtherPercentage(updatedValue, propertyName)  {
     updatedValue,
   };
 }
+
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // RawMeatyBone
 export function updateRMB(rmbKey, isCustomRmb) {
@@ -60,7 +60,7 @@ export function updateRMB(rmbKey, isCustomRmb) {
 export function updateCustomRMB(rmbPercent) {
   return {
     type: UPDATE_CUSTOM_RMB_PERCENT,
-    rmbPercent: Number(rmbPercent),
+    rmbPercent: +rmbPercent,
   };
 }
 

@@ -5,11 +5,12 @@ import {
 } from '@material-ui/core';
 
 import round from '../../calculations/round';
-import unitOptions from '../../form/unitOptions';
+import unitOptions from '../../constants/unitOptions';
 
 import { updateOptions } from '../../actions/calculator';
 import Header2 from './Header2';
 import Section from './Section';
+import ValidatedTextField from '../form/ValidatedTextField';
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -26,15 +27,28 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const onNumericInput = (e, setIsInvalid, handleOnChange) => {
+  const value = e.target.value;
+
+  const isInvalid = isNaN(value);
+  setIsInvalid(isInvalid);
+
+  if (!isInvalid) {
+    handleOnChange(value);
+  }
+};
+
 const BasicOptions = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const settings = useSelector(state => state.calculator);
-  const { totalDailyAmount, weight, unitDetails, maintenance, estimatedCalories } = settings;
+  const { weight, unitDetails, maintenance, totalDailyAmount, estimatedCalories  } = settings;
 
   const [roundedDailyAmount, setRoundedDailyAmount] = useState(round(totalDailyAmount));
 
   useEffect(() => {
+    // can limit how often the round function is called by
+    // only invoking it when the totalDailyAmount is updated
     setRoundedDailyAmount(round(totalDailyAmount));
   }, [totalDailyAmount]);
 
@@ -46,7 +60,7 @@ const BasicOptions = () => {
         <NativeSelect
           name="unit"
           id="unit"
-          onChange={e => dispatch(updateOptions(weight, maintenance, e.target.value))}
+          onChange={e => dispatch(updateOptions(Number(weight), maintenance, e.target.value))}
           value={unitDetails.name}
         >
           {unitOptions.map(option => (
@@ -54,18 +68,15 @@ const BasicOptions = () => {
           ))}
         </NativeSelect>
       </FormControl>
-      <TextField
+      <ValidatedTextField
         className={classes.numericLarge}
         id="weight"
         label="Dog Weight"
         value={weight}
-        type="number"
-        onChange={e => dispatch(updateOptions(Number(e.target.value), maintenance))}
-        InputProps={{
-          endAdornment: (
-            <InputAdornment position="end">{unitDetails.lg}</InputAdornment>
-          ),
-        }}
+        message="must be a number"
+        handleOnChange={(val) => dispatch(updateOptions(val, maintenance, unitDetails.name))}
+        onInput={onNumericInput}
+        inputAdornment={unitDetails.lg}
       />
       <TextField
         className={classes.numericLarge}
@@ -73,7 +84,7 @@ const BasicOptions = () => {
         label="Maintenance"
         value={maintenance}
         type="number"
-        onChange={e => dispatch(updateOptions(weight, Number(e.target.value)))}
+        onChange={e => dispatch(updateOptions(weight, Number(e.target.value), unitDetails.name))}
         helperText="Start at 2.0-3.0%"
         inputProps={{
           min: 0,

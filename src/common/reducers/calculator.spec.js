@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 import proxyquire from 'proxyquire';
 import { should } from "chai";
-import { unitData } from '../form/unitOptions';
+import { unitData } from '../constants/unitOptions';
 
 should();
 
@@ -11,15 +11,22 @@ describe('reducers/calculator', () => {
   const getTotalDailyAmountStub = sinon.stub();
   const getAmountsStub = sinon.stub();
   const getMusclePercentageStub = sinon.stub();
-  const getButtonStatusesStub = sinon.stub();
-  const getPresetPercentagesStub = sinon.stub();
+  const getLifestageByPercentagesStub = sinon.stub();
+  const getPercentagesAndAmountsStub = sinon.stub();
+
+  const getEssentialNutrientAmountsStub = sinon.stub();
+
+  getEssentialNutrientAmountsStub.returns([{
+    name: 'ALA',
+    amount: 110,
+    unit: 'mg',
+  }]);
+
+  const getEstimatedCaloriesStub = sinon.stub();
 
   const englishBarfState = {
     unitDetails: unitData['english'],
-    isAdult: true,
-    isPuppy: false,
     mealType: 'barf',
-    age: 'adult',
     weight: 68,
     maintenance: 3.0,
     totalDailyAmount: 32.6,
@@ -42,6 +49,11 @@ describe('reducers/calculator', () => {
       seed: 0.7,
       veggie: 2.9,
     },
+    essentialNutrients: [{
+      name: 'ALA',
+      amount: 110,
+      unit: 'mg',
+    }],
   };
 
   before(() => {
@@ -55,10 +67,14 @@ describe('reducers/calculator', () => {
       '../calculations/getMuscleAmount': {
         getMusclePercentage: getMusclePercentageStub,
       },
-      '../calculations/getButtonStatuses': getButtonStatusesStub,
-      '../calculations/getPresetPercentages': getPresetPercentagesStub,
+      './helpers/getLifestageByPercentages': getLifestageByPercentagesStub,
+      './helpers/getPercentagesAndAmounts': getPercentagesAndAmountsStub,
+      '../calculations/getEstimatedCalories': getEstimatedCaloriesStub,
+      '../calculations/getEssentialNutrientAmounts': getEssentialNutrientAmountsStub,
     });
   });
+
+  // TODO: test getDefaultState and getInitialState
 
   describe('UPDATE_OPTIONS : updateOptions()', () => {
     describe('when the unitDetails is updated', () => {
@@ -69,6 +85,7 @@ describe('reducers/calculator', () => {
       const { bonePercentage, rmbPercent, otherPercentages } = englishBarfState;
 
       before(() => {
+        getEstimatedCaloriesStub.returns(1700);
         getTotalDailyAmountStub.returns(dailyAmount);
         getAmountsStub.returns({
           muscleAmount: 18,
@@ -100,7 +117,7 @@ describe('reducers/calculator', () => {
 
       it('should invoke getAmounts', () => {
         sinon.assert
-          .calledWith(getAmountsStub, dailyAmount, bonePercentage, rmbPercent, otherPercentages);
+          .calledWith(getAmountsStub, dailyAmount, rmbPercent, { bonePercentage, otherPercentages });
       });
 
       it('should update the basic options and the amounts', () => {
@@ -113,7 +130,7 @@ describe('reducers/calculator', () => {
             perUnit: 1000,
             default1000kCal: 538,
           },
-          estimatedCalories: 3791.82156133829,
+          estimatedCalories: 1700,
           weight: testWeight,
           maintenance: testMaint,
           totalDailyAmount: dailyAmount,
@@ -152,10 +169,7 @@ describe('reducers/calculator', () => {
             seed: 0.8,
           }
         });
-        getButtonStatusesStub.returns({
-          isAdult: false,
-          isPuppy: false,
-        });
+        getLifestageByPercentagesStub.returns(undefined);
         result = file.updateBonePercentage(englishBarfState, {
           updatedBonePercentage: testNewBonePerc,
         });
@@ -164,7 +178,7 @@ describe('reducers/calculator', () => {
       after(() => {
         getMusclePercentageStub.reset();
         getAmountsStub.reset();
-        getButtonStatusesStub.reset();
+        getLifestageByPercentagesStub.reset();
       });
 
       it('should invoke getMusclePercentage with correct args', () => {
@@ -174,12 +188,12 @@ describe('reducers/calculator', () => {
 
       it('should invoke getAmounts with correct args', () => {
         sinon.assert
-          .calledWith(getAmountsStub, totalDailyAmount, testNewBonePerc, rmbPercent, otherPercentages);
+          .calledWith(getAmountsStub, totalDailyAmount, rmbPercent, { bonePercentage: testNewBonePerc, otherPercentages });
       });
 
-      it('should invoke getButtonStatuses with correct args', () => {
+      it('should invoke getLifestageByPercentages with correct args', () => {
         sinon.assert
-          .calledWith(getButtonStatusesStub, mealType, testNewBonePerc, otherPercentages);
+          .calledWith(getLifestageByPercentagesStub, mealType, testNewBonePerc, otherPercentages);
       });
 
       it('should update the percentages and amounts', () => {
@@ -196,7 +210,7 @@ describe('reducers/calculator', () => {
             fruit: 0.9,
             seed: 0.8,
           },
-          isAdult: false,
+          lifestagePreset: undefined,
         });
       });
     });
@@ -224,10 +238,7 @@ describe('reducers/calculator', () => {
             seed: 9,
           },
         });
-        getButtonStatusesStub.returns({
-          isAdult: false,
-          isPuppy: true,
-        });
+        getLifestageByPercentagesStub.returns('puppy');
         result = file.updateOtherPercentages(englishBarfState, {
           updatedProperty: 'liver',
           updatedValue: 10,
@@ -237,7 +248,7 @@ describe('reducers/calculator', () => {
       after(() => {
         getMusclePercentageStub.reset();
         getAmountsStub.reset();
-        getButtonStatusesStub.reset();
+        getLifestageByPercentagesStub.reset();
       });
 
       it('should invoke getMusclePercentage with correct args', () => {
@@ -250,15 +261,18 @@ describe('reducers/calculator', () => {
 
       it('should invoke getAmounts with correct args', () => {
         sinon.assert
-          .calledWith(getAmountsStub, totalDailyAmount, bonePercentage, rmbPercent, {
-            ...otherPercentages,
-            liver: 10,
+          .calledWith(getAmountsStub, totalDailyAmount, rmbPercent, {
+            bonePercentage,
+            otherPercentages: {
+              ...otherPercentages,
+              liver: 10,
+            }
           });
       });
 
-      it('should invoke getButtonStatuses with correct args', () => {
+      it('should invoke getLifestageByPercentages with correct args', () => {
         sinon.assert
-          .calledWith(getButtonStatusesStub, mealType, bonePercentage, {
+          .calledWith(getLifestageByPercentagesStub, mealType, bonePercentage, {
             ...otherPercentages,
             liver: 10,
           });
@@ -282,8 +296,7 @@ describe('reducers/calculator', () => {
             fruit: 5.9,
             seed: 9,
           },
-          isAdult: false,
-          isPuppy: true,
+          lifestagePreset: 'puppy',
         });
       });
     });
@@ -322,7 +335,7 @@ describe('reducers/calculator', () => {
 
       it('should invoke getAmounts with correct args', () => {
         sinon.assert
-          .calledWith(getAmountsStub, totalDailyAmount, bonePercentage, testRMB, otherPercentages);
+          .calledWith(getAmountsStub, totalDailyAmount, testRMB, { bonePercentage, otherPercentages });
       });
 
       it('should update the rmbPercent, isCustom, and amounts', () => {
@@ -345,7 +358,7 @@ describe('reducers/calculator', () => {
     });
   }); // updateRmb
 
-  describe('SET_AGE : setAge()', () => {
+  describe('SET_LIFESTAGE_PRESET : setLifestagePreset()', () => {
     describe('when the age is adult', () => {
       let result;
       const testAge = 'adult';
@@ -353,31 +366,28 @@ describe('reducers/calculator', () => {
       const { mealType } = englishBarfState;
 
       before(() => {
-        getPresetPercentagesStub.returns({
+        getPercentagesAndAmountsStub.returns({
           whatever: 'it does',
         });
 
-        result = file.setAge(englishBarfState, {
-          isPuppy: false,
-          isAdult: true,
+        result = file.setLifestagePreset(englishBarfState, {
+          updatedLifestage: testAge,
         });
       });
 
       after(() => {
-        getPresetPercentagesStub.reset();
+        getPercentagesAndAmountsStub.reset();
       });
 
-      it('should invoke getPresetPercentages with correct args', () => {
+      it('should invoke getPercentagesAndAmounts with correct args', () => {
         sinon.assert
-          .calledWith(getPresetPercentagesStub, englishBarfState, mealType, testAge);
+          .calledWith(getPercentagesAndAmountsStub, englishBarfState, mealType, testAge);
       });
 
       it('should update the age and PresetPercentages', () => {
         result.should.eql({
           ...englishBarfState,
-          isPuppy: false,
-          isAdult: true,
-          age: 'adult',
+          lifestagePreset: testAge,
           whatever: 'it does',
         });
       });
@@ -390,67 +400,62 @@ describe('reducers/calculator', () => {
       const { mealType } = englishBarfState;
 
       before(() => {
-        getPresetPercentagesStub.returns({
+        getPercentagesAndAmountsStub.returns({
           whatever: 'it does not',
         });
 
-        result = file.setAge(englishBarfState, {
-          isPuppy: true,
-          isAdult: false,
+        result = file.setLifestagePreset(englishBarfState, {
+          updatedLifestage: testAge,
         });
       });
 
       after(() => {
-        getPresetPercentagesStub.reset();
+        getPercentagesAndAmountsStub.reset();
       });
 
-      it('should invoke getPresetPercentages with correct args', () => {
+      it('should invoke getPercentagesAndAmounts with correct args', () => {
         sinon.assert
-          .calledWith(getPresetPercentagesStub, englishBarfState, mealType, testAge);
+          .calledWith(getPercentagesAndAmountsStub, englishBarfState, mealType, testAge);
       });
 
       it('should update the age and PresetPercentages', () => {
         result.should.eql({
           ...englishBarfState,
-          isPuppy: true,
-          isAdult: false,
-          age: 'puppy',
+          lifestagePreset: 'puppy',
           whatever: 'it does not',
         });
       });
     });
-  }); // setAge
+  }); // setLifestagePreset
 
-  describe('SET_AGE : setAge()', () => {
+  describe('SET_LIFESTAGE_PRESET : setLifestagePreset()', () => {
     describe('when the mealtype is barf', () => {
       let result;
       const testMealType = 'barf';
-      const { age } = englishBarfState;
+      const { lifestagePreset } = englishBarfState;
 
       before(() => {
-        getPresetPercentagesStub.returns({
+        getPercentagesAndAmountsStub.returns({
           whatever: 'something interesting',
         });
 
         result = file.setMealType(englishBarfState, {
-          mealType: testMealType,
+          updatedMealType: testMealType,
         });
       });
 
       after(() => {
-        getPresetPercentagesStub.reset();
+        getPercentagesAndAmountsStub.reset();
       });
 
-      it('should invoke getPresetPercentages with correct args', () => {
+      it('should invoke getPercentagesAndAmounts with correct args', () => {
         sinon.assert
-          .calledWith(getPresetPercentagesStub, englishBarfState, testMealType, age);
+          .calledWith(getPercentagesAndAmountsStub, englishBarfState, testMealType, lifestagePreset);
       });
 
       it('should update the age and PresetPercentages', () => {
         result.should.eql({
           ...englishBarfState,
-          isPuppy: false,
-          isAdult: true,
           mealType: testMealType,
           whatever: 'something interesting',
         });
@@ -459,37 +464,35 @@ describe('reducers/calculator', () => {
 
     describe('when the mealType is pmr', () => {
       let result;
-      const { age } = englishBarfState;
+      const { lifestagePreset } = englishBarfState;
       const testMealType = 'pmr';
 
       before(() => {
-        getPresetPercentagesStub.returns({
+        getPercentagesAndAmountsStub.returns({
           whatever: 'you want',
         });
 
         result = file.setMealType(englishBarfState, {
-          mealType: testMealType,
+          updatedMealType: testMealType,
         });
       });
 
       after(() => {
-        getPresetPercentagesStub.reset();
+        getPercentagesAndAmountsStub.reset();
       });
 
-      it('should invoke getPresetPercentages with correct args', () => {
+      it('should invoke getPercentagesAndAmounts with correct args', () => {
         sinon.assert
-          .calledWith(getPresetPercentagesStub, englishBarfState, testMealType, age);
+          .calledWith(getPercentagesAndAmountsStub, englishBarfState, testMealType, lifestagePreset);
       });
 
       it('should update the age and PresetPercentages', () => {
         result.should.eql({
           ...englishBarfState,
-          isPuppy: false,
-          isAdult: true,
           mealType: testMealType,
           whatever: 'you want',
         });
       });
     });
-  }); // setAge
+  }); // setLifestagePreset
 }); // end main describe

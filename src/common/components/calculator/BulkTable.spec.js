@@ -33,6 +33,7 @@ describe('components/calculator/BulkTable', () => {
       },
       unitDetails: { a: 'detail' },
       numDays: 3,
+      essentialNutrients: {},
     };
 
     before(() => {
