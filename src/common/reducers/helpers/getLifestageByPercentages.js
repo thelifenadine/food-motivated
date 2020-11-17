@@ -1,5 +1,5 @@
 import some from 'lodash/some';
-import { percentageDefaults } from '../../constants/percentageDefaultOptions';
+import presetMealPercentages from '../../constants/presetMealPercentages';
 import { adult, puppy } from '../../constants/lifestage';
 
 /*
@@ -8,8 +8,8 @@ import { adult, puppy } from '../../constants/lifestage';
   TODO: write tests for this file
 */
 const getLifestageByPercentages = (mealType, bonePercentage, otherPercentages, ) => {
-  if (percentageDefaults[mealType][adult].bone === bonePercentage) {
-    const isAdultInvalid = some(percentageDefaults[mealType][adult].other, (value, key) => {
+  if (presetMealPercentages[mealType][adult].bone === bonePercentage) {
+    const isAdultInvalid = some(presetMealPercentages[mealType][adult].other, (value, key) => {
       return otherPercentages[key] !== value; // as soon as you find a mismatch return
     });
 
@@ -18,8 +18,8 @@ const getLifestageByPercentages = (mealType, bonePercentage, otherPercentages, )
     }
   }
 
-  if (percentageDefaults[mealType][puppy].bone === bonePercentage) {
-    const isPuppyInvalid = some(percentageDefaults[mealType][puppy].other, (value, key) => {
+  if (presetMealPercentages[mealType][puppy].bone === bonePercentage) {
+    const isPuppyInvalid = some(presetMealPercentages[mealType][puppy].other, (value, key) => {
       return otherPercentages[key] !== value; // as soon as you find a mismatch return
     });
 

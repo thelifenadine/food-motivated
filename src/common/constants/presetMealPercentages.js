@@ -1,5 +1,4 @@
-// TODO rename to presetMealPercentages
-export const percentageDefaults = {
+const presetMealPercentages = {
   barf: {
     adult: {
       muscle: 70,
@@ -83,3 +82,5 @@ export const percentageDefaults = {
     },
   },
 };
+
+export default presetMealPercentages;

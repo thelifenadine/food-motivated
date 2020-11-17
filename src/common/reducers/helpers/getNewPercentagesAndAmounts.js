@@ -1,7 +1,7 @@
 import getPresetPercentages from './getPresetPercentages';
 import getAmounts from '../../calculations/getAmounts';
 
-const getPercentagesAndAmounts = (state, mealType, lifestage) => {
+const getNewPercentagesAndAmounts = (state, mealType, lifestage) => {
   const { totalDailyAmount, rmbPercent } = state;
   const updatedPercentages = getPresetPercentages(mealType, lifestage);
 
@@ -11,4 +11,4 @@ const getPercentagesAndAmounts = (state, mealType, lifestage) => {
   };
 };
 
-export default getPercentagesAndAmounts;
+export default getNewPercentagesAndAmounts;

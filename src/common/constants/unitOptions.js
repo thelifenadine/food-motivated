@@ -8,14 +8,14 @@ export const unitData = {
     name: 'english',
     lg: 'lb',
     sm: 'oz',
-    perUnit: 16,
-    default1000kCal: 19,
+    perUnit: 16, // 16 oz per lb
+    per1000kCal: 19, // oz per 1000 kcal
   },
   metric: {
     name: 'metric',
     lg: 'kg',
     sm: 'g',
-    perUnit: 1000,
-    default1000kCal: 538,
+    perUnit: 1000, // 1000 g per kg
+    per1000kCal: 538, // g per 1000 kcal
   }
 };

@@ -1,7 +1,7 @@
-import { percentageDefaults } from '../../constants/percentageDefaultOptions';
+import presetMealPercentages from '../../constants/presetMealPercentages';
 
 export const getPresetPercentages = (mealType, lifestagePreset) => {
-  const { muscle, bone, other } = percentageDefaults[mealType][lifestagePreset];
+  const { muscle, bone, other } = presetMealPercentages[mealType][lifestagePreset];
 
   return {
     otherPercentages: other,

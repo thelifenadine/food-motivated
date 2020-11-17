@@ -13,7 +13,7 @@ import {
 import createMappedReducer from './utils/createMappedReducer';
 
 // constants
-import { percentageDefaults } from '../constants/percentageDefaultOptions';
+import presetMealPercentages from '../constants/presetMealPercentages';
 import { adult } from '../constants/lifestage';
 import { rmbLookup } from '../constants/rawMeatyBoneOptions';
 import { unitData } from '../constants/unitOptions';
@@ -27,7 +27,7 @@ import getEstimatedCalories from '../calculations/getEstimatedCalories';
 
 // reducer helpers
 import getLifestageByPercentages from './helpers/getLifestageByPercentages';
-import getPercentagesAndAmounts from './helpers/getPercentagesAndAmounts';
+import getNewPercentagesAndAmounts from './helpers/getNewPercentagesAndAmounts';
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // INITIAL STATE
@@ -38,11 +38,10 @@ export const getDefaultState = () => {
   const defaultUnit = unitData['english'];
   const defaultMealType = 'barf';
   const defaultLifestage = adult;
-  const { muscle, bone, other } = percentageDefaults[defaultMealType][defaultLifestage];
+  const { muscle, bone, other } = presetMealPercentages[defaultMealType][defaultLifestage];
 
   const totalDailyAmount = getTotalDailyAmount(defaultWeight, defaultMaintenance, defaultUnit.perUnit);
-  const defaultCalorieEstimate = getEstimatedCalories(defaultUnit.default1000kCal, totalDailyAmount);
-  const defaultNutrientAmounts = getEssentialNutrientAmounts(defaultCalorieEstimate, defaultLifestage);
+  const defaultEstimatedCalories = getEstimatedCalories(defaultUnit.per1000kCal, totalDailyAmount);
 
   return {
     unitDetails: defaultUnit,
@@ -57,8 +56,8 @@ export const getDefaultState = () => {
     musclePercentage: muscle,
     bonePercentage: bone,
     otherPercentages: other,
-    estimatedCalories: defaultCalorieEstimate,
-    essentialNutrients: defaultNutrientAmounts,
+    estimatedCalories: defaultEstimatedCalories,
+    essentialNutrients: getEssentialNutrientAmounts(defaultEstimatedCalories, defaultLifestage),
     ...getAmounts(totalDailyAmount, defaultRMB, { bonePercentage: bone, otherPercentages: other }),
   };
 };
@@ -90,7 +89,7 @@ export const updateOptions = (state, action) => {
 
   const updatedUnitDetails = unitData[unitName];
   const updatedDailyAmount = getTotalDailyAmount(weight, maintenance, updatedUnitDetails.perUnit);
-  const updatedEstimatedCalories = getEstimatedCalories(updatedUnitDetails.default1000kCal, updatedDailyAmount);
+  const updatedEstimatedCalories = getEstimatedCalories(updatedUnitDetails.per1000kCal, updatedDailyAmount);
 
   const updatedState = {
     ...state,
@@ -118,7 +117,7 @@ export const setLifestagePreset = (state, { updatedLifestage }) => {
     ...state,
     lifestagePreset: updatedLifestage,
     essentialNutrients: getEssentialNutrientAmounts(estimatedCalories, updatedLifestage),
-    ...getPercentagesAndAmounts(state, mealType, updatedLifestage),
+    ...getNewPercentagesAndAmounts(state, mealType, updatedLifestage),
   };
 
   saveState(updatedState);
@@ -132,7 +131,7 @@ export const setMealType = (state, { updatedMealType }) => {
   const updatedState = {
     ...state,
     mealType: updatedMealType,
-    ...getPercentagesAndAmounts(state, updatedMealType, lifestagePreset)
+    ...getNewPercentagesAndAmounts(state, updatedMealType, lifestagePreset)
   };
 
   saveState(updatedState);
