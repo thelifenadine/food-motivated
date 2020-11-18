@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import {
   FormControl, NativeSelect, InputLabel, FormLabel, InputAdornment, TextField, makeStyles,
 } from '@material-ui/core';
 
 import round from '../../calculations/round';
 import unitOptions from '../../constants/unitOptions';
-
 import { updateOptions } from '../../actions/calculator';
+import validateFloat from '../../utils/validateFloat';
+
 import Header2 from './Header2';
 import Section from './Section';
 
@@ -26,12 +29,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const BasicOptions = () => {
+const BasicOptions = ({
+  actions,
+  weight,
+  unitDetails,
+  maintenance,
+  totalDailyAmount,
+  estimatedCalories,
+}) => {
   const classes = useStyles();
-  const dispatch = useDispatch();
-  const settings = useSelector(state => state.calculator);
-  const { weight, unitDetails, maintenance, totalDailyAmount, estimatedCalories  } = settings;
-
   const [roundedDailyAmount, setRoundedDailyAmount] = useState(round(totalDailyAmount));
 
   useEffect(() => {
@@ -49,7 +55,7 @@ const BasicOptions = () => {
           tabIndex="1"
           name="unit"
           id="unit"
-          onChange={e => dispatch(updateOptions(weight, maintenance, e.target.value))}
+          onChange={e => actions.updateOptions(weight, maintenance, validateFloat(e.target.value))}
           value={unitDetails.name}
         >
           {unitOptions.map(option => (
@@ -65,7 +71,7 @@ const BasicOptions = () => {
         value={weight}
         type="number"
         onFocus={(event) => event.target.select()}
-        onChange={(e) => dispatch(updateOptions(e.target.value, maintenance, unitDetails.name))}
+        onChange={(e) => actions.updateOptions(validateFloat(e.target.value), maintenance, unitDetails.name)}
         InputProps={{
           endAdornment: (
             <InputAdornment position="end">{unitDetails.lg}</InputAdornment>
@@ -80,7 +86,7 @@ const BasicOptions = () => {
         value={maintenance}
         type="number"
         onFocus={(event) => event.target.select()}
-        onChange={e => dispatch(updateOptions(weight, e.target.value, unitDetails.name))}
+        onChange={e => actions.updateOptions(weight, validateFloat(e.target.value), unitDetails.name)}
         helperText="Start at 2.0-3.0%"
         inputProps={{
           min: 0,
@@ -125,4 +131,31 @@ const BasicOptions = () => {
   );
 };
 
-export default BasicOptions;
+BasicOptions.propTypes = {
+  actions: PropTypes.object.isRequired,
+  weight: PropTypes.number.isRequired,
+  unitDetails: PropTypes.object.isRequired,
+  maintenance: PropTypes.number.isRequired,
+  totalDailyAmount: PropTypes.number.isRequired,
+  estimatedCalories: PropTypes.number.isRequired,
+};
+
+export function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators({
+      updateOptions,
+    }, dispatch),
+  };
+}
+
+export function mapStateToProps({ calculator = {} }) {
+  return {
+    weight: calculator.weight,
+    unitDetails: calculator.unitDetails,
+    maintenance: calculator.maintenance,
+    totalDailyAmount: calculator.totalDailyAmount,
+    estimatedCalories: calculator.estimatedCalories,
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(BasicOptions);

@@ -1,6 +1,9 @@
 import map from 'lodash/map';
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
 import {
   FormControl, FormLabel, FormControlLabel, RadioGroup, Radio, Button,
   InputAdornment, TextField, makeStyles
@@ -12,6 +15,7 @@ import {
   setMealType,
 } from '../../actions/calculator';
 import { adult, puppy } from '../../constants/lifestage';
+import validateInteger from '../../utils/validateFloat';
 
 import Header2 from './Header2';
 import Section from './Section';
@@ -45,13 +49,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const PercentageOptions = () => {
+const PercentageOptions = ({
+  actions,
+  otherPercentages,
+  musclePercentage,
+  bonePercentage,
+  lifestagePreset,
+  mealType,
+}) => {
   const classes = useStyles();
-  const dispatch = useDispatch();
-  const {
-    otherPercentages, musclePercentage, bonePercentage, lifestagePreset, mealType,
-  } = useSelector(state => state.calculator);
-
   return (
     <Section>
       <Header2>Percentages</Header2>
@@ -60,7 +66,7 @@ const PercentageOptions = () => {
           <FormLabel component="legend" classes={{ root: classes.formLabel }}>Meal Type</FormLabel>
           <RadioGroup
             value={mealType} aria-label={mealType} name="mealType-radios"
-            onChange={(e) => dispatch(setMealType(e.target.value))}
+            onChange={(e) => actions.setMealType(e.target.value)}
             row
           >
             <FormControlLabel
@@ -100,7 +106,7 @@ const PercentageOptions = () => {
           size="small"
           color="secondary"
           variant={(lifestagePreset === adult) ? "contained" : "outlined"}
-          onClick={() => dispatch(setLifestagePreset(adult))}
+          onClick={() => actions.setLifestagePreset(adult)}
           tabIndex="8"
         >
           Adult
@@ -109,7 +115,7 @@ const PercentageOptions = () => {
           size="small"
           color="secondary"
           variant={(lifestagePreset === puppy) ? "contained" : "outlined"}
-          onClick={() => dispatch(setLifestagePreset(puppy))}
+          onClick={() => actions.setLifestagePreset(puppy)}
           tabIndex="9"
         >
           Puppy
@@ -135,7 +141,7 @@ const PercentageOptions = () => {
         label="Bone"
         value={bonePercentage}
         type="number"
-        onChange={e => dispatch(updateBonePercentage(e.target.value))}
+        onChange={e => actions.updateBonePercentage(validateInteger(e.target.value))}
         onFocus={(event) => event.target.select()}
         InputProps={{
           endAdornment: (
@@ -152,7 +158,7 @@ const PercentageOptions = () => {
           label={key}
           value={value}
           type="number"
-          onChange={e => dispatch(updateOtherPercentage(e.target.value, key))}
+          onChange={e => actions.updateOtherPercentage(validateInteger(e.target.value), key)}
           onFocus={(event) => event.target.select()}
           InputProps={{
             endAdornment: (
@@ -165,4 +171,34 @@ const PercentageOptions = () => {
   );
 };
 
-export default PercentageOptions;
+PercentageOptions.propTypes = {
+  actions: PropTypes.object.isRequired,
+  otherPercentages: PropTypes.object.isRequired,
+  musclePercentage: PropTypes.number.isRequired,
+  bonePercentage: PropTypes.number.isRequired,
+  mealType: PropTypes.string.isRequired,
+  lifestagePreset: PropTypes.string,
+};
+
+export function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators({
+      setMealType,
+      setLifestagePreset,
+      updateBonePercentage,
+      updateOtherPercentage,
+    }, dispatch),
+  };
+}
+
+export function mapStateToProps({ calculator = {} }) {
+  return {
+    otherPercentages: calculator.otherPercentages,
+    musclePercentage: calculator.musclePercentage,
+    bonePercentage: calculator.bonePercentage,
+    lifestagePreset: calculator.lifestagePreset,
+    mealType: calculator.mealType,
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(PercentageOptions);
