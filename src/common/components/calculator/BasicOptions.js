@@ -10,7 +10,6 @@ import unitOptions from '../../constants/unitOptions';
 import { updateOptions } from '../../actions/calculator';
 import Header2 from './Header2';
 import Section from './Section';
-import ValidatedTextField from '../form/ValidatedTextField';
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -26,17 +25,6 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: theme.spacing(1),
   },
 }));
-
-const onNumericInput = (e, setIsInvalid, handleOnChange) => {
-  const value = e.target.value;
-
-  const isInvalid = isNaN(value);
-  setIsInvalid(isInvalid);
-
-  if (!isInvalid) {
-    handleOnChange(value);
-  }
-};
 
 const BasicOptions = () => {
   const classes = useStyles();
@@ -58,9 +46,10 @@ const BasicOptions = () => {
       <FormControl className={classes.formControl}>
         <InputLabel htmlFor="unit">Unit</InputLabel>
         <NativeSelect
+          tabIndex="1"
           name="unit"
           id="unit"
-          onChange={e => dispatch(updateOptions(Number(weight), maintenance, e.target.value))}
+          onChange={e => dispatch(updateOptions(weight, maintenance, e.target.value))}
           value={unitDetails.name}
         >
           {unitOptions.map(option => (
@@ -68,23 +57,30 @@ const BasicOptions = () => {
           ))}
         </NativeSelect>
       </FormControl>
-      <ValidatedTextField
+      <TextField
+        tabIndex="2"
         className={classes.numericLarge}
         id="weight"
         label="Dog Weight"
         value={weight}
-        message="must be a number"
-        handleOnChange={(val) => dispatch(updateOptions(val, maintenance, unitDetails.name))}
-        onInput={onNumericInput}
-        inputAdornment={unitDetails.lg}
+        type="number"
+        onFocus={(event) => event.target.select()}
+        onChange={(e) => dispatch(updateOptions(e.target.value, maintenance, unitDetails.name))}
+        InputProps={{
+          endAdornment: (
+            <InputAdornment position="end">{unitDetails.lg}</InputAdornment>
+          ),
+        }}
       />
       <TextField
+        tabIndex="3"
         className={classes.numericLarge}
         id="maintenance"
         label="Maintenance"
         value={maintenance}
         type="number"
-        onChange={e => dispatch(updateOptions(weight, Number(e.target.value), unitDetails.name))}
+        onFocus={(event) => event.target.select()}
+        onChange={e => dispatch(updateOptions(weight, e.target.value, unitDetails.name))}
         helperText="Start at 2.0-3.0%"
         inputProps={{
           min: 0,
@@ -110,11 +106,14 @@ const BasicOptions = () => {
           ),
         }}
       />
-      <FormLabel component="legend" classes={{ root: classes.formLabel }}>Estimated Calories</FormLabel>
+      <FormLabel component="legend" classes={{ root: classes.formLabel }}>
+        Estimated Calories
+      </FormLabel>
       <TextField
         className={classes.numericLarge}
         id="amountPer1000kCal"
         value={round(estimatedCalories, 0)}
+        disabled
         helperText="Used to calculate essential nutrients"
         InputProps={{
           endAdornment: (

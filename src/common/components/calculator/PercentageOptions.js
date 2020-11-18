@@ -68,24 +68,28 @@ const PercentageOptions = () => {
               value="barf"
               control={<Radio size="small" classes={{ root: classes.radio }} />}
               classes={{ label: classes.radioLabel }}
+              tabIndex="4"
             />
             <FormControlLabel
               label="PMR"
               value="pmr"
               control={<Radio size="small" classes={{ root: classes.radio }} />}
               classes={{ label: classes.radioLabel }}
+              tabIndex="5"
             />
             <FormControlLabel
               label="Traditional BARF"
               value="barf-traditional"
               control={<Radio size="small" classes={{ root: classes.radio }} />}
               classes={{ label: classes.radioLabel }}
+              tabIndex="6"
             />
             <FormControlLabel
               label="Traditional PMR"
               value="pmr-traditional"
               control={<Radio size="small" classes={{ root: classes.radio }} />}
               classes={{ label: classes.radioLabel }}
+              tabIndex="7"
             />
           </RadioGroup>
         </FormControl>
@@ -97,6 +101,7 @@ const PercentageOptions = () => {
           color="secondary"
           variant={(lifestagePreset === adult) ? "contained" : "outlined"}
           onClick={() => dispatch(setLifestagePreset(adult))}
+          tabIndex="8"
         >
           Adult
         </Button>
@@ -105,6 +110,7 @@ const PercentageOptions = () => {
           color="secondary"
           variant={(lifestagePreset === puppy) ? "contained" : "outlined"}
           onClick={() => dispatch(setLifestagePreset(puppy))}
+          tabIndex="9"
         >
           Puppy
         </Button>
@@ -123,12 +129,14 @@ const PercentageOptions = () => {
         }}
       />
       <TextField
+        tabIndex="10"
         className={classes.numericSmall}
         id="bonePercentage"
         label="Bone"
         value={bonePercentage}
         type="number"
-        onChange={e => dispatch(updateBonePercentage(Number(e.target.value)))}
+        onChange={e => dispatch(updateBonePercentage(e.target.value))}
+        onFocus={(event) => event.target.select()}
         InputProps={{
           endAdornment: (
             <InputAdornment position="end">%</InputAdornment>
@@ -137,13 +145,15 @@ const PercentageOptions = () => {
       />
       {map(otherPercentages, (value, key) => (
         <TextField
+          tabIndex="11"
           className={classes.numericSmall}
           id={`${key}Percentage`}
           key={`${key}Percentage`}
           label={key}
           value={value}
           type="number"
-          onChange={e => dispatch(updateOtherPercentage(Number(e.target.value), key))}
+          onChange={e => dispatch(updateOtherPercentage(e.target.value, key))}
+          onFocus={(event) => event.target.select()}
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">%</InputAdornment>

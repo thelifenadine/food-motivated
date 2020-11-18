@@ -7,7 +7,6 @@ import { updateRMB, updateCustomRMB } from '../../actions/calculator';
 import rmbOptions from '../../constants/rawMeatyBoneOptions';
 import Header2 from './Header2';
 import Section from './Section';
-import ValidatedTextField from '../form/ValidatedTextField';
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -22,18 +21,6 @@ const useStyles = makeStyles((theme) => ({
     width: 135,
   },
 }));
-
-const onPercentInput = (e, setIsInvalid, handleOnChange) => {
-  // + to cast to a number
-  const value = +e.target.value;
-
-  const isInvalid = isNaN(value);
-  setIsInvalid(isInvalid);
-
-  if (!isInvalid && value <= 100) {
-    handleOnChange(value);
-  }
-};
 
 const RawMeatyBone = () => {
   const classes = useStyles();
@@ -51,6 +38,7 @@ const RawMeatyBone = () => {
       <FormControl className={classes.formControl}>
         <InputLabel htmlFor="boneType">RMB Type</InputLabel>
         <NativeSelect
+          tabIndex="20"
           name="boneType"
           id="boneType"
           onChange={onDropDownChange}
@@ -76,15 +64,20 @@ const RawMeatyBone = () => {
         />
       }
       {isCustomRmb &&
-        <ValidatedTextField
+        <TextField
           value={rmbPercent}
           className={classes.rmbCustom}
-          message="must be a number"
+          helperText="must be a number"
           id="customRMB"
           label="Enter RMB %"
-          handleOnChange={(val) => dispatch(updateCustomRMB(val))}
-          onInput={onPercentInput}
-          inputAdornment="%"
+          type="number"
+          onFocus={(event) => event.target.select()}
+          onChange={(e) => dispatch(updateCustomRMB(e.target.value))}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">%</InputAdornment>
+            ),
+          }}
         />
       }
     </Section>

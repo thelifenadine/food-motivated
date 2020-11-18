@@ -11,8 +11,8 @@ export const SET_LIFESTAGE_PRESET = 'SET_LIFESTAGE_PRESET';
 export function updateOptions(weight, maintenance, unitName) {
   return {
     type: UPDATE_OPTIONS,
-    weight: Number(weight),
-    maintenance: Number(maintenance),
+    weight: weight,
+    maintenance: maintenance,
     unitName,
   };
 }

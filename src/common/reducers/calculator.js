@@ -1,5 +1,3 @@
-import { saveState, loadState } from '../localStorage/calculatorState';
-
 import {
   UPDATE_OPTIONS,
   UPDATE_BONE_PERCENTAGE,
@@ -10,6 +8,8 @@ import {
   SET_MEAL_TYPE,
 } from '../actions/calculator';
 
+// utils
+import { saveState, loadState } from '../localStorage/calculatorState';
 import createMappedReducer from './utils/createMappedReducer';
 
 // constants
@@ -32,84 +32,117 @@ import getNewPercentagesAndAmounts from './helpers/getNewPercentagesAndAmounts';
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // INITIAL STATE
 export const getDefaultState = () => {
-  const defaultRMB = 44;
-  const defaultWeight = 50;
-  const defaultMaintenance = 2.5;
-  const defaultUnit = unitData['english'];
-  const defaultMealType = 'barf';
-  const defaultLifestage = adult;
-  const { muscle, bone, other } = presetMealPercentages[defaultMealType][defaultLifestage];
+  const rmbPercent = 44;
+  const weight = 50;
+  const maintenance = 2.5;
+  const unitDetails = unitData['english'];
+  const mealType = 'barf';
+  const lifestagePreset = adult;
+  const { muscle, bone, other } = presetMealPercentages[mealType][lifestagePreset];
 
-  const totalDailyAmount = getTotalDailyAmount(defaultWeight, defaultMaintenance, defaultUnit.perUnit);
-  const defaultEstimatedCalories = getEstimatedCalories(defaultUnit.per1000kCal, totalDailyAmount);
+  const totalDailyAmount = getTotalDailyAmount(weight, maintenance, unitDetails.perUnit);
+  const estimatedCalories = getEstimatedCalories(unitDetails.per1000kCal, totalDailyAmount);
 
   return {
-    unitDetails: defaultUnit,
-    mealType: defaultMealType,
-    lifestagePreset: defaultLifestage,
-    weight: defaultWeight,
-    maintenance: defaultMaintenance,
+    unitDetails,
+    mealType,
+    lifestagePreset,
+    weight,
+    maintenance,
     totalDailyAmount,
-    rmbPercent: defaultRMB,
+    rmbPercent,
     rmbKey: rmbLookup['chicken-back'],
     isCustomRmb: false,
     musclePercentage: muscle,
     bonePercentage: bone,
     otherPercentages: other,
-    estimatedCalories: defaultEstimatedCalories,
-    essentialNutrients: getEssentialNutrientAmounts(defaultEstimatedCalories, defaultLifestage),
-    ...getAmounts(totalDailyAmount, defaultRMB, { bonePercentage: bone, otherPercentages: other }),
+    estimatedCalories,
+    essentialNutrients: getEssentialNutrientAmounts(estimatedCalories, lifestagePreset),
+    ...getAmounts(totalDailyAmount, rmbPercent, { bonePercentage: bone, otherPercentages: other }),
   };
 };
 
 const getInitialState = () => loadState() || getDefaultState();
 
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-// BasicOptions
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  BasicOptions
 
-/*  effects
-unitDetails: (english vs metric)
-  --> totalDailyAmount, estimatedCalories
+  The BasicOptions component allows the user to modify:
+    - units (metric vs english)
+    - dog weight
+    - maintenance percentage (activity level of the dog) typically 2.0 - 3.0
+
+  These three properties allow us to calculate the total daily amount of food to feed.
+  This is thenused to calculate the estimated calories, the amount of each essenential nutrient,
+  and the break of each portion (bone, muscle meat, organ, veggies, etc)
+
+
+  unitDetails: (english or metric)
+    --> totalDailyAmount, estimatedCalories
+      totalDailyAmount --> getAmounts, estimatedCalories
+                                          (--> essentialNutrients)
+  weight (number)
+    --> totalDailyAmount
     totalDailyAmount --> getAmounts, estimatedCalories
-                                        (--> essentialNutrients)
-weight
-  --> totalDailyAmount
-  totalDailyAmount --> getAmounts, estimatedCalories
-                                    (--> essentialNutrients)
+                                      (--> essentialNutrients)
 
-maintenance
-  --> totalDailyAmount
-  totalDailyAmount --> getAmounts, estimatedCalories
-                                    (--> essentialNutrients)
+  maintenance (number)
+    --> totalDailyAmount
+    totalDailyAmount --> getAmounts, estimatedCalories
+                                      (--> essentialNutrients)
 
 */
 export const updateOptions = (state, action) => {
   const { otherPercentages, bonePercentage, rmbPercent, lifestagePreset } = state;
   const { weight, maintenance, unitName } = action;
 
-  const updatedUnitDetails = unitData[unitName];
-  const updatedDailyAmount = getTotalDailyAmount(weight, maintenance, updatedUnitDetails.perUnit);
-  const updatedEstimatedCalories = getEstimatedCalories(updatedUnitDetails.per1000kCal, updatedDailyAmount);
+  const newUnitDetails = unitData[unitName];
+  const newDailyAmount = getTotalDailyAmount(weight, maintenance, newUnitDetails.perUnit);
+  const newEstimatedCalories = getEstimatedCalories(newUnitDetails.per1000kCal, newDailyAmount);
 
   const updatedState = {
     ...state,
     weight,
     maintenance,
-    unitDetails: updatedUnitDetails,
-    totalDailyAmount: updatedDailyAmount,
-    estimatedCalories: updatedEstimatedCalories,
-    essentialNutrients: getEssentialNutrientAmounts(updatedEstimatedCalories, lifestagePreset),
-    ...getAmounts(updatedDailyAmount, rmbPercent, { bonePercentage, otherPercentages }),
+    unitDetails: newUnitDetails,
+    totalDailyAmount: newDailyAmount,
+    estimatedCalories: newEstimatedCalories,
+    essentialNutrients: getEssentialNutrientAmounts(newEstimatedCalories, lifestagePreset),
+    ...getAmounts(newDailyAmount, rmbPercent, { bonePercentage, otherPercentages }),
   };
 
   saveState(updatedState);
   return updatedState;
 };
 
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-// PercentageOptions
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  PercentageOptions
 
-// updatedLifestage updates the percentages, amounts, and essential nutrients
+  The PercentageOptions component allows the user to modify:
+  - mealType (barf, pmr, etc)
+  - lifestagePreset (puppy vs adult)
+  - the individual percentages for each mealType
+
+  mealType (barf, pmr, etc)
+  -  this resets the percentages for that mealtype and the existing lifestage
+
+  lifestagePreset (adult, puppy)
+  - this resets the percentages for that lifestage and the existing mealtype
+  - the essential nutrients also are updated because there are different amounts for puppy vs adult
+
+  bonePercentage
+  - when increased or decreased, the musclePercentage changes to rebalance
+  - the lifestagePreset is also evaluated here to see if it matches adult, puppy, or none
+
+  otherPercentage
+  - when increased or decreased, the musclePercentage changes to rebalance
+  - the lifestagePreset is also evaluated here to see if it matches adult, puppy, or none
+
+  for every property change:
+    - The amounts (in weight) of each portion are recalculated based on the new percentages
+
+*/
+// updatedLifestage updates the lifestage, percentages, amounts, and essential nutrients
 export const setLifestagePreset = (state, { updatedLifestage }) => {
   const { mealType, estimatedCalories } = state;
 
@@ -124,7 +157,7 @@ export const setLifestagePreset = (state, { updatedLifestage }) => {
   return updatedState;
 };
 
-// setMealType updates the percentages, and amounts
+// setMealType updates the mealType, percentages, and amounts
 export const setMealType = (state, { updatedMealType }) => {
   const { lifestagePreset } = state;
 
@@ -141,19 +174,21 @@ export const setMealType = (state, { updatedMealType }) => {
 export const updateOtherPercentages = (state, { updatedProperty, updatedValue }) => {
   const { totalDailyAmount, otherPercentages, bonePercentage, rmbPercent, mealType } = state;
 
-  const updatedOtherPercentages = {
+  const newOtherPercentages = {
     ...otherPercentages,
     [updatedProperty]: updatedValue,
   };
 
-  const updatedMusclePercentage = getMusclePercentage(bonePercentage, updatedOtherPercentages);
+  const updatedMusclePercentage = getMusclePercentage(bonePercentage, newOtherPercentages);
 
   const updatedState = {
     ...state,
-    otherPercentages: updatedOtherPercentages,
+    otherPercentages: newOtherPercentages,
     musclePercentage: updatedMusclePercentage,
-    lifestagePreset: getLifestageByPercentages(mealType, bonePercentage, updatedOtherPercentages),
-    ...getAmounts(totalDailyAmount, rmbPercent, { bonePercentage, otherPercentages: updatedOtherPercentages }),
+    lifestagePreset: getLifestageByPercentages(mealType, bonePercentage, newOtherPercentages),
+    ...getAmounts(
+      totalDailyAmount, rmbPercent, { bonePercentage, otherPercentages: newOtherPercentages },
+    ),
   };
 
   saveState(updatedState);
@@ -170,15 +205,29 @@ export const updateBonePercentage = (state, action) => {
     bonePercentage: updatedBonePercentage,
     musclePercentage: updatedMusclePercentage,
     lifestagePreset: getLifestageByPercentages(mealType, updatedBonePercentage, otherPercentages),
-    ...getAmounts(totalDailyAmount, rmbPercent, { bonePercentage: updatedBonePercentage, otherPercentages }),
+    ...getAmounts(
+      totalDailyAmount, rmbPercent, { bonePercentage: updatedBonePercentage, otherPercentages },
+    ),
   };
 
   saveState(updatedState);
   return updatedState;
 };
 
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-// RawMeatyBone
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  RawMeatyBone
+
+  The RawMeatyBone component allows the user to modify:
+  - rmbKey
+    - if a string - corresponds with a number which updates the rmbPercent value
+      - the rmbPercent is updated based on the rmbLookup table
+      - isCustomRmb is set to true
+    - if the key = "custom", then isCustomRmb is set to false and the form allows
+      - the rmbPercent numeric value to be manually entered
+
+  - the rmbPercent affects the portions of muscle & bone amounts,
+    so the amounts must be recalculated
+*/
 export const updateRMB = (state, action) => {
   const { totalDailyAmount, bonePercentage, otherPercentages } = state;
   const { rmbKey, isCustomRmb } = action;

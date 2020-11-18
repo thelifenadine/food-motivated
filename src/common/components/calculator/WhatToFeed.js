@@ -49,7 +49,7 @@ const WhatToFeed = () => {
               label="How long"
               value={numDays}
               type="number"
-              onChange={e => setNumDays(Number(e.target.value))}
+              onChange={e => setNumDays(e.target.value)}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">days</InputAdornment>
@@ -76,7 +76,7 @@ const WhatToFeed = () => {
             otherAmounts={otherAmounts}
             unitDetails={unitDetails}
             essentialNutrients={essentialNutrients}
-            numDays={numDays}
+            numDays={+numDays}
           />
         }
       </div>
