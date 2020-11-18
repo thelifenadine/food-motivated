@@ -17,7 +17,7 @@ const WhatToFeed = () => {
   const classes = useStyles();
   const {
     totalDailyAmount, unitDetails, boneAmount, muscleAmount, otherAmounts,
-    rmbPercent, essentialNutrients
+    rmbPercent, essentialNutrients, lastSavedLifestage,
   } = useSelector(({ calculator }) => ({
     totalDailyAmount: calculator.totalDailyAmount,
     unitDetails: calculator.unitDetails,
@@ -26,6 +26,7 @@ const WhatToFeed = () => {
     otherAmounts: calculator.otherAmounts,
     rmbPercent: calculator.rmbPercent,
     essentialNutrients: calculator.essentialNutrients,
+    lastSavedLifestage: calculator.lastSavedLifestage,
   }), shallowEqual);
 
 
@@ -46,6 +47,7 @@ const WhatToFeed = () => {
         otherAmounts={otherAmounts}
         unitDetails={unitDetails}
         essentialNutrients={essentialNutrients}
+        lastSavedLifestage={lastSavedLifestage}
         title="What to feed each day"
       />
       <div className={classes.bulkTable}>
@@ -85,6 +87,7 @@ const WhatToFeed = () => {
             otherAmounts={otherAmounts}
             unitDetails={unitDetails}
             essentialNutrients={essentialNutrients}
+            lastSavedLifestage={lastSavedLifestage}
             numDays={+numDays}
           />
         }

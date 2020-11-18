@@ -24,6 +24,8 @@ describe('reducers/calculator', () => {
     weight: 68,
     maintenance: 3.0,
     totalDailyAmount: 32.6,
+    lifestagePreset: 'adult',
+    lastSavedLifestage: 'adult',
     rmbPercent: 44,
     musclePercentage: 70,
     bonePercentage: 10,
@@ -86,6 +88,7 @@ describe('reducers/calculator', () => {
         unitDetails: unitData['english'],
         mealType: 'barf',
         lifestagePreset: 'adult',
+        lastSavedLifestage: 'adult',
         weight: 50,
         maintenance: 2.5,
         totalDailyAmount: 21,
@@ -219,6 +222,7 @@ describe('reducers/calculator', () => {
         boneAmount: 9,
         otherAmounts: { liver: 1.3, organ: 1.3, veggie: 2.9, fruit: 0.9, seed: 0.8 },
         lifestagePreset: undefined,
+        lastSavedLifestage: 'adult',
       });
     });
 
@@ -279,6 +283,7 @@ describe('reducers/calculator', () => {
         boneAmount: 6,
         otherAmounts: { liver: 2.0, organ: 2.1, veggie: 3.0, fruit: 5.9, seed: 9 },
         lifestagePreset: 'puppy',
+        lastSavedLifestage: 'puppy',
       });
     });
 
@@ -368,6 +373,7 @@ describe('reducers/calculator', () => {
         result.should.eql({
           ...sampleState,
           lifestagePreset: 'adult',
+          lastSavedLifestage: 'adult',
           whatever: 'it does',
           essentialNutrients: [{ name: 'ALA', amount: 125, unit: 'mg' }],
         });
@@ -396,6 +402,7 @@ describe('reducers/calculator', () => {
         result.should.eql({
           ...sampleState,
           lifestagePreset: 'puppy',
+          lastSavedLifestage: 'puppy',
           whatever: 'it does not',
           essentialNutrients: [{ name: 'Manganese', amount: 3, unit: 'mg' }],
         });

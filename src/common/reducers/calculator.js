@@ -47,6 +47,7 @@ export const getDefaultState = () => {
     unitDetails,
     mealType,
     lifestagePreset,
+    lastSavedLifestage: lifestagePreset,
     weight,
     maintenance,
     totalDailyAmount,
@@ -93,7 +94,7 @@ const getInitialState = () => loadState() || getDefaultState();
 
 */
 export const updateOptions = (state, action) => {
-  const { otherPercentages, bonePercentage, rmbPercent, lifestagePreset } = state;
+  const { otherPercentages, bonePercentage, rmbPercent, lastSavedLifestage } = state;
   const { weight, maintenance, unitName } = action;
 
   const newUnitDetails = unitData[unitName];
@@ -107,7 +108,7 @@ export const updateOptions = (state, action) => {
     unitDetails: newUnitDetails,
     totalDailyAmount: newDailyAmount,
     estimatedCalories: newEstimatedCalories,
-    essentialNutrients: getEssentialNutrientAmounts(newEstimatedCalories, lifestagePreset),
+    essentialNutrients: getEssentialNutrientAmounts(newEstimatedCalories, lastSavedLifestage),
     ...getAmounts(newDailyAmount, rmbPercent, { bonePercentage, otherPercentages }),
   };
 
@@ -149,6 +150,7 @@ export const setLifestagePreset = (state, { updatedLifestage }) => {
   const updatedState = {
     ...state,
     lifestagePreset: updatedLifestage,
+    lastSavedLifestage: updatedLifestage,
     essentialNutrients: getEssentialNutrientAmounts(estimatedCalories, updatedLifestage),
     ...getNewPercentagesAndAmounts(state, mealType, updatedLifestage),
   };
@@ -159,12 +161,10 @@ export const setLifestagePreset = (state, { updatedLifestage }) => {
 
 // setMealType updates the mealType, percentages, and amounts
 export const setMealType = (state, { updatedMealType }) => {
-  const { lifestagePreset } = state;
-
   const updatedState = {
     ...state,
     mealType: updatedMealType,
-    ...getNewPercentagesAndAmounts(state, updatedMealType, lifestagePreset)
+    ...getNewPercentagesAndAmounts(state, updatedMealType, state.lastSavedLifestage)
   };
 
   saveState(updatedState);
@@ -172,7 +172,7 @@ export const setMealType = (state, { updatedMealType }) => {
 };
 
 export const updateOtherPercentages = (state, { updatedProperty, updatedValue }) => {
-  const { totalDailyAmount, otherPercentages, bonePercentage, rmbPercent, mealType } = state;
+  const { totalDailyAmount, otherPercentages, bonePercentage, rmbPercent, mealType, lastSavedLifestage } = state;
 
   const newOtherPercentages = {
     ...otherPercentages,
@@ -180,12 +180,14 @@ export const updateOtherPercentages = (state, { updatedProperty, updatedValue })
   };
 
   const updatedMusclePercentage = getMusclePercentage(bonePercentage, newOtherPercentages);
+  const lifestagePreset = getLifestageByPercentages(mealType, bonePercentage, newOtherPercentages);
 
   const updatedState = {
     ...state,
     otherPercentages: newOtherPercentages,
     musclePercentage: updatedMusclePercentage,
-    lifestagePreset: getLifestageByPercentages(mealType, bonePercentage, newOtherPercentages),
+    lifestagePreset, // can be set to undefined
+    lastSavedLifestage: lifestagePreset || lastSavedLifestage, // cannot be set to undefined, hence the saved version
     ...getAmounts(
       totalDailyAmount, rmbPercent, { bonePercentage, otherPercentages: newOtherPercentages },
     ),
@@ -196,15 +198,17 @@ export const updateOtherPercentages = (state, { updatedProperty, updatedValue })
 };
 
 export const updateBonePercentage = (state, action) => {
-  const { totalDailyAmount, otherPercentages, rmbPercent, mealType } = state;
+  const { totalDailyAmount, otherPercentages, rmbPercent, mealType, lastSavedLifestage } = state;
   const { updatedBonePercentage } = action;
   const updatedMusclePercentage = getMusclePercentage(updatedBonePercentage, otherPercentages);
+  const lifestagePreset = getLifestageByPercentages(mealType, updatedBonePercentage, otherPercentages);
 
   const updatedState = {
     ...state,
     bonePercentage: updatedBonePercentage,
     musclePercentage: updatedMusclePercentage,
-    lifestagePreset: getLifestageByPercentages(mealType, updatedBonePercentage, otherPercentages),
+    lifestagePreset, // can be undefined
+    lastSavedLifestage: lifestagePreset || lastSavedLifestage, // cannot be undefined
     ...getAmounts(
       totalDailyAmount, rmbPercent, { bonePercentage: updatedBonePercentage, otherPercentages },
     ),

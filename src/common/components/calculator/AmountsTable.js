@@ -43,6 +43,7 @@ const AmountsTable = ({
   otherAmounts,
   unitDetails,
   essentialNutrients,
+  lastSavedLifestage,
   title,
 }) => {
   const classes = useStyles();
@@ -72,7 +73,7 @@ const AmountsTable = ({
             </TableRow>
           ))}
           <TableRow>
-            <TableCell className={classes.firstRow}>Essential Nutrients</TableCell>
+            <TableCell className={classes.firstRow}>{`Essential Nutrients (${lastSavedLifestage})`}</TableCell>
             <TableCell className={classes.firstRow} align="right">Recommended Amounts</TableCell>
           </TableRow>
           {map(essentialNutrients, (nutrientInfo, key) => (
@@ -95,6 +96,7 @@ AmountsTable.propTypes = {
   otherAmounts: PropTypes.object.isRequired,
   unitDetails: PropTypes.object.isRequired,
   title: PropTypes.string.isRequired,
+  lastSavedLifestage: PropTypes.string.isRequired,
   essentialNutrients: PropTypes.object.isRequired,
 };
 
