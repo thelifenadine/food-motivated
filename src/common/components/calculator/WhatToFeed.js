@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { useSelector, shallowEqual } from 'react-redux';
 import { Button, TextField, InputAdornment, makeStyles } from '@material-ui/core';
 import Header2 from './Header2';
 import AmountsTable from './AmountsTable';
@@ -14,16 +13,22 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const WhatToFeed = ({
-  totalDailyAmount,
-  unitDetails,
-  boneAmount,
-  muscleAmount,
-  otherAmounts,
-  rmbPercent,
-  essentialNutrients,
-}) => {
+const WhatToFeed = () => {
   const classes = useStyles();
+  const {
+    totalDailyAmount, unitDetails, boneAmount, muscleAmount, otherAmounts,
+    rmbPercent, essentialNutrients
+  } = useSelector(({ calculator }) => ({
+    totalDailyAmount: calculator.totalDailyAmount,
+    unitDetails: calculator.unitDetails,
+    boneAmount: calculator.boneAmount,
+    muscleAmount: calculator.muscleAmount,
+    otherAmounts: calculator.otherAmounts,
+    rmbPercent: calculator.rmbPercent,
+    essentialNutrients: calculator.essentialNutrients,
+  }), shallowEqual);
+
+
   const [shouldShowBulkTable, setShowBulkTable] = useState(false);
   const [numDays, setNumDays] = useState(7);
 
@@ -88,26 +93,4 @@ const WhatToFeed = ({
   );
 };
 
-WhatToFeed.propTypes = {
-  totalDailyAmount: PropTypes.number.isRequired,
-  unitDetails: PropTypes.object.isRequired,
-  boneAmount: PropTypes.number.isRequired,
-  muscleAmount: PropTypes.number.isRequired,
-  otherAmounts: PropTypes.object.isRequired,
-  rmbPercent: PropTypes.number.isRequired,
-  essentialNutrients: PropTypes.object.isRequired,
-};
-
-export function mapStateToProps({ calculator = {} }) {
-  return {
-    totalDailyAmount: calculator.totalDailyAmount,
-    unitDetails: calculator.unitDetails,
-    boneAmount: calculator.boneAmount,
-    muscleAmount: calculator.muscleAmount,
-    otherAmounts: calculator.otherAmounts,
-    rmbPercent: calculator.rmbPercent,
-    essentialNutrients: calculator.essentialNutrients,
-  };
-}
-
-export default connect(mapStateToProps)(WhatToFeed);
+export default WhatToFeed;

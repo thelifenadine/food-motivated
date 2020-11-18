@@ -1,7 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import {
   FormControl, NativeSelect, InputLabel, InputAdornment, TextField, makeStyles,
 } from '@material-ui/core';
@@ -26,17 +24,21 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const RawMeatyBone = ({
-  actions,
-  rmbPercent,
-  rmbKey,
-  isCustomRmb,
-}) => {
+const RawMeatyBone = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
+
+  const {
+    rmbPercent, rmbKey, isCustomRmb,
+  } = useSelector(({ calculator }) => ({
+    rmbPercent: calculator.rmbPercent,
+    rmbKey: calculator.rmbKey,
+    isCustomRmb: calculator.isCustomRmb,
+  }), shallowEqual);
 
   const onDropDownChange = (e) => {
     const dropdownValue = e.target.value;
-    actions.updateRMB(dropdownValue, dropdownValue === 'custom');
+    dispatch(updateRMB(dropdownValue, dropdownValue === 'custom'));
   };
 
   return (
@@ -79,7 +81,7 @@ const RawMeatyBone = ({
           label="Enter RMB %"
           type="number"
           onFocus={(event) => event.target.select()}
-          onChange={(e) => actions.updateCustomRMB(validateInteger(e.target.value))}
+          onChange={(e) => dispatch(updateCustomRMB(validateInteger(e.target.value)))}
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">%</InputAdornment>
@@ -91,28 +93,4 @@ const RawMeatyBone = ({
   );
 };
 
-RawMeatyBone.propTypes = {
-  actions: PropTypes.object.isRequired,
-  rmbPercent: PropTypes.number.isRequired,
-  rmbKey: PropTypes.string.isRequired,
-  isCustomRmb: PropTypes.bool.isRequired,
-};
-
-export function mapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators({
-      updateRMB,
-      updateCustomRMB,
-    }, dispatch),
-  };
-}
-
-export function mapStateToProps({ calculator = {} }) {
-  return {
-    rmbPercent: calculator.rmbPercent,
-    rmbKey: calculator.rmbKey,
-    isCustomRmb: calculator.isCustomRmb,
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(RawMeatyBone);
+export default RawMeatyBone;

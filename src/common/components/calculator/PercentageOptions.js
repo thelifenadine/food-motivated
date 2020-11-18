@@ -1,9 +1,6 @@
 import map from 'lodash/map';
 import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-
+import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import {
   FormControl, FormLabel, FormControlLabel, RadioGroup, Radio, Button,
   InputAdornment, TextField, makeStyles
@@ -15,7 +12,6 @@ import {
   setMealType,
 } from '../../actions/calculator';
 import { adult, puppy } from '../../constants/lifestage';
-import validateInteger from '../../utils/validateFloat';
 
 import Header2 from './Header2';
 import Section from './Section';
@@ -49,15 +45,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const PercentageOptions = ({
-  actions,
-  otherPercentages,
-  musclePercentage,
-  bonePercentage,
-  lifestagePreset,
-  mealType,
-}) => {
+const PercentageOptions = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
+
+  const {
+    otherPercentages, musclePercentage, bonePercentage, lifestagePreset, mealType,
+  } = useSelector(({ calculator }) => ({
+    otherPercentages: calculator.otherPercentages,
+    musclePercentage: calculator.musclePercentage,
+    bonePercentage: calculator.bonePercentage,
+    lifestagePreset: calculator.lifestagePreset,
+    mealType: calculator.mealType,
+  }), shallowEqual);
+
   return (
     <Section>
       <Header2>Percentages</Header2>
@@ -66,7 +67,7 @@ const PercentageOptions = ({
           <FormLabel component="legend" classes={{ root: classes.formLabel }}>Meal Type</FormLabel>
           <RadioGroup
             value={mealType} aria-label={mealType} name="mealType-radios"
-            onChange={(e) => actions.setMealType(e.target.value)}
+            onChange={(e) => dispatch(setMealType(e.target.value))}
             row
           >
             <FormControlLabel
@@ -106,7 +107,7 @@ const PercentageOptions = ({
           size="small"
           color="secondary"
           variant={(lifestagePreset === adult) ? "contained" : "outlined"}
-          onClick={() => actions.setLifestagePreset(adult)}
+          onClick={() => dispatch(setLifestagePreset(adult))}
           tabIndex="8"
         >
           Adult
@@ -115,8 +116,8 @@ const PercentageOptions = ({
           size="small"
           color="secondary"
           variant={(lifestagePreset === puppy) ? "contained" : "outlined"}
-          onClick={() => actions.setLifestagePreset(puppy)}
-          tabIndex="9"
+          onClick={() => dispatch(setLifestagePreset(puppy))}
+          tabIndex="4"
         >
           Puppy
         </Button>
@@ -135,14 +136,12 @@ const PercentageOptions = ({
         }}
       />
       <TextField
-        tabIndex="10"
         className={classes.numericSmall}
         id="bonePercentage"
         label="Bone"
         value={bonePercentage}
         type="number"
-        onChange={e => actions.updateBonePercentage(validateInteger(e.target.value))}
-        onFocus={(event) => event.target.select()}
+        onChange={e => dispatch(updateBonePercentage(Number(e.target.value)))}
         InputProps={{
           endAdornment: (
             <InputAdornment position="end">%</InputAdornment>
@@ -151,14 +150,13 @@ const PercentageOptions = ({
       />
       {map(otherPercentages, (value, key) => (
         <TextField
-          tabIndex="11"
           className={classes.numericSmall}
           id={`${key}Percentage`}
           key={`${key}Percentage`}
           label={key}
           value={value}
           type="number"
-          onChange={e => actions.updateOtherPercentage(validateInteger(e.target.value), key)}
+          onChange={e => dispatch(updateOtherPercentage(Number(e.target.value), key))}
           onFocus={(event) => event.target.select()}
           InputProps={{
             endAdornment: (
@@ -171,34 +169,4 @@ const PercentageOptions = ({
   );
 };
 
-PercentageOptions.propTypes = {
-  actions: PropTypes.object.isRequired,
-  otherPercentages: PropTypes.object.isRequired,
-  musclePercentage: PropTypes.number.isRequired,
-  bonePercentage: PropTypes.number.isRequired,
-  mealType: PropTypes.string.isRequired,
-  lifestagePreset: PropTypes.string,
-};
-
-export function mapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators({
-      setMealType,
-      setLifestagePreset,
-      updateBonePercentage,
-      updateOtherPercentage,
-    }, dispatch),
-  };
-}
-
-export function mapStateToProps({ calculator = {} }) {
-  return {
-    otherPercentages: calculator.otherPercentages,
-    musclePercentage: calculator.musclePercentage,
-    bonePercentage: calculator.bonePercentage,
-    lifestagePreset: calculator.lifestagePreset,
-    mealType: calculator.mealType,
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(PercentageOptions);
+export default PercentageOptions;
