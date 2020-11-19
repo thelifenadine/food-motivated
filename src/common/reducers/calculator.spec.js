@@ -15,7 +15,7 @@ describe('reducers/calculator', () => {
   const getMusclePercentageStub = sinon.stub();
   const getLifestageByPercentagesStub = sinon.stub();
   const getNewPercentagesAndAmtsStub = sinon.stub();
-  const getEssentialNutrientAmtsStub = sinon.stub();
+  const getEssentialNutrientsStub = sinon.stub();
   const getEstimatedCaloriesStub = sinon.stub();
 
   const sampleState = {
@@ -34,8 +34,8 @@ describe('reducers/calculator', () => {
     boneAmount: 7.4,
     otherAmounts: { fruit: 0.3, liver: 1.6, organ: 1.6, seed: 0.7, veggie: 2.9 },
     essentialNutrients: [
-      { name: 'ALA', amount: 110, unit: 'mg' },
-      { name: 'Manganese', amount: 2, unit: 'mg' },
+      { name: 'ALA', adult: 110, puppy: 115, unit: 'mg' },
+      { name: 'Manganese', adult: 2, puppy: 2, unit: 'mg' },
     ],
   };
 
@@ -48,7 +48,7 @@ describe('reducers/calculator', () => {
       '../calculations/getTotalDailyAmount': getTotalDailyAmountStub,
       '../calculations/getAmounts': getAmountsStub,
       '../calculations/getEstimatedCalories': getEstimatedCaloriesStub,
-      '../calculations/getEssentialNutrientAmounts': getEssentialNutrientAmtsStub,
+      '../calculations/getEssentialNutrients': getEssentialNutrientsStub,
       '../calculations/getMuscleAmount': {
         getMusclePercentage: getMusclePercentageStub,
       },
@@ -64,9 +64,9 @@ describe('reducers/calculator', () => {
     before(() => {
       getTotalDailyAmountStub.returns(21);
       getEstimatedCaloriesStub.returns(1290);
-      getEssentialNutrientAmtsStub.returns([
-        { name: 'rando', amount: 11, unit: 'mcg' },
-        { name: 'v. important nutrient', amount: 1001, unit: 'mg' },
+      getEssentialNutrientsStub.returns([
+        { name: 'rando', adult: 11, unit: 'mcg' },
+        { name: 'v. important nutrient', adult: 1001, unit: 'mg' },
       ]);
       getAmountsStub.returns({
         muscleAmount: 60,
@@ -79,7 +79,7 @@ describe('reducers/calculator', () => {
     after(() => {
       getTotalDailyAmountStub.reset();
       getEstimatedCaloriesStub.reset();
-      getEssentialNutrientAmtsStub.reset();
+      getEssentialNutrientsStub.reset();
       getAmountsStub.reset();
     });
 
@@ -100,8 +100,8 @@ describe('reducers/calculator', () => {
         otherPercentages: other,
         estimatedCalories: 1290,
         essentialNutrients: [
-          { name: 'rando', amount: 11, unit: 'mcg' },
-          { name: 'v. important nutrient', amount: 1001, unit: 'mg' },
+          { name: 'rando', adult: 11, unit: 'mcg' },
+          { name: 'v. important nutrient', adult: 1001, unit: 'mg' },
         ],
         muscleAmount: 60,
         boneAmount: 20,
@@ -118,8 +118,8 @@ describe('reducers/calculator', () => {
         sinon.assert.calledWith(getEstimatedCaloriesStub, 19, 21);
       });
 
-      it('should invoke getEssentialNutrientAmounts with estimatedCalories, lifestage', () => {
-        sinon.assert.calledWith(getEssentialNutrientAmtsStub, 1290, 'adult');
+      it('should invoke getEssentialNutrientAmounts with estimatedCalories', () => {
+        sinon.assert.calledWith(getEssentialNutrientsStub, 1290);
       });
 
       it('should invoke getAmounts with totalDailyAmount, rmbPercent, percentages', () => {
@@ -136,9 +136,9 @@ describe('reducers/calculator', () => {
     const { bonePercentage, rmbPercent, otherPercentages } = sampleState;
 
     before(() => {
-      getEssentialNutrientAmtsStub.returns([
-        { name: 'ALA', amount: 190, unit: 'mg' },
-        { name: 'Manganese', amount: 4, unit: 'mg' },
+      getEssentialNutrientsStub.returns([
+        { name: 'ALA', puppy: 190, unit: 'mg' },
+        { name: 'Manganese', puppy: 4, unit: 'mg' },
       ]);
       getEstimatedCaloriesStub.returns(1700);
       getTotalDailyAmountStub.returns(2040);
@@ -155,7 +155,7 @@ describe('reducers/calculator', () => {
     });
 
     after(() => {
-      getEssentialNutrientAmtsStub.reset();
+      getEssentialNutrientsStub.reset();
       getTotalDailyAmountStub.reset();
       getAmountsStub.reset();
     });
@@ -172,13 +172,22 @@ describe('reducers/calculator', () => {
         boneAmount: 7,
         otherAmounts: { liver: 1.1, organ: 1.1, veggie: 3.0, fruit: 1.1, seed: 1.4 },
         essentialNutrients: [
-          { name: 'ALA', amount: 190, unit: 'mg' },
-          { name: 'Manganese', amount: 4, unit: 'mg' },
+          { name: 'ALA', puppy: 190, unit: 'mg' },
+          { name: 'Manganese', puppy: 4, unit: 'mg' },
         ],
       });
     });
 
     describe('should invoke the following functions', () => {
+      it('should invoke getEstimatedCalories with per1000kCal, totalDailyAmount', () => {
+        sinon.assert.calledWith(getEstimatedCaloriesStub, 538, 2040);
+      });
+
+      it('should invoke getEssentialNutrientAmounts with estimatedCalories', () => {
+        sinon.assert.calledWith(getEssentialNutrientsStub, 1700);
+      });
+
+
       it('should invoke getTotalDailyAmount with weight, main, perUnit', () => {
         sinon.assert.calledWith(getTotalDailyAmountStub, 51, 2.7, 1000);
       });
@@ -305,7 +314,7 @@ describe('reducers/calculator', () => {
         });
       });
 
-      it('should invoke getLifestageByPercentages with mealtype, bonePercentage, otherPerc', () => {
+      it('should invoke getLifestageByPercentages with mealtype, bonePerc, otherPerc', () => {
         sinon.assert.calledWith(getLifestageByPercentagesStub, mealType, bonePercentage, {
           ...otherPercentages,
           liver: 10,
@@ -356,7 +365,6 @@ describe('reducers/calculator', () => {
       const { mealType } = sampleState;
 
       before(() => {
-        getEssentialNutrientAmtsStub.returns([{ name: 'ALA', amount: 125, unit: 'mg' }]);
         getNewPercentagesAndAmtsStub.returns({ whatever: 'it does' });
         result = file.setLifestagePreset(sampleState, { updatedLifestage: 'adult' });
       });
@@ -375,7 +383,6 @@ describe('reducers/calculator', () => {
           lifestagePreset: 'adult',
           lastSavedLifestage: 'adult',
           whatever: 'it does',
-          essentialNutrients: [{ name: 'ALA', amount: 125, unit: 'mg' }],
         });
       });
     });
@@ -385,7 +392,6 @@ describe('reducers/calculator', () => {
       const { mealType } = sampleState;
 
       before(() => {
-        getEssentialNutrientAmtsStub.returns([ { name: 'Manganese', amount: 3, unit: 'mg' }]);
         getNewPercentagesAndAmtsStub.returns({ whatever: 'it does not' });
         result = file.setLifestagePreset(sampleState, { updatedLifestage: 'puppy' });
       });
@@ -395,7 +401,7 @@ describe('reducers/calculator', () => {
       });
 
       it('should invoke getNewPercentagesAndAmounts with state, mealType, lifestage', () => {
-        sinon.assert.calledWith(getNewPercentagesAndAmtsStub, sampleState, mealType, 'puppy');
+        sinon.assert.calledWith(getNewPercentagesAndAmtsStub, sampleState, mealType);
       });
 
       it('should update the age and PresetPercentages', () => {
@@ -404,7 +410,6 @@ describe('reducers/calculator', () => {
           lifestagePreset: 'puppy',
           lastSavedLifestage: 'puppy',
           whatever: 'it does not',
-          essentialNutrients: [{ name: 'Manganese', amount: 3, unit: 'mg' }],
         });
       });
     });

@@ -58,7 +58,7 @@ const BasicOptions = () => {
           tabIndex="1"
           name="unit"
           id="unit"
-          onChange={e => dispatch(updateOptions(weight, maintenance, validateFloat(e.target.value)))}
+          onChange={e => dispatch(updateOptions(weight, maintenance, e.target.value))}
           value={unitDetails.name}
         >
           {unitOptions.map(option => (

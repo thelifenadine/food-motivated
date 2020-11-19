@@ -3,13 +3,13 @@ export const essentialNutrients = {
     name: 'ALA',
     adult: 110,
     puppy: 200,
-    unit: 'mg'
+    unit: 'mg',
   },
   epa_dha: {
     name: 'EPA + DHA',
     adult: 110,
     puppy: 130,
-    unit: 'mg'
+    unit: 'mg',
   },
   iodine: {
     name: 'Iodine',
@@ -30,19 +30,18 @@ export const essentialNutrients = {
     name: 'Vitamin D',
     adult: 3.4,
     puppy: 3.4,
-    unit: 'mcg'
+    unit: 'mcg',
   },
   vitaminE: {
     name: 'Vitamin E',
     adult: 7.5,
     puppy: 7.5,
-    unit: 'mg'
+    unit: 'mg',
   },
   zinc: {
     name: 'Zinc',
     adult: 15,
     puppy: 25,
-    unit: 'mg'
+    unit: 'mg',
   },
 };
-

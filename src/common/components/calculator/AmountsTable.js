@@ -73,13 +73,13 @@ const AmountsTable = ({
             </TableRow>
           ))}
           <TableRow>
-            <TableCell className={classes.firstRow}>{`Essential Nutrients (${lastSavedLifestage})`}</TableCell>
-            <TableCell className={classes.firstRow} align="right">Recommended Amounts</TableCell>
+            <TableCell className={classes.firstRow}>Essential Nutrients</TableCell>
+            <TableCell className={classes.firstRow} align="right">{`Recommended Amounts (${lastSavedLifestage})`}</TableCell>
           </TableRow>
           {map(essentialNutrients, (nutrientInfo, key) => (
             <TableRow key={key}>
               <TableCell className={classes.capitalize}>{nutrientInfo.name}</TableCell>
-              <TableCell align="right">{`${round(nutrientInfo.amount, 1)} ${nutrientInfo.unit}`}</TableCell>
+              <TableCell align="right">{`${round(nutrientInfo[lastSavedLifestage], 1)} ${nutrientInfo.unit}`}</TableCell>
             </TableRow>
           ))}
         </TableBody>
