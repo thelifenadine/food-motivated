@@ -1,6 +1,6 @@
 const validateInteger = (value) => {
-  const parsed = parseInteger(value);
+  const parsed = parseInt(value);
   return isNaN(parsed) ? 0 : parsed;
 };
 
-export default validateFloat;
+export default validateInteger;

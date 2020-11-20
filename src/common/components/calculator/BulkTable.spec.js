@@ -34,6 +34,7 @@ describe('components/calculator/BulkTable', () => {
       unitDetails: { a: 'detail' },
       numDays: 3,
       essentialNutrients: {},
+      lastSavedLifestage: 'adult',
     };
 
     before(() => {
@@ -50,8 +51,8 @@ describe('components/calculator/BulkTable', () => {
       amountProps.title.should.eql('Bulk Amounts for 3 days');
     });
 
-    it('the totalAmount should be multiplied by numDays', () => {
-      amountProps.totalAmount.should.eql(96);
+    it('the totalDailyAmount should be multiplied by numDays', () => {
+      amountProps.totalDailyAmount.should.eql(96);
     });
 
     it('the muscleAmount should be multiplied by numDays', () => {

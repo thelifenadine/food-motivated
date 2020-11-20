@@ -1,5 +1,5 @@
 import React from 'react';
-import Section from '../calculator/Section';
+import Section from '../layout/Section';
 import { makeStyles } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({

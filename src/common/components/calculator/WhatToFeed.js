@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, shallowEqual } from 'react-redux';
 import { Button, TextField, InputAdornment, makeStyles } from '@material-ui/core';
-import Header2 from './Header2';
-import AmountsTable from './AmountsTable';
-import Section from './Section';
+
+import Header2 from '../layout/Header2';
+import Section from '../layout/Section';
+
 import BulkTable from './BulkTable';
+import AmountsTable from './AmountsTable';
 
 const useStyles = makeStyles((theme) => ({
   numericLarge: {
@@ -29,7 +31,6 @@ const WhatToFeed = () => {
     lastSavedLifestage: calculator.lastSavedLifestage,
   }), shallowEqual);
 
-
   const [shouldShowBulkTable, setShowBulkTable] = useState(false);
   const [numDays, setNumDays] = useState(7);
 
@@ -37,17 +38,21 @@ const WhatToFeed = () => {
     setShowBulkTable(false);
   }, [totalDailyAmount, boneAmount, otherAmounts]);
 
+  const amountsTableProps = {
+    totalDailyAmount: totalDailyAmount,
+    muscleAmount: muscleAmount,
+    boneAmount: boneAmount,
+    rmbPercent: rmbPercent,
+    otherAmounts: otherAmounts,
+    unitDetails: unitDetails,
+    essentialNutrients: essentialNutrients,
+    lastSavedLifestage: lastSavedLifestage,
+  };
+
   return (
     <React.Fragment>
       <AmountsTable
-        totalAmount={totalDailyAmount}
-        muscleAmount={muscleAmount}
-        boneAmount={boneAmount}
-        rmbPercent={rmbPercent}
-        otherAmounts={otherAmounts}
-        unitDetails={unitDetails}
-        essentialNutrients={essentialNutrients}
-        lastSavedLifestage={lastSavedLifestage}
+        {...amountsTableProps}
         title="What to feed each day"
       />
       <div className={classes.bulkTable}>
@@ -80,14 +85,7 @@ const WhatToFeed = () => {
         </Section>
         {shouldShowBulkTable && (numDays > 1) &&
           <BulkTable
-            totalDailyAmount={totalDailyAmount}
-            muscleAmount={muscleAmount}
-            boneAmount={boneAmount}
-            rmbPercent={rmbPercent}
-            otherAmounts={otherAmounts}
-            unitDetails={unitDetails}
-            essentialNutrients={essentialNutrients}
-            lastSavedLifestage={lastSavedLifestage}
+            {...amountsTableProps}
             numDays={+numDays}
           />
         }

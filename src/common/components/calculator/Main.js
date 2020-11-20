@@ -5,11 +5,11 @@ import WhatToFeed from './WhatToFeed';
 import RawMeatyBone from './RawMeatyBone';
 import BasicOptions from './BasicOptions';
 import PercentageOptions from './PercentageOptions';
-import Header2 from './Header2';
-import Section from './Section';
+import Header2 from '../layout/Header2';
+import Section from '../layout/Section';
 import Contact from '../footer/Contact';
 
-const DogMealCalculator = () => (
+const Main = () => (
   <Grid container spacing={1}>
     <Grid item xs={12} md={6}>
       <Section>
@@ -26,4 +26,4 @@ const DogMealCalculator = () => (
   </Grid>
 );
 
-export default DogMealCalculator;
+export default Main;

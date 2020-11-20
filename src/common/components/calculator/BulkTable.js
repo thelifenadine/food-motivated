@@ -1,15 +1,8 @@
-import mapValues from 'lodash/mapValues';
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import AmountsTable from './AmountsTable';
-
-const getUpdatedOther = (otherAmounts, numDays) => mapValues(otherAmounts, value => value * numDays);
-const getUpdatedNutrients = (essentialNutrients, numDays) => mapValues(essentialNutrients, (nutrientInfo) => {
-  return {
-    ...nutrientInfo,
-    amount: nutrientInfo.amount * numDays,
-  };
-});
+import { mapCalculatedNutrients } from '../../calculations/getEssentialNutrients';
+import getBulkOther from '../../calculations/getBulkOther';
 
 const BulkTable = (props) => {
   const {
@@ -21,31 +14,33 @@ const BulkTable = (props) => {
     rmbPercent,
     numDays,
     essentialNutrients,
+    lastSavedLifestage,
   } = props;
 
-  const [totalAmountUpdated, setTotalUpdatedAmount] = useState(totalDailyAmount * numDays);
-  const [boneAmountUpdated, setBoneUpdatedAmount] = useState(boneAmount * numDays);
-  const [otherAmountsUpdated, setOtherUpdatedAmount] = useState(getUpdatedOther(otherAmounts, numDays));
-  const [essentialNutrientsUpdated, setNutrientUpdatedAmount] = useState(getUpdatedNutrients(essentialNutrients, numDays));
-  const [muscleAmountUpdated, setMuscleUpdatedAmount] = useState(muscleAmount * numDays);
+  const [totalAmountBulk, setTotalBulkAmount] = useState(totalDailyAmount * numDays);
+  const [boneAmountBulk, setBoneBulkAmount] = useState(boneAmount * numDays);
+  const [otherAmountsBulk, setOtherBulkAmount] = useState(getBulkOther(otherAmounts, numDays));
+  const [essentialNutrientsBulk, setNutrientBulkAmount] = useState(mapCalculatedNutrients(essentialNutrients, numDays));
+  const [muscleAmountBulk, setMuscleBulkAmount] = useState(muscleAmount * numDays);
 
   useEffect(() => {
-    setOtherUpdatedAmount(getUpdatedOther(otherAmounts, numDays));
-    setNutrientUpdatedAmount(getUpdatedNutrients(essentialNutrients, numDays));
-    setTotalUpdatedAmount(totalDailyAmount * numDays);
-    setBoneUpdatedAmount(boneAmount * numDays);
-    setMuscleUpdatedAmount(muscleAmount * numDays);
+    setOtherBulkAmount(getBulkOther(otherAmounts, numDays));
+    setNutrientBulkAmount(mapCalculatedNutrients(essentialNutrients, numDays));
+    setTotalBulkAmount(totalDailyAmount * numDays);
+    setBoneBulkAmount(boneAmount * numDays);
+    setMuscleBulkAmount(muscleAmount * numDays);
   }, [numDays]);
 
   return (
     <AmountsTable
-      totalAmount={totalAmountUpdated}
-      muscleAmount={muscleAmountUpdated}
-      boneAmount={boneAmountUpdated}
-      otherAmounts={otherAmountsUpdated}
+      totalDailyAmount={totalAmountBulk}
+      muscleAmount={muscleAmountBulk}
+      boneAmount={boneAmountBulk}
+      otherAmounts={otherAmountsBulk}
       unitDetails={unitDetails}
       rmbPercent={rmbPercent}
-      essentialNutrients={essentialNutrientsUpdated}
+      essentialNutrients={essentialNutrientsBulk}
+      lastSavedLifestage={lastSavedLifestage}
       title={`Bulk Amounts for ${numDays} days`}
     />
   );
@@ -60,6 +55,7 @@ BulkTable.propTypes = {
   unitDetails: PropTypes.object.isRequired,
   numDays: PropTypes.number.isRequired,
   essentialNutrients: PropTypes.object.isRequired,
+  lastSavedLifestage: PropTypes.string.isRequired,
 };
 
 export default BulkTable;

@@ -5,7 +5,6 @@ import { adult, puppy } from '../../constants/lifestage';
 /*
   This function determines whether the percentages match the default selections for
   a particular age group, and if so, that button is set to active
-  TODO: write tests for this file
 */
 const getLifestageByPercentages = (mealType, bonePercentage, otherPercentages, ) => {
   if (presetMealPercentages[mealType][adult].bone === bonePercentage) {

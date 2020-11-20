@@ -9,8 +9,8 @@ import unitOptions from '../../constants/unitOptions';
 import { updateOptions } from '../../actions/calculator';
 import validateFloat from '../../utils/validateFloat';
 
-import Header2 from './Header2';
-import Section from './Section';
+import Header2 from '../layout/Header2';
+import Section from '../layout/Section';
 
 const useStyles = makeStyles((theme) => ({
   formControl: {

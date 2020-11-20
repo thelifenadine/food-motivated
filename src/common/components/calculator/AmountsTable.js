@@ -3,8 +3,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles, Table, TableBody, TableRow, TableCell } from '@material-ui/core';
 import round from '../../calculations/round';
-import Header2 from './Header2';
-import Section from './Section';
+
+import Header2 from '../layout/Header2';
+import Section from '../layout/Section';
 
 const useStyles = makeStyles((theme) => ({
   firstRow: {
@@ -36,7 +37,7 @@ const getCellContentCreator = (unitDetails) => (amount) => {
 };
 
 const AmountsTable = ({
-  totalAmount,
+  totalDailyAmount,
   muscleAmount,
   boneAmount,
   rmbPercent,
@@ -56,7 +57,7 @@ const AmountsTable = ({
         <TableBody>
           <TableRow>
             <TableCell className={classes.firstRow}>Total Amount</TableCell>
-            <TableCell className={classes.firstRow} align="right">{createCellContent(totalAmount)}</TableCell>
+            <TableCell className={classes.firstRow} align="right">{createCellContent(totalDailyAmount)}</TableCell>
           </TableRow>
           <TableRow>
             <TableCell>Boneless Meat</TableCell>
@@ -79,7 +80,7 @@ const AmountsTable = ({
           {map(essentialNutrients, (nutrientInfo, key) => (
             <TableRow key={key}>
               <TableCell className={classes.capitalize}>{nutrientInfo.name}</TableCell>
-              <TableCell align="right">{`${round(nutrientInfo[lastSavedLifestage], 1)} ${nutrientInfo.unit}`}</TableCell>
+              <TableCell align="right">{`${round(nutrientInfo[lastSavedLifestage], 2)} ${nutrientInfo.unit}`}</TableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -89,7 +90,7 @@ const AmountsTable = ({
 };
 
 AmountsTable.propTypes = {
-  totalAmount: PropTypes.number.isRequired,
+  totalDailyAmount: PropTypes.number.isRequired,
   muscleAmount: PropTypes.number.isRequired,
   boneAmount: PropTypes.number.isRequired,
   rmbPercent: PropTypes.number.isRequired,
