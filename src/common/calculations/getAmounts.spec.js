@@ -17,6 +17,7 @@ describe('getAmounts(totalDailyAmount, bonePercentage, rmbPercent, otherPercenta
       './getAmountsByPercents': getAmountsByPercentsStub,
     }).default;
 
+    // helper to set the stub return values
     setupStubs = (muscleAmount, boneAmount, otherAmounts ) => {
       getMuscleAmountStub.returns(muscleAmount);
       getBoneAmountStub.returns(boneAmount);
@@ -32,7 +33,7 @@ describe('getAmounts(totalDailyAmount, bonePercentage, rmbPercent, otherPercenta
       result = getAmounts(32, 60, { bonePercentage: 10, otherPercentages: { organ: 'stuff' } });
     });
 
-    it('should return an object with the associated amounts', () => {
+    it('should return an object with the amounts returned by the helper functions', () => {
       result.should.eql({
         otherAmounts: { fruit: 2 },
         boneAmount: 5.3,
