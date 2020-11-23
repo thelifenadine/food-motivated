@@ -1,6 +1,6 @@
 {
   "name": "creamcheese",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "all the words you eat",
   "private": true,
   "scripts": {
@@ -54,7 +54,7 @@
     "@babel/polyfill": "7.8.7",
     "@material-ui/core": "4.9.13",
     "@material-ui/system": "4.9.14",
-    "lodash": "4.17.15",
+    "lodash": "4.17.20",
     "prop-types": "15.7.2",
     "react": "16.13.1",
     "react-dom": "16.13.1",
