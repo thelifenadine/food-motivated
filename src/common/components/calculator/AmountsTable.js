@@ -56,21 +56,25 @@ const AmountsTable = ({
       <Table className={classes.table}>
         <TableBody>
           <TableRow>
-            <TableCell className={classes.firstRow}>Total Amount</TableCell>
-            <TableCell className={classes.firstRow} align="right">{createCellContent(totalDailyAmount)}</TableCell>
+            <TableCell className={classes.firstRow} data-testid="totalAmountLabel">
+              Total Amount
+            </TableCell>
+            <TableCell className={classes.firstRow} align="right" data-testid="totalAmount">
+              {createCellContent(totalDailyAmount)}
+            </TableCell>
           </TableRow>
           <TableRow>
-            <TableCell>Boneless Meat</TableCell>
-            <TableCell align="right">{createCellContent(muscleAmount)}</TableCell>
+            <TableCell data-testid="muscleAmountLabel">Boneless Meat</TableCell>
+            <TableCell align="right" data-testid="muscleAmount">{createCellContent(muscleAmount)}</TableCell>
           </TableRow>
           <TableRow>
-            <TableCell>Raw Meaty Bone at {rmbPercent}%</TableCell>
-            <TableCell align="right">{createCellContent(boneAmount)}</TableCell>
+            <TableCell data-testid="boneAmountLabel">Raw Meaty Bone at {rmbPercent}%</TableCell>
+            <TableCell align="right" data-testid="boneAmount">{createCellContent(boneAmount)}</TableCell>
           </TableRow>
           {map(otherAmounts, (value, key) => (
-            <TableRow key={key}>
-              <TableCell className={classes.capitalize}>{key}</TableCell>
-              <TableCell align="right">{createCellContent(value)}</TableCell>
+            <TableRow key={key} data-testid="otherAmounts">
+              <TableCell className={classes.capitalize} data-testid={`${key}AmountLabel`}>{key}</TableCell>
+              <TableCell align="right" data-testid={`${key}Amount`}>{createCellContent(value)}</TableCell>
             </TableRow>
           ))}
           <TableRow>
@@ -79,8 +83,8 @@ const AmountsTable = ({
           </TableRow>
           {map(essentialNutrients, (nutrientInfo, key) => (
             <TableRow key={key}>
-              <TableCell className={classes.capitalize}>{nutrientInfo.name}</TableCell>
-              <TableCell align="right">{`${round(nutrientInfo[lastSavedLifestage], 2)} ${nutrientInfo.unit}`}</TableCell>
+              <TableCell className={classes.capitalize} data-testid={`${key}Label`}>{nutrientInfo.name}</TableCell>
+              <TableCell align="right" data-testid={`${key}Amount`}>{`${round(nutrientInfo[lastSavedLifestage], 2)} ${nutrientInfo.unit}`}</TableCell>
             </TableRow>
           ))}
         </TableBody>

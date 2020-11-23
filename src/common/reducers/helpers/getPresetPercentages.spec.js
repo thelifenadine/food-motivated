@@ -8,7 +8,7 @@ import getPresetPercentages from "./getPresetPercentages";
   it was an easy way to also test the presetMealPercentages file
 */
 describe('getPresetPercentages(mealType, lifestagePreset)', () => {
-  it('when arguments match the `barf-traditional` adult recipe', () => {
+  it('when arguments match the `barf` adult recipe', () => {
     getPresetPercentages('barf', 'adult')
       .should.eql({
         musclePercentage: 70,
@@ -23,7 +23,7 @@ describe('getPresetPercentages(mealType, lifestagePreset)', () => {
       });
   });
 
-  it('when arguments match the `barf-traditional` puppy recipe', () => {
+  it('when arguments match the `barf` puppy recipe', () => {
     getPresetPercentages('barf', 'puppy')
       .should.eql({
         musclePercentage: 58,
@@ -64,7 +64,7 @@ describe('getPresetPercentages(mealType, lifestagePreset)', () => {
       });
   });
 
-  it('when arguments match the `pmr-traditional` adult recipe', () => {
+  it('when arguments match the `pmr` adult recipe', () => {
     getPresetPercentages('pmr', 'adult')
       .should.eql({
         musclePercentage: 78,
@@ -77,7 +77,7 @@ describe('getPresetPercentages(mealType, lifestagePreset)', () => {
       });
   });
 
-  it('when arguments match the `pmr-traditional` puppy recipe', () => {
+  it('when arguments match the `pmr` puppy recipe', () => {
     getPresetPercentages('pmr', 'puppy')
       .should.eql({
         musclePercentage: 67,

@@ -8,7 +8,6 @@ const MockAmountsTable = sinon.stub().returns(<div />);
 const MockBulkTable = sinon.stub().returns(<div />);
 const MockHeader2 = sinon.stub().returns(<div />);
 const MockSection = sinon.stub().returns(<div />);
-
 const MockButton = sinon.stub().returns(<div />);
 const MockTextField = sinon.stub().returns(<div />);
 const MockInputAdornment = sinon.stub().returns(<div />);
@@ -24,15 +23,8 @@ useStylesStub.returns({
 const useSelectorStub = sinon.stub();
 
 describe('components/calculator/WhatToFeed', () => {
-  /*
-    To Test
-    - each component is rendered with correct props, values, styles
-    - prop changes
-    - state
-    - effects
-  */
-
   let WhatToFeed;
+
   before(() => {
     WhatToFeed = proxyquire.noCallThru().load('./WhatToFeed', {
       './AmountsTable': MockAmountsTable,
@@ -129,83 +121,96 @@ describe('components/calculator/WhatToFeed', () => {
         expect(amountsTableComponent).to.have.lengthOf(1);
       });
 
-      it('the title should include numDays', () => {
+      it('with the title prop', () => {
         amountProps.title.should.eql('What to feed each day');
       });
 
-      it('the totalDailyAmount should be multiplied by numDays', () => {
+      it('with the totalDailyAmount prop', () => {
         amountProps.totalDailyAmount.should.eql(30);
       });
 
-      it('the muscleAmount should be multiplied by numDays', () => {
+      it('with the muscleAmount prop', () => {
         amountProps.muscleAmount.should.eql(50);
       });
 
-      it('the boneAmount should be multiplied by numDays', () => {
+      it('with the boneAmount prop', () => {
         amountProps.boneAmount.should.eql(10);
       });
 
-      it('the otherAmounts should be multiplied by numDays', () => {
+      it('with the otherAmounts prop', () => {
         amountProps.otherAmounts.should
           .eql({ fruit: 4, liver: 7 });
       });
 
-      it('the unitDetails should be passed as is', () => {
+      it('with the unitDetails prop', () => {
         amountProps.unitDetails.should
           .eql({ my: 'unit' });
       });
 
-      it('the rmbPercent should be passed as is', () => {
+      it('with the rmbPercent prop', () => {
         amountProps.rmbPercent.should.eql(33);
+      });
+
+      it('with the essentialNutrients prop', () => {
+        amountProps.essentialNutrients.should.eql({});
+      });
+
+      it('with the lastSavedLifestage prop', () => {
+        amountProps.lastSavedLifestage.should.eql('puppy');
       });
     });
 
-    // TODO when state changes
-    // describe('the BulkTable component', () => {
-    //   let bulkTableComponent;
-    //   let bulkProps;
+    describe('the BulkTable component should show when button is clicked', () => {
+      let bulkTableComponent;
+      let bulkProps;
 
-    //   before(() => {
-    //     // can't call setState on a functional component
-    //     // need an alternate way to test
-    //     mainComponent.setState('shouldShowBulkTable', true);
-    //     bulkTableComponent = mainComponent.find(MockBulkTable);
-    //     bulkProps = bulkTableComponent.props();
-    //   });
+      before(() => {
+        mainComponent.find({ 'data-testid': 'showBulkTableButton' }).simulate('click');
+        bulkTableComponent = mainComponent.find(MockBulkTable);
+        bulkProps = bulkTableComponent.props();
+      });
 
-    //   it('the BulkTable should be rendered', () => {
-    //     expect(bulkTableComponent).to.have.lengthOf(1);
-    //   });
+      it('the mainc component should be rendered', () => {
+        expect(bulkTableComponent).to.have.lengthOf(1);
+      });
 
-    //   it('the title should include numDays', () => {
-    //     bulkProps.title.should.eql('What to feed each day');
-    //   });
+      it('with the totalDailyAmount prop', () => {
+        bulkProps.totalDailyAmount.should.eql(30);
+      });
 
-    //   it('the totalDailyAmount should be multiplied by numDays', () => {
-    //     bulkProps.totalDailyAmount.should.eql(30);
-    //   });
+      it('with the muscleAmount prop', () => {
+        bulkProps.muscleAmount.should.eql(50);
+      });
 
-    //   it('the muscleAmount should be multiplied by numDays', () => {
-    //     bulkProps.muscleAmount.should.eql(50);
-    //   });
+      it('with the boneAmount prop', () => {
+        bulkProps.boneAmount.should.eql(10);
+      });
 
-    //   it('the boneAmount should be multiplied by numDays', () => {
-    //     bulkProps.boneAmount.should.eql(10);
-    //   });
+      it('with the otherAmounts prop', () => {
+        bulkProps.otherAmounts.should
+          .eql({ fruit: 4, liver: 7 });
+      });
 
-    //   it('the otherAmounts should be multiplied by numDays', () => {
-    //     bulkProps.otherAmounts.should
-    //       .eql({ fruit: 4, liver: 7 });
-    //   });
+      it('with the unitDetails prop', () => {
+        bulkProps.unitDetails.should
+          .eql({ my: 'unit' });
+      });
 
-    //   it('the unitDetails should be passed as is', () => {
-    //     bulkProps.unitDetails.should
-    //       .eql({ my: 'unit' });
-    //   });
+      it('with the rmbPercent prop', () => {
+        bulkProps.rmbPercent.should.eql(33);
+      });
 
-    //   it('the rmbPercent should be passed as is', () => {
-    //     bulkProps.rmbPercent.should.eql(33);
-    //   });
-    // });
+      it('with the numDays prop as a number', () => {
+        bulkProps.numDays.should.eql(7);
+      });
+
+      it('with the essentialNutrients prop', () => {
+        bulkProps.essentialNutrients.should.eql({});
+      });
+
+      it('with the lastSavedLifestage prop', () => {
+        bulkProps.lastSavedLifestage.should.eql('puppy');
+      });
+    });
   });
 });

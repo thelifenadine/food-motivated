@@ -7,6 +7,7 @@ import Section from '../layout/Section';
 
 import BulkTable from './BulkTable';
 import AmountsTable from './AmountsTable';
+import validateInteger from '../../utils/validateInteger';
 
 const useStyles = makeStyles((theme) => ({
   numericLarge: {
@@ -66,6 +67,7 @@ const WhatToFeed = () => {
               value={numDays}
               type="number"
               onChange={e => setNumDays(e.target.value)}
+              onFocus={(event) => event.target.select()}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">days</InputAdornment>
@@ -74,6 +76,7 @@ const WhatToFeed = () => {
               helperText="minimum of 2 days"
             />
             <Button
+              data-testid="showBulkTableButton"
               size="small"
               variant="outlined"
               color="secondary"
@@ -86,7 +89,7 @@ const WhatToFeed = () => {
         {shouldShowBulkTable && (numDays > 1) &&
           <BulkTable
             {...amountsTableProps}
-            numDays={+numDays}
+            numDays={validateInteger(numDays)}
           />
         }
       </div>

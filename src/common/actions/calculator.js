@@ -60,7 +60,7 @@ export function updateRMB(rmbKey, isCustomRmb) {
 export function updateCustomRMB(rmbPercent) {
   return {
     type: UPDATE_CUSTOM_RMB_PERCENT,
-    rmbPercent: +rmbPercent,
+    rmbPercent: rmbPercent,
   };
 }
 

@@ -76,44 +76,30 @@ describe('getLifestageByPercentages(mealType, bonePercentage, otherPercentages)'
 
   describe('should return undefined ', () => {
     it('when arguments match anything else', () => {
-      const result = getLifestageByPercentages('barf-traditional', 17, {
+      should(getLifestageByPercentages('barf-traditional', 17, {
         liver: 7,
         organ: 8,
         veggie: 10,
-      });
+      })).equal(undefined);
 
-      should(result).equal(undefined);
-    });
-
-    it('when arguments match anything else', () => {
-      const result = getLifestageByPercentages('barf', 11, {
+      should(getLifestageByPercentages('barf', 11, {
         liver: 4,
         organ: 5,
         veggie: 7,
         seed: 2,
         fruit: 1,
-      });
+      })).equal(undefined);
 
-      should(result).equal(undefined);
-    });
-
-    it('when arguments match anything else', () => {
-      const result = getLifestageByPercentages('pmr', 10, {
+      should(getLifestageByPercentages('pmr', 10, {
         liver: 5,
         organ: 50,
         fibre: 2,
-      });
+      })).equal(undefined);
 
-      should(result).equal(undefined);
-    });
-
-    it('when arguments match anything else', () => {
-      const result = getLifestageByPercentages('pmr-traditional', 17, {
+      should(getLifestageByPercentages('pmr-traditional', 17, {
         liver: 7,
         organ: 1,
-      });
-
-      should(result).equal(undefined);
+      })).equal(undefined);
     });
   });
 

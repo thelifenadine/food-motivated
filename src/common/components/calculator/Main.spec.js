@@ -79,7 +79,8 @@ describe('components/calculator/Main', () => {
       });
 
       it('the Header2 should contain the title', () => {
-        header2.props().children.should.eql('Raw Dog Food Calculator - Recipe Helper');
+        header2.props().children.should
+          .eql('Raw Dog Food Calculator - Meal Prep Assistant');
       });
     });
   });

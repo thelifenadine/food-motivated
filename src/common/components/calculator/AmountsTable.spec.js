@@ -10,6 +10,7 @@ const MockTable = sinon.stub().returns(<div />);
 const MockTableBody = sinon.stub().returns(<div />);
 const MockTableRow = sinon.stub().returns(<div />);
 const MockTableCell = sinon.stub().returns(<div />);
+import { unitData } from '../../constants/unitOptions';
 
 describe('components/calculator/AmountsTable', () => {
   let AmountsTable;
@@ -59,7 +60,7 @@ describe('components/calculator/AmountsTable', () => {
         fruit: 1.5,
         liver: 3.0,
       },
-      unitDetails: { a: 'detail' },
+      unitDetails: unitData['english'],
       title: 'some title',
       lastSavedLifestage: 'adult',
       essentialNutrients: {
@@ -71,7 +72,7 @@ describe('components/calculator/AmountsTable', () => {
         },
         epa_dha: {
           name: 'EPA + DHA',
-          adult: 110,
+          adult: 111,
           puppy: 130,
           unit: 'mg',
         },
@@ -110,23 +111,105 @@ describe('components/calculator/AmountsTable', () => {
         expect(header2).to.have.lengthOf(1);
       });
 
-      // TODO: find out why this test is slow
       it('the Header2 should contain the title prop as its child', () => {
         header2.props().children.should.eql('some title');
       });
     });
 
-    // TODO:
-    /*
-      test that each row renders the correct content
-        - each amount with correct units, etc
+    describe('amounts should populate as expected', () => {
+      it('total amount', () => {
+        myComponent.find({ 'data-testid': 'totalAmount' }).props().children
+          .should.eql('2 lb / 32 oz');
+      });
 
-      test that the otherAmounts are all mapped
+      it('total amount label', () => {
+        myComponent.find({ 'data-testid': 'totalAmountLabel' }).props().children
+          .should.eql('Total Amount');
+      });
 
-      test that the essentialNutrients are all mapped and updated correctly
+      it('muscle amount', () => {
+        myComponent.find({ 'data-testid': 'muscleAmount' }).props().children
+          .should.eql('15 oz');
+      });
 
-      test what happens when the props change
-    */
+      it('muscle amount label', () => {
+        myComponent.find({ 'data-testid': 'muscleAmountLabel' }).props().children
+          .should.eql('Boneless Meat');
+      });
 
+      it('bone amount', () => {
+        myComponent.find({ 'data-testid': 'boneAmount' }).props().children
+          .should.eql('11 oz');
+      });
+
+      it('bone amount label', () => {
+        myComponent.find({ 'data-testid': 'boneAmountLabel' }).props().children
+          .should.eql([ 'Raw Meaty Bone at ', 60, '%' ]);
+      });
+
+      it('other amounts 1', () => {
+        myComponent.find({ 'data-testid': 'fruitAmount' }).props().children
+          .should.eql('1.5 oz');
+      });
+
+      it('other amounts label 1', () => {
+        myComponent.find({ 'data-testid': 'fruitAmountLabel' }).props().children
+          .should.eql('fruit');
+      });
+
+      it('other amounts 2', () => {
+        myComponent.find({ 'data-testid': 'liverAmount' }).props().children
+          .should.eql('3 oz');
+      });
+
+      it('other amounts label 2', () => {
+        myComponent.find({ 'data-testid': 'liverAmountLabel' }).props().children
+          .should.eql('liver');
+      });
+
+      it('essential nutrient amounts 1', () => {
+        myComponent.find({ 'data-testid': 'alaAmount' }).props().children
+          .should.eql('110 mg');
+      });
+
+      it('essential nutrient amounts label 1', () => {
+        myComponent.find({ 'data-testid': 'alaLabel' }).props().children
+          .should.eql('ALA');
+      });
+
+      it('essential nutrient amounts 2', () => {
+        myComponent.find({ 'data-testid': 'epa_dhaAmount' }).props().children
+          .should.eql('111 mg');
+      });
+
+      it('essential nutrient amounts label 2', () => {
+        myComponent.find({ 'data-testid': 'epa_dhaLabel' }).props().children
+          .should.eql('EPA + DHA');
+      });
+    });
+
+    describe('when props change', () => {
+      before(() => {
+        myComponent.setProps({
+          title: 'new title',
+          lastSavedLifestage: 'puppy'
+        });
+        myComponent.update();
+      });
+
+      it('the Header2 should update', () => {
+        myComponent.find(MockHeader2).props().children.should.eql('new title');
+      });
+
+      it('essential nutrient amounts 1 should update to puppy value', () => {
+        myComponent.find({ 'data-testid': 'alaAmount' }).props().children
+          .should.eql('200 mg');
+      });
+
+      it('essential nutrient amounts 2 should update to puppy value', () => {
+        myComponent.find({ 'data-testid': 'epa_dhaAmount' }).props().children
+          .should.eql('130 mg');
+      });
+    });
   });
 });

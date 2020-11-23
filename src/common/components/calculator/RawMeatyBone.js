@@ -5,7 +5,7 @@ import {
 } from '@material-ui/core';
 import { updateRMB, updateCustomRMB } from '../../actions/calculator';
 import rmbOptions from '../../constants/rawMeatyBoneOptions';
-import validateInteger from '../../utils/validateFloat';
+import validateInteger from '../../utils/validateInteger';
 
 import Header2 from '../layout/Header2';
 import Section from '../layout/Section';
@@ -49,6 +49,7 @@ const RawMeatyBone = () => {
         <NativeSelect
           tabIndex="20"
           name="boneType"
+          data-testid="boneType"
           id="boneType"
           onChange={onDropDownChange}
           value={rmbKey}
@@ -61,6 +62,7 @@ const RawMeatyBone = () => {
       {!isCustomRmb &&
         <TextField
           className={classes.rmbOption}
+          data-testid="rmbOption"
           id="rmbOption"
           label="Bone Content"
           value={rmbPercent}
@@ -78,6 +80,7 @@ const RawMeatyBone = () => {
           className={classes.rmbCustom}
           helperText="must be a number"
           id="customRMB"
+          data-testid="customRMB"
           label="Enter RMB %"
           type="number"
           onFocus={(event) => event.target.select()}

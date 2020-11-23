@@ -12,6 +12,7 @@ import {
   setMealType,
 } from '../../actions/calculator';
 import { adult, puppy } from '../../constants/lifestage';
+import validateInteger from '../../utils/validateInteger';
 
 import Header2 from '../layout/Header2';
 import Section from '../layout/Section';
@@ -139,14 +140,13 @@ const PercentageOptions = () => {
       />
       <TextField
         tabIndex="10"
-
-        // inputProps={{ tabIndex: "5" }}
         className={classes.numericSmall}
         id="bonePercentage"
         label="Bone"
         value={bonePercentage}
         type="number"
-        onChange={e => dispatch(updateBonePercentage(Number(e.target.value)))}
+        onChange={e => dispatch(updateBonePercentage(validateInteger(e.target.value)))}
+        onFocus={(event) => event.target.select()}
         InputProps={{
           endAdornment: (
             <InputAdornment position="end">%</InputAdornment>
@@ -164,7 +164,7 @@ const PercentageOptions = () => {
             label={key}
             value={value}
             type="number"
-            onChange={e => dispatch(updateOtherPercentage(Number(e.target.value), key))}
+            onChange={e => dispatch(updateOtherPercentage(validateInteger(e.target.value), key))}
             onFocus={(event) => event.target.select()}
             InputProps={{
               endAdornment: (
