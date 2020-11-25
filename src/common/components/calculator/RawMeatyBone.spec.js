@@ -3,7 +3,6 @@ import { shallow } from 'enzyme';
 import sinon from 'sinon';
 import proxyquire from 'proxyquire';
 import { expect } from 'chai';
-// import { updateRMB, updateCustomRMB } from '../../actions/calculator';
 
 const MockHeader2 = sinon.stub().returns(<div />);
 const MockSection = sinon.stub().returns(<div />);

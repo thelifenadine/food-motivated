@@ -1,7 +1,8 @@
 {
-  "name": "creamcheese",
+  "name": "food-motivated",
   "version": "1.0.1",
-  "description": "all the words you eat",
+  "description": "raw dog food recipe calculator",
+  "repository": "github:thelifenadine/food-motivated",
   "private": true,
   "scripts": {
     "start": "webpack-dev-server --open",

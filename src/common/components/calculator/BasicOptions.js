@@ -42,12 +42,14 @@ const BasicOptions = () => {
   }), shallowEqual);
 
   const [roundedDailyAmount, setRoundedDailyAmount] = useState(round(totalDailyAmount));
+  const [roundedCalories, setRoundedCalories] = useState(round(estimatedCalories));
 
   useEffect(() => {
     // can limit how often the round function is called by
     // only invoking it when the totalDailyAmount is updated
     setRoundedDailyAmount(round(totalDailyAmount));
-  }, [totalDailyAmount]);
+    setRoundedCalories(round(roundedCalories));
+  }, [totalDailyAmount, estimatedCalories]);
 
   return (
     <Section>
@@ -58,6 +60,7 @@ const BasicOptions = () => {
           tabIndex="1"
           name="unit"
           id="unit"
+          data-testid="unit"
           onChange={e => dispatch(updateOptions(weight, maintenance, e.target.value))}
           value={unitDetails.name}
         >
@@ -70,6 +73,7 @@ const BasicOptions = () => {
         tabIndex="2"
         className={classes.numericLarge}
         id="weight"
+        data-testid="weight"
         label="Dog Weight"
         value={weight}
         type="number"
@@ -85,6 +89,7 @@ const BasicOptions = () => {
         tabIndex="3"
         className={classes.numericLarge}
         id="maintenance"
+        data-testid="maintenance"
         label="Maintenance"
         value={maintenance}
         type="number"
@@ -105,6 +110,7 @@ const BasicOptions = () => {
       <TextField
         className={classes.numericLarge}
         id="totalDailyAmount"
+        data-testid="totalDailyAmount"
         label="Daily Amount"
         value={roundedDailyAmount}
         type="number"
@@ -120,8 +126,9 @@ const BasicOptions = () => {
       </FormLabel>
       <TextField
         className={classes.numericLarge}
-        id="amountPer1000kCal"
-        value={round(estimatedCalories, 0)}
+        id="estimatedCalories"
+        data-testid="estimatedCalories"
+        value={roundedCalories}
         disabled
         helperText="Used to calculate essential nutrients"
         InputProps={{
