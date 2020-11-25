@@ -69,11 +69,13 @@ const PercentageOptions = () => {
         <FormControl component="fieldset" margin="none" variant="outlined">
           <FormLabel component="legend" classes={{ root: classes.formLabel }}>Meal Type</FormLabel>
           <RadioGroup
+            data-testid="mealTypeRadioGroup"
             value={mealType} aria-label={mealType} name="mealType-radios"
             onChange={(e) => dispatch(setMealType(e.target.value))}
             row
           >
             <FormControlLabel
+              data-testid="mealTypeBarf"
               label="BARF"
               value="barf"
               control={<Radio size="small" classes={{ root: classes.radio }} />}
@@ -81,6 +83,7 @@ const PercentageOptions = () => {
               tabIndex="4"
             />
             <FormControlLabel
+              data-testid="mealTypePmr"
               label="PMR"
               value="pmr"
               control={<Radio size="small" classes={{ root: classes.radio }} />}
@@ -88,6 +91,7 @@ const PercentageOptions = () => {
               tabIndex="5"
             />
             <FormControlLabel
+              data-testid="mealTypeTradBarf"
               label="Traditional BARF"
               value="barf-traditional"
               control={<Radio size="small" classes={{ root: classes.radio }} />}
@@ -95,6 +99,7 @@ const PercentageOptions = () => {
               tabIndex="6"
             />
             <FormControlLabel
+              data-testid="mealTypeTradPmr"
               label="Traditional PMR"
               value="pmr-traditional"
               control={<Radio size="small" classes={{ root: classes.radio }} />}
@@ -107,6 +112,7 @@ const PercentageOptions = () => {
       <div className={classes.buttonWrapper}>
         <span>Lifestage Preset:</span>
         <Button
+          data-testid="lifestagePresetAdult"
           size="small"
           color="secondary"
           variant={(lifestagePreset === adult) ? "contained" : "outlined"}
@@ -116,6 +122,7 @@ const PercentageOptions = () => {
           Adult
         </Button>
         <Button
+          data-testid="lifestagePresetPuppy"
           size="small"
           color="secondary"
           variant={(lifestagePreset === puppy) ? "contained" : "outlined"}
@@ -128,6 +135,7 @@ const PercentageOptions = () => {
       <TextField
         className={classes.numericSmall}
         id="musclePercentage"
+        data-testid="musclePercentage"
         label="Muscle"
         value={musclePercentage}
         type="number"
@@ -142,6 +150,7 @@ const PercentageOptions = () => {
         tabIndex="10"
         className={classes.numericSmall}
         id="bonePercentage"
+        data-testid="bonePercentage"
         label="Bone"
         value={bonePercentage}
         type="number"
@@ -161,6 +170,7 @@ const PercentageOptions = () => {
             className={classes.numericSmall}
             id={`${key}Percentage`}
             key={`${key}Percentage`}
+            data-testid={`${key}Percentage`}
             label={key}
             value={value}
             type="number"
@@ -173,9 +183,7 @@ const PercentageOptions = () => {
             }}
           />
         );
-
-      })
-      }
+      })}
     </Section>
   );
 };

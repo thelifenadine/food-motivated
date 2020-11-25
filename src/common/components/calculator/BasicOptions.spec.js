@@ -26,7 +26,6 @@ useStylesStub.returns({
 const useSelectorStub = sinon.stub();
 const dispatchStub = sinon.stub();
 const updateOptionsStub = sinon.stub();
-const roundStub = sinon.stub();
 
 describe('components/calculator/BasicOptions', () => {
   let BasicOptions;
@@ -43,7 +42,6 @@ describe('components/calculator/BasicOptions', () => {
       '../../actions/calculator': {
         updateOptions: updateOptionsStub,
       },
-      '../../calculations/round': roundStub,
     }).default;
   });
 
@@ -97,11 +95,13 @@ describe('components/calculator/BasicOptions', () => {
     it('the totalDailyAmount input should be rendered', () => {
       let component = mainComponent.find({ 'data-testid': 'totalDailyAmount' });
       expect(component).to.have.lengthOf(1);
+      expect(component.props().disabled).to.eql(true);
     });
 
     it('the estimatedCalories input should be rendered', () => {
       let component = mainComponent.find({ 'data-testid': 'estimatedCalories' });
       expect(component).to.have.lengthOf(1);
+      expect(component.props().disabled).to.eql(true);
     });
 
     describe('when the unit drop down changes', () => {
