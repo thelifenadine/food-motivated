@@ -1,6 +1,14 @@
 node_modules
 dist
+logs
 src/.DS_Store
 .DS_Store
 server.bundle.js
 
+# Coverage directory used by tools like istanbul
+coverage
+*.lcov
+.coveralls.yml
+
+# nyc test coverage
+.nyc_output
