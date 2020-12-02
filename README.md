@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/thelifenadine/food-motivated.svg?branch=master)](https://travis-ci.com/thelifenadine/food-motivated)
+
 # Raw Dog Food Calculator / Meal Prep Assistant
 
 Making your own dog food isn't rocket science, it's just a lot of math. The goal of this app is to help dog owners quickly calculate what they need for one meal, or a month of meals. Here is an overview of what's involved.
