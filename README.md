@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/thelifenadine/food-motivated.svg?branch=master)](https://travis-ci.com/thelifenadine/food-motivated)
+[![Build Status](https://travis-ci.com/thelifenadine/food-motivated.svg?branch=master)](https://travis-ci.com/thelifenadine/food-motivated) [![Coverage Status](https://coveralls.io/repos/github/thelifenadine/food-motivated/badge.svg?branch=update-libraries)](https://coveralls.io/github/thelifenadine/food-motivated?branch=update-libraries)
 
 # Raw Dog Food Calculator / Meal Prep Assistant
 
