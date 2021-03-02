@@ -16,8 +16,8 @@
   "keywords": [
     "recipes"
   ],
-  "author": "Nadine T Kinnen",
-  "license": "ISC",
+  "author": "Nadine Kinnen",
+  "license": "Apache-2.0",
   "devDependencies": {
     "@babel/cli": "7.12.10",
     "@babel/core": "7.12.10",
