@@ -74,8 +74,9 @@ const getInitialState = () => loadState() || getDefaultState();
     - maintenance percentage (activity level of the dog) typically 2.0 - 3.0
 
   These three properties allow us to calculate the total daily amount of food to feed.
-  This is thenused to calculate the estimated calories, the amount of each essenential nutrient,
-  and the break of each portion (bone, muscle meat, organ, veggies, etc)
+  This is then used to calculate the estimated calories, the amount of each essenential nutrient,
+  and the breakdown of each portion (bone, muscle meat, organ, veggies, etc)
+  --> indicates the properties that are affected/changed
 
   unitDetails: (english or metric)
     --> totalDailyAmount, estimatedCalories
@@ -130,11 +131,11 @@ export const updateOptions = (state, action) => {
   - this resets the percentages for that lifestage and the existing mealtype
 
   bonePercentage
-  - when increased or decreased, the musclePercentage changes to rebalance
+  - when increased or decreased, the musclePercentage changes to rebalance the ratios
   - the lifestagePreset is also evaluated here to see if it matches adult, puppy, or none
 
   otherPercentage
-  - when increased or decreased, the musclePercentage changes to rebalance
+  - when increased or decreased, the musclePercentage changes to rebalance the ratios
   - the lifestagePreset is also evaluated here to see if it matches adult, puppy, or none
 
   for every property change:
@@ -227,7 +228,7 @@ export const updateBonePercentage = (state, action) => {
       - the rmbPercent numeric value to be manually entered
 
   - the rmbPercent affects the portions of muscle & bone amounts,
-    so the amounts must be recalculated
+    so those amounts must be recalculated
 */
 export const updateRMB = (state, action) => {
   const { totalDailyAmount, bonePercentage, otherPercentages } = state;
