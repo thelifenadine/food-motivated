@@ -21,8 +21,7 @@
     "indent": ["error", 2],
     "no-set-state": "off",
     "babel/semi": 0,
-    "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "off"
+    "react-hooks/rules-of-hooks": "error"
   },
   "env": {
     "browser": true,

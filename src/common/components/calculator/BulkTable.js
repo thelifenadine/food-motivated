@@ -23,12 +23,16 @@ const BulkTable = (props) => {
   const [essentialNutrientsBulk, setNutrientBulkAmount] = useState(mapCalculatedNutrients(essentialNutrients, numDays));
   const [muscleAmountBulk, setMuscleBulkAmount] = useState(muscleAmount * numDays);
 
+  const updateAmounts = (days) => {
+    setOtherBulkAmount(getBulkOther(otherAmounts, days));
+    setNutrientBulkAmount(mapCalculatedNutrients(essentialNutrients, days));
+    setTotalBulkAmount(totalDailyAmount * days);
+    setBoneBulkAmount(boneAmount * days);
+    setMuscleBulkAmount(muscleAmount * days);
+  };
+
   useEffect(() => {
-    setOtherBulkAmount(getBulkOther(otherAmounts, numDays));
-    setNutrientBulkAmount(mapCalculatedNutrients(essentialNutrients, numDays));
-    setTotalBulkAmount(totalDailyAmount * numDays);
-    setBoneBulkAmount(boneAmount * numDays);
-    setMuscleBulkAmount(muscleAmount * numDays);
+    updateAmounts(numDays);
   }, [numDays]);
 
   return (

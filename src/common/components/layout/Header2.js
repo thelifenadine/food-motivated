@@ -11,14 +11,16 @@ const useStyles = makeStyles((theme) => ({
 
 const Header2 = ({ children }) => {
   const classes = useStyles();
-
   return (
     <h2 className={classes.h2}>{children}</h2>
   );
 };
 
 Header2.propTypes = {
-  children: PropTypes.string.isRequired,
+  children: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.object,
+  ]).isRequired,
 };
 
 export default Header2;

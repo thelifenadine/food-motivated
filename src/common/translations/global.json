@@ -1,0 +1,123 @@
+{
+  "main": {
+    "header": [
+      "Raw Dog Food Calculator - Meal Prep Assistant",
+      "מחשבון האכלה טבעית לכלבים- עזרה להכנת ארוכה"]
+  },
+  "basicOptions": {
+    "options": [
+      "Options",
+      "אופציות"
+    ],
+    "unit": [
+      "Unit",
+      "יחידה"
+    ],
+    "metric": [
+      "kg / gram",
+      "ק״ג/גרם"
+    ],
+    "english": [
+      "lb / ounce",
+      "lb / ounce"
+    ],
+    "dog-weight": [
+      "Dog Weight",
+      "משקל הכלב"
+    ],
+    "maintenance": [
+      "Maintenance",
+      "אחוזים"
+    ],
+    "start-at": [
+      "Start at 2%-3%",
+      ""
+    ],
+    "daily-amount": [
+      "Daily Amount",
+      "כמות יומית"
+    ],
+    "estimated-calories": [
+      "Estimated calories",
+      "קלוריות משוערות"
+    ],
+    "kcal": [
+      "kcal",
+      "קק״ל"
+    ],
+    "used-to-calculate-essential-nutrients": [
+      "Used to calculate essential nutrients",
+      "משמש לחישוב חומרים מזינים חיוניים"
+    ]
+  },
+  "percentageOptions": {
+    "percentages": [
+      "Percentages",
+      "אחוזים"
+    ],
+    "meal-type": [
+      "Meal Type",
+      "סוג הארוחה"
+    ],
+    "BARF": [
+      "BARF",
+      "BARF"
+    ],
+    "PMR": [
+      "PMR",
+      "PMR"
+    ],
+    "traditional-BARF": [
+      "Traditional BARF",
+      "מסורתי BARF"
+    ],
+    "traditional -MR": [
+      "Traditional PMR",
+      "מסורתי PMR"
+    ],
+    "lifestage-preset": [
+      "Lifestage Preset",
+      "שלב החיים"
+    ],
+    "adult": [
+      "Adult",
+      "שלב החיים"
+    ],
+    "puppy": [
+      "Puppy",
+      "גור"
+    ],
+    "muscle": [
+      "Muscle",
+      "שריר"
+    ],
+    "bone": [
+      "Bone",
+      "עצם"
+    ],
+    "liver": [
+      "Liver",
+      "כבד"
+    ],
+    "organ": [
+      "Organ",
+      "איברים פנימיים"
+    ],
+    "veggie": [
+      "Veggie",
+      "ירקות"
+    ],
+    "seeds": [
+      "Seeds",
+      "זרעים"
+    ],
+    "fruits": [
+      "Fruits",
+      "פירות"
+    ],
+    "fibre": [
+      "Fibre",
+      "סיבים"
+    ]
+  }
+}

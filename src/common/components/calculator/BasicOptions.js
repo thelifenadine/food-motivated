@@ -3,6 +3,7 @@ import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import {
   FormControl, NativeSelect, InputLabel, FormLabel, InputAdornment, TextField, makeStyles,
 } from '@material-ui/core';
+import { Translate } from "react-localize-redux";
 
 import round from '../../calculations/round';
 import unitOptions from '../../constants/unitOptions';
@@ -52,92 +53,98 @@ const BasicOptions = () => {
   }, [totalDailyAmount, estimatedCalories]);
 
   return (
-    <Section>
-      <Header2>Options</Header2>
-      <FormControl className={classes.formControl}>
-        <InputLabel htmlFor="unit">Unit</InputLabel>
-        <NativeSelect
-          tabIndex="1"
-          name="unit"
-          id="unit"
-          data-testid="unit"
-          onChange={e => dispatch(updateOptions(weight, maintenance, e.target.value))}
-          value={unitDetails.name}
-        >
-          {unitOptions.map(option => (
-            <option key={option.key} value={option.value}>{option.name}</option>
-          ))}
-        </NativeSelect>
-      </FormControl>
-      <TextField
-        tabIndex="2"
-        className={classes.numericLarge}
-        id="weight"
-        data-testid="weight"
-        label="Dog Weight"
-        value={weight}
-        type="number"
-        onFocus={(event) => event.target.select()}
-        onChange={(e) => dispatch(updateOptions(validateFloat(e.target.value), maintenance, unitDetails.name))}
-        InputProps={{
-          endAdornment: (
-            <InputAdornment position="end">{unitDetails.lg}</InputAdornment>
-          ),
-        }}
-      />
-      <TextField
-        tabIndex="3"
-        className={classes.numericLarge}
-        id="maintenance"
-        data-testid="maintenance"
-        label="Maintenance"
-        value={maintenance}
-        type="number"
-        onFocus={(event) => event.target.select()}
-        onChange={e => dispatch(updateOptions(weight, validateFloat(e.target.value), unitDetails.name))}
-        helperText="Start at 2.0-3.0%"
-        inputProps={{
-          min: 0,
-          max: 100,
-          step: 0.1,
-        }}
-        InputProps={{
-          endAdornment: (
-            <InputAdornment position="end">%</InputAdornment>
-          ),
-        }}
-      />
-      <TextField
-        className={classes.numericLarge}
-        id="totalDailyAmount"
-        data-testid="totalDailyAmount"
-        label="Daily Amount"
-        value={roundedDailyAmount}
-        type="number"
-        disabled
-        InputProps={{
-          endAdornment: (
-            <InputAdornment position="end">{unitDetails.sm}</InputAdornment>
-          ),
-        }}
-      />
-      <FormLabel component="legend" classes={{ root: classes.formLabel }}>
-        Estimated Calories
-      </FormLabel>
-      <TextField
-        className={classes.numericLarge}
-        id="estimatedCalories"
-        data-testid="estimatedCalories"
-        value={roundedCalories}
-        disabled
-        helperText="Used to calculate essential nutrients"
-        InputProps={{
-          endAdornment: (
-            <InputAdornment position="end">kcal</InputAdornment>
-          ),
-        }}
-      />
-    </Section>
+    <Translate>
+      {({ translate }) => (
+        <Section>
+          <Header2>{translate("basicOptions.options")}</Header2>
+          <FormControl className={classes.formControl}>
+            <InputLabel htmlFor="unit">{translate("basicOptions.unit")}</InputLabel>
+            <NativeSelect
+              tabIndex="1"
+              name="unit"
+              id="unit"
+              data-testid="unit"
+              onChange={e => dispatch(updateOptions(weight, maintenance, e.target.value))}
+              value={unitDetails.name}
+            >
+              {unitOptions.map(option => (
+                <option value={option.value} key={option.key}>
+                  {translate(`basicOptions.${option.value}`)}
+                </option>
+              ))}
+            </NativeSelect>
+          </FormControl>
+          <TextField
+            tabIndex="2"
+            className={classes.numericLarge}
+            id="weight"
+            data-testid="weight"
+            label={translate("basicOptions.dog-weight")}
+            value={weight}
+            type="number"
+            onFocus={(event) => event.target.select()}
+            onChange={(e) => dispatch(updateOptions(validateFloat(e.target.value), maintenance, unitDetails.name))}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">{unitDetails.lg}</InputAdornment>
+              ),
+            }}
+          />
+          <TextField
+            tabIndex="3"
+            className={classes.numericLarge}
+            id="maintenance"
+            data-testid="maintenance"
+            label="Maintenance"
+            value={maintenance}
+            type="number"
+            onFocus={(event) => event.target.select()}
+            onChange={e => dispatch(updateOptions(weight, validateFloat(e.target.value), unitDetails.name))}
+            helperText="Start at 2.0-3.0%"
+            inputProps={{
+              min: 0,
+              max: 100,
+              step: 0.1,
+            }}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">%</InputAdornment>
+              ),
+            }}
+          />
+          <TextField
+            className={classes.numericLarge}
+            id="totalDailyAmount"
+            data-testid="totalDailyAmount"
+            label="Daily Amount"
+            value={roundedDailyAmount}
+            type="number"
+            disabled
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">{unitDetails.sm}</InputAdornment>
+              ),
+            }}
+          />
+          <FormLabel component="legend" classes={{ root: classes.formLabel }}>
+            Estimated Calories
+          </FormLabel>
+          <TextField
+            className={classes.numericLarge}
+            id="estimatedCalories"
+            data-testid="estimatedCalories"
+            value={roundedCalories}
+            disabled
+            helperText="Used to calculate essential nutrients"
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">kcal</InputAdornment>
+              ),
+            }}
+          />
+        </Section>
+      )}
+    </Translate>
   );
 };
 
