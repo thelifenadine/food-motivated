@@ -1,8 +1,10 @@
+import get from 'lodash/get';
 import React from 'react';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
 import proxyquire from 'proxyquire';
 import { expect } from 'chai';
+import globalTranslations from '../../translations/global.json';
 
 const MockHeader2 = sinon.stub().returns(<div />);
 const MockSection = sinon.stub().returns(<div />);
@@ -13,6 +15,7 @@ const MockPercentageOptions = sinon.stub().returns(<div />);
 const MockBasicOptions = sinon.stub().returns(<div />);
 const MockRawMeatyBone = sinon.stub().returns(<div />);
 const MockWhatToFeed = sinon.stub().returns(<div />);
+const MockTranslate = sinon.stub().returns(<div />);
 
 describe('components/calculator/Main', () => {
   let Main;
@@ -21,6 +24,9 @@ describe('components/calculator/Main', () => {
     Main = proxyquire.noCallThru().load('./Main', {
       '@material-ui/core': {
         Grid: MockGrid,
+      },
+      'react-localize-redux': {
+        Translate: MockTranslate,
       },
       '../layout/Header2': MockHeader2,
       '../layout/Section': MockSection,
@@ -69,18 +75,35 @@ describe('components/calculator/Main', () => {
 
     describe('Header2', () => {
       let header2;
+      let translateComponent;
+      let translationId;
 
       before(() => {
         header2 = myComponent.find(MockHeader2);
+        translateComponent = myComponent.find(MockTranslate);
+        translationId = translateComponent.props().id;
       });
 
-      it('the Header2 should be rendered', () => {
+      it('Header2 should be rendered', () => {
         expect(header2).to.have.lengthOf(1);
       });
 
-      it('the Header2 should contain the title', () => {
-        header2.props().children.should
-          .eql('Raw Dog Food Calculator - Meal Prep Assistant');
+      it('Translate should be rendered', () => {
+        expect(translateComponent).to.have.lengthOf(1);
+      });
+
+      it('Translate should be passed the correct translation id', () => {
+        expect(translationId).to.eql('main.header');
+      });
+
+      it('the translation id should look up expected strings', () => {
+        const translationList = get(globalTranslations, translationId);
+
+        const english = translationList[0];
+        const hebrew = translationList[1];
+
+        expect(english).to.eql('Raw Dog Food Calculator - Meal Prep Assistant');
+        expect(hebrew).to.eql('מחשבון האכלה טבעית לכלבים- עזרה להכנת ארוכה');
       });
     });
   });

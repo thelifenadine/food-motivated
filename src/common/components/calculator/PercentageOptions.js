@@ -1,7 +1,7 @@
 import map from 'lodash/map';
 import React from 'react';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
-import { Translate } from "react-localize-redux";
+import { Translate } from 'react-localize-redux';
 import {
   FormControl, FormLabel, FormControlLabel, RadioGroup, Radio, Button,
   InputAdornment, TextField, makeStyles

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withLocalize } from "react-localize-redux";
+import { withLocalize } from 'react-localize-redux';
 import { saveLanguage } from '../../localStorage/selectedLanguage';
 
 import Section from '../layout/Section';

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Grid } from '@material-ui/core';
-import { Translate } from "react-localize-redux";
+import { Translate } from 'react-localize-redux';
 
 import WhatToFeed from './WhatToFeed';
 import RawMeatyBone from './RawMeatyBone';

@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { localizeReducer } from "react-localize-redux";
+import { localizeReducer } from 'react-localize-redux';
 
 import calculator from './calculator';
 

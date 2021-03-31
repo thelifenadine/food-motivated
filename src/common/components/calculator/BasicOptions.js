@@ -3,7 +3,7 @@ import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import {
   FormControl, NativeSelect, InputLabel, FormLabel, InputAdornment, TextField, makeStyles,
 } from '@material-ui/core';
-import { Translate } from "react-localize-redux";
+import { Translate } from 'react-localize-redux';
 
 import round from '../../calculations/round';
 import unitOptions from '../../constants/unitOptions';
