@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withLocalize } from "react-localize-redux";
+import { saveLanguage } from '../../localStorage/selectedLanguage';
 
 import Section from '../layout/Section';
 import { makeStyles } from '@material-ui/core';
@@ -21,6 +22,12 @@ const useStyles = makeStyles((theme) => ({
 
 const Contact = ({ languages, activeLanguage, setActiveLanguage }) => {
   const classes = useStyles();
+
+  const updateLanguage = (languageCode) => {
+    saveLanguage(languageCode);
+    setActiveLanguage(languageCode);
+  };
+
   return (
     <Section>
       <p className={classes.pTag}>Questions/Suggestions? Email: <a className={classes.aTag} href="mailto:rawdogfoodcalculator@gmail.com">rawdogfoodcalculator@gmail.com</a></p>
@@ -29,7 +36,7 @@ const Contact = ({ languages, activeLanguage, setActiveLanguage }) => {
       <ul className="selector">
         {languages.map(lang => (
           <li key={lang.code}>
-            <button onClick={() => setActiveLanguage(lang.code)}>
+            <button onClick={() => updateLanguage(lang.code)}>
               {lang.name}
             </button>
           </li>

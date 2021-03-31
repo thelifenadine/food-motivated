@@ -95,12 +95,12 @@ const BasicOptions = () => {
             className={classes.numericLarge}
             id="maintenance"
             data-testid="maintenance"
-            label="Maintenance"
+            label={translate("basicOptions.maintenance")}
             value={maintenance}
             type="number"
             onFocus={(event) => event.target.select()}
             onChange={e => dispatch(updateOptions(weight, validateFloat(e.target.value), unitDetails.name))}
-            helperText="Start at 2.0-3.0%"
+            helperText={translate("basicOptions.start-at")}
             inputProps={{
               min: 0,
               max: 100,
@@ -116,7 +116,7 @@ const BasicOptions = () => {
             className={classes.numericLarge}
             id="totalDailyAmount"
             data-testid="totalDailyAmount"
-            label="Daily Amount"
+            label={translate("basicOptions.daily-amount")}
             value={roundedDailyAmount}
             type="number"
             disabled
@@ -127,7 +127,7 @@ const BasicOptions = () => {
             }}
           />
           <FormLabel component="legend" classes={{ root: classes.formLabel }}>
-            Estimated Calories
+            {translate("basicOptions.estimated-calories")}
           </FormLabel>
           <TextField
             className={classes.numericLarge}
@@ -135,10 +135,10 @@ const BasicOptions = () => {
             data-testid="estimatedCalories"
             value={roundedCalories}
             disabled
-            helperText="Used to calculate essential nutrients"
+            helperText={translate("basicOptions.used-to-calculate-essential-nutrients")}
             InputProps={{
               endAdornment: (
-                <InputAdornment position="end">kcal</InputAdornment>
+                <InputAdornment position="end">{translate("basicOptions.kcal")}</InputAdornment>
               ),
             }}
           />

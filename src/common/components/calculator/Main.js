@@ -15,7 +15,7 @@ const Main = () => (
     <Grid item xs={12} md={6}>
       <Section>
         <Header2>
-          <Translate id="main.header">Raw Dog Food Calculator - Meal Prep Assistant</Translate>
+          <Translate id="main.header" />
         </Header2>
       </Section>
       <BasicOptions />

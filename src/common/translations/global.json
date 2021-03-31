@@ -17,6 +17,12 @@
       "kg / gram",
       "ק״ג/גרם"
     ],
+    "kg": [
+
+    ],
+    "gram": [
+
+    ],
     "english": [
       "lb / ounce",
       "lb / ounce"
@@ -71,7 +77,7 @@
       "Traditional BARF",
       "מסורתי BARF"
     ],
-    "traditional -MR": [
+    "traditional-PMR": [
       "Traditional PMR",
       "מסורתי PMR"
     ],
@@ -107,11 +113,11 @@
       "Veggie",
       "ירקות"
     ],
-    "seeds": [
+    "seed": [
       "Seeds",
       "זרעים"
     ],
-    "fruits": [
+    "fruit": [
       "Fruits",
       "פירות"
     ],

@@ -5,6 +5,7 @@ import { CssBaseline, Container } from '@material-ui/core';
 import { ThemeProvider } from '@material-ui/core/styles';
 import { withLocalize } from "react-localize-redux";
 import globalTranslations from "../translations/global.json";
+import { loadLanguage } from '../localStorage/selectedLanguage';
 
 import Main from './calculator/Main';
 import theme from '../theme';
@@ -19,11 +20,14 @@ class App extends React.Component {
 
     this.props.initialize({
       languages: [
-        { name: "English", code: "en" },
-        { name: "Hebrew", code: "he" }
+        { name: 'English', code: 'en' },
+        { name: 'Hebrew', code: 'he' }
       ],
       translation: globalTranslations,
-      options: { renderToStaticMarkup }
+      options: {
+        defaultLanguage: loadLanguage(),
+        renderToStaticMarkup,
+      }
     });
   }
 
