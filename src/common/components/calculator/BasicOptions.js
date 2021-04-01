@@ -56,9 +56,9 @@ const BasicOptions = () => {
     <Translate>
       {({ translate }) => (
         <Section>
-          <Header2>{translate("basicOptions.options")}</Header2>
+          <Header2>{translate('basicOptions.options')}</Header2>
           <FormControl className={classes.formControl}>
-            <InputLabel htmlFor="unit">{translate("basicOptions.unit")}</InputLabel>
+            <InputLabel htmlFor="unit">{translate('basicOptions.unit')}</InputLabel>
             <NativeSelect
               tabIndex="1"
               name="unit"
@@ -79,7 +79,7 @@ const BasicOptions = () => {
             className={classes.numericLarge}
             id="weight"
             data-testid="weight"
-            label={translate("basicOptions.dog-weight")}
+            label={translate('basicOptions.dog-weight')}
             value={weight}
             type="number"
             onFocus={(event) => event.target.select()}
@@ -95,12 +95,12 @@ const BasicOptions = () => {
             className={classes.numericLarge}
             id="maintenance"
             data-testid="maintenance"
-            label={translate("basicOptions.maintenance")}
+            label={translate('basicOptions.maintenance')}
             value={maintenance}
             type="number"
             onFocus={(event) => event.target.select()}
             onChange={e => dispatch(updateOptions(weight, validateFloat(e.target.value), unitDetails.name))}
-            helperText={translate("basicOptions.start-at")}
+            helperText={translate('basicOptions.start-at', { percentage: '2%-3%' })}
             inputProps={{
               min: 0,
               max: 100,
@@ -116,7 +116,7 @@ const BasicOptions = () => {
             className={classes.numericLarge}
             id="totalDailyAmount"
             data-testid="totalDailyAmount"
-            label={translate("basicOptions.daily-amount")}
+            label={translate('basicOptions.daily-amount')}
             value={roundedDailyAmount}
             type="number"
             disabled
@@ -127,7 +127,7 @@ const BasicOptions = () => {
             }}
           />
           <FormLabel component="legend" classes={{ root: classes.formLabel }}>
-            {translate("basicOptions.estimated-calories")}
+            {translate('basicOptions.estimated-calories')}
           </FormLabel>
           <TextField
             className={classes.numericLarge}
@@ -135,10 +135,10 @@ const BasicOptions = () => {
             data-testid="estimatedCalories"
             value={roundedCalories}
             disabled
-            helperText={translate("basicOptions.used-to-calculate-essential-nutrients")}
+            helperText={translate('basicOptions.used-to-calculate-essential-nutrients')}
             InputProps={{
               endAdornment: (
-                <InputAdornment position="end">{translate("basicOptions.kcal")}</InputAdornment>
+                <InputAdornment position="end">{translate('basicOptions.kcal')}</InputAdornment>
               ),
             }}
           />

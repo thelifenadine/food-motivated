@@ -17,12 +17,6 @@
       "kg / gram",
       "ק״ג/גרם"
     ],
-    "kg": [
-
-    ],
-    "gram": [
-
-    ],
     "english": [
       "lb / ounce",
       "lb / ounce"
@@ -36,8 +30,8 @@
       "אחוזים"
     ],
     "start-at": [
-      "Start at 2%-3%",
-      ""
+      "Start at ${percentage}",
+      "3%-2% מתחיל ב"
     ],
     "daily-amount": [
       "Daily Amount",
@@ -124,6 +118,126 @@
     "fibre": [
       "Fibre",
       "סיבים"
+    ]
+  },
+  "rmb": {
+    "raw-meaty-bone": [
+      "Raw Meaty Bone",
+      "עצם בשרנית"
+    ],
+    "chicken-back": [
+      "Chicken Back (44%)",
+      "גב עוף"
+    ],
+    "chicken-breast": [
+      "Chicken Breast (20%)",
+      "חזה עוף"
+    ],
+    "chicken-drumstick": [
+      "Chicken Drumstick (27%)",
+      "שוק עוף"
+    ],
+    "chicken-feet": [
+      "Chicken Feet (60%)",
+      "כף רגל עוף"
+    ],
+    "chicken-frame": [
+      "Chicken Frame (80%)",
+      "מסגרת עוף"
+    ],
+    "chicken-leg-quarter": [
+      "Chicken Leg Quarter (30%)",
+      "כרעיים"
+    ],
+    "chicken-neck-with-wkin": [
+      "Chicken Neck with Skin (36%)",
+      "גרון עוף עם עור"
+    ],
+    "chicken-neck-without-skin": [
+      "Chicken Neck without Skin (50%)",
+      "גרון עוף ללא עור"
+    ],
+    "chicken-thigh": [
+      "Chicken Thigh (21%)",
+      "פרגית עוף"
+    ],
+    "chicken-whole": [
+      "Chicken Whole (32%)",
+      "העוף בשלמותו"
+    ],
+    "chicken-wings": [
+      "Chicken Wings (46%)",
+      "כנפי עוף"
+    ],
+    "duck-foot": [
+      "Duck Foot (60%)",
+      "כף רגל ברווז"
+    ],
+    "duck-frame": [
+      "Duck Frame (80%)",
+      "מסגרת ברווז"
+    ],
+    "duck-neck": [
+      "Duck Neck (50%)",
+      "גרון ברווז"
+    ],
+    "duck-whole": [
+      "Duck Whole (28%)",
+      "הברווז בשלמותו"
+    ],
+    "duck-wing": [
+      "Duck Wing (39%)",
+      "כנפי ברווז"
+    ],
+    "pork-feet": [
+      "Pork Feet (30%)",
+      "Pork Feet (30%)"
+    ],
+    "pork-ribs": [
+      "Pork Ribs (30%)",
+      "Pork Ribs (30%)"
+    ],
+    "pork-tail": [
+      "Pork Tail (30%)",
+      "Pork Tail (30%)"
+    ],
+    "rabbit-feet": [
+      "Rabbit Feet (40%)",
+      "Rabbit Feet (40%)"
+    ],
+    "rabbit-heads": [
+      "Rabbit Heads (75%)",
+      "Rabbit Heads (75%)"
+    ],
+    "rabbit-whole": [
+      "Rabbit Whole (28%)",
+      "Rabbit Whole (28%)"
+    ],
+    "turkey-neck": [
+      "Turkey Neck (45%)",
+      "גרון הודו"
+    ],
+    "custom": [
+      "Custom",
+      "התאמה אישית"
+    ]
+  },
+  "units": {
+    "kg": [
+      "kg",
+      "ק"
+    ],
+    "gram": [
+      "g",
+      "ג"
+    ],
+    "mg": [
+      "mg",
+      "מק״ג"
+    ],
+    "mcg": [
+      "mg",
+      "מ״ג"
     ]
   }
 }

@@ -113,7 +113,7 @@ const PercentageOptions = () => {
             </FormControl>
           </div>
           <div className={classes.buttonWrapper}>
-            <span>Lifestage Preset:</span>
+            <span>{translate('percentageOptions.lifestage-preset')}</span>
             <Button
               data-testid="lifestagePresetAdult"
               size="small"

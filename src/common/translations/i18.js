@@ -92,4 +92,10 @@ here more units:
 Mcg- מק״ג
 Mg-מ״ג
 
+K- ק
+G- ג
+Hebrew- עברית
+English- אנגלית
+Language- שפה
+
 */

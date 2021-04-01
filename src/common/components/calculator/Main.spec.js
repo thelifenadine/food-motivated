@@ -96,7 +96,7 @@ describe('components/calculator/Main', () => {
         expect(translationId).to.eql('main.header');
       });
 
-      it('the translation id should look up expected strings', () => {
+      it('the translation id should return expected strings', () => {
         const translationList = get(globalTranslations, translationId);
 
         const english = translationList[0];
