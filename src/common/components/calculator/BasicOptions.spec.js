@@ -7,7 +7,6 @@ import { unitData } from '../../constants/unitOptions';
 
 const MockHeader2 = sinon.stub().returns(<div />);
 const MockSection = sinon.stub().returns(<div />);
-const translateStub = sinon.stub();
 
 const useStylesStub = sinon.stub();
 useStylesStub.returns({
@@ -27,6 +26,7 @@ useStylesStub.returns({
 const useSelectorStub = sinon.stub();
 const dispatchStub = sinon.stub();
 const updateOptionsStub = sinon.stub();
+const translateStub = sinon.stub();
 
 describe('components/calculator/BasicOptions', () => {
   let BasicOptions;

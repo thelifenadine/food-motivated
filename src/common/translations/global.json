@@ -125,6 +125,14 @@
       "Raw Meaty Bone",
       "עצם בשרנית"
     ],
+    "rmb-type": [
+      "RMB Type",
+      "RMB Type"
+    ],
+    "bone-content": [
+      "Bone Content",
+      "תוכן עצם"
+    ],
     "chicken-back": [
       "Chicken Back (44%)",
       "גב עוף"
@@ -223,11 +231,19 @@
     ]
   },
   "units": {
+    "lb": [
+      "lb",
+      "lb"
+    ],
+    "oz": [
+      "oz",
+      "oz"
+    ],
     "kg": [
       "kg",
       "ק"
     ],
-    "gram": [
+    "g": [
       "g",
       "ג"
     ],

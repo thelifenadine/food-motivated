@@ -26,6 +26,7 @@ const useSelectorStub = sinon.stub();
 const dispatchStub = sinon.stub();
 const updateRMBStub = sinon.stub();
 const updateCustomRMBStub = sinon.stub();
+const translateStub = sinon.stub();
 
 describe('components/calculator/RawMeatyBone', () => {
   let RawMeatyBone;
@@ -56,7 +57,8 @@ describe('components/calculator/RawMeatyBone', () => {
         isCustomRmb: false,
       });
 
-      mainComponent = shallow(<RawMeatyBone />);
+      mainComponent = shallow(<RawMeatyBone />)
+        .renderProp('children')({ translate: translateStub });
     });
 
     after(() => {
@@ -67,10 +69,9 @@ describe('components/calculator/RawMeatyBone', () => {
       expect(mainComponent.find(MockSection)).to.have.lengthOf(1);
     });
 
-    it('Header2 should be rendered with title', () => {
+    it('Header2 should be rendered', () => {
       let component = mainComponent.find(MockHeader2);
       expect(component).to.have.lengthOf(1);
-      expect(component.props().children).to.eql('Raw Meaty Bone');
     });
 
     it('the bone type dropdown should be rendered', () => {
@@ -103,7 +104,8 @@ describe('components/calculator/RawMeatyBone', () => {
           rmbKey: 'custom',
           isCustomRmb: true,
         });
-        mainComponent = shallow(<RawMeatyBone />);
+        mainComponent = shallow(<RawMeatyBone />)
+          .renderProp('children')({ translate: translateStub });
       });
 
       it('the bone type dropdown should be rendered', () => {

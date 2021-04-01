@@ -86,7 +86,7 @@ const BasicOptions = () => {
             onChange={(e) => dispatch(updateOptions(validateFloat(e.target.value), maintenance, unitDetails.name))}
             InputProps={{
               endAdornment: (
-                <InputAdornment position="end">{unitDetails.lg}</InputAdornment>
+                <InputAdornment position="end">{translate(`units.${unitDetails.lg}`)}</InputAdornment>
               ),
             }}
           />
@@ -122,7 +122,7 @@ const BasicOptions = () => {
             disabled
             InputProps={{
               endAdornment: (
-                <InputAdornment position="end">{unitDetails.sm}</InputAdornment>
+                <InputAdornment position="end">{translate(`units.${unitDetails.sm}`)}</InputAdornment>
               ),
             }}
           />

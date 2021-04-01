@@ -44,6 +44,7 @@ const updateBonePercentageStub = sinon.stub();
 const updateOtherPercentageStub = sinon.stub();
 const setLifestagePresetStub = sinon.stub();
 const setMealTypeStub = sinon.stub();
+const translateStub = sinon.stub();
 
 describe('components/calculator/PercentageOptions', () => {
   let PercentageOptions;
@@ -81,7 +82,8 @@ describe('components/calculator/PercentageOptions', () => {
         mealType: 'barf',
       });
 
-      mainComponent = shallow(<PercentageOptions />);
+      mainComponent = shallow(<PercentageOptions />)
+        .renderProp('children')({ translate: translateStub });
     });
 
     after(() => {
@@ -95,7 +97,6 @@ describe('components/calculator/PercentageOptions', () => {
     it('Header2 should be rendered with title', () => {
       let component = mainComponent.find(MockHeader2);
       expect(component).to.have.lengthOf(1);
-      expect(component.props().children).to.eql('Percentages');
     });
 
     it('the meal type radio group should be rendered', () => {
