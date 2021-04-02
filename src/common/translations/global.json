@@ -315,6 +315,14 @@
     ]
   },
   "units": {
+    "kg-g": [
+      "${large} kg / ${small} g",
+      "ג ${small} / ק ${large}"
+    ],
+    "lb-oz": [
+      "${large} lb / ${small} oz",
+      "${large} lb / ${small} oz"
+    ],
     "lb": [
       "lb",
       "lb"

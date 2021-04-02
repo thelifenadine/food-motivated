@@ -41,9 +41,10 @@ const ContentCell = ({ unitDetails, amount }) => {
   return (
     <Translate>
       {({ translate }) => (
-        <React.Fragment>
-          {`${round(amount / unitDetails.perUnit)} ${translate(`units.${unitDetails.lg}`)} / ${round(amount)} ${translate(`units.${unitDetails.sm}`)}`}
-        </React.Fragment>
+        translate(`units.${unitDetails.lg}-${unitDetails.sm}`, {
+          large: round(amount / unitDetails.perUnit),
+          small: round(amount),
+        })
       )}
     </Translate>
   );
