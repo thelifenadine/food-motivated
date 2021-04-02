@@ -25,7 +25,7 @@ describe('getEssentialNutrients(estimatedCalories)', () => {
         puppy: 200 * 2,
         unit: 'mg',
       },
-      epa_dha: {
+      'epa-plus-dha': {
         name: 'EPA + DHA',
         adult: 110 * 2,
         puppy: 130 * 2,
@@ -75,7 +75,7 @@ describe('getEssentialNutrients(estimatedCalories)', () => {
         puppy: 210,
         unit: 'mg',
       },
-      epa_dha: {
+      'epa-plus-dha': {
         name: 'EPA + DHA',
         adult: 115.5,
         puppy: 136.5,
@@ -125,7 +125,7 @@ describe('getEssentialNutrients(estimatedCalories)', () => {
         puppy: 343.6,
         unit: 'mg',
       },
-      epa_dha: {
+      'epa-plus-dha': {
         name: 'EPA + DHA',
         adult: 188.98,
         puppy: 223.34,

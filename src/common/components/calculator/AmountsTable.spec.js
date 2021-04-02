@@ -10,6 +10,7 @@ const MockTable = sinon.stub().returns(<div />);
 const MockTableBody = sinon.stub().returns(<div />);
 const MockTableRow = sinon.stub().returns(<div />);
 const MockTableCell = sinon.stub().returns(<div />);
+const MockTranslate = sinon.stub().returns(<div />);
 import { unitData } from '../../constants/unitOptions';
 
 describe('components/calculator/AmountsTable', () => {
@@ -43,6 +44,9 @@ describe('components/calculator/AmountsTable', () => {
         TableRow: MockTableRow,
         TableCell: MockTableCell,
       },
+      'react-localize-redux': {
+        Translate: MockTranslate,
+      },
       '../layout/Header2': MockHeader2,
       '../layout/Section': MockSection,
     }).default;
@@ -70,7 +74,7 @@ describe('components/calculator/AmountsTable', () => {
           puppy: 200,
           unit: 'mg',
         },
-        epa_dha: {
+        'epa-plus-dha': {
           name: 'EPA + DHA',
           adult: 111,
           puppy: 130,
@@ -98,6 +102,18 @@ describe('components/calculator/AmountsTable', () => {
     it('the TableCell should be rendered 2x for every TableRow', () => {
       expect(myComponent.find(MockTableCell)).to.have
         .lengthOf(myComponent.find(MockTableRow).length * 2);
+    });
+
+    describe('Translate', () => {
+      let translateComponent;
+
+      before(() => {
+        translateComponent = myComponent.find(MockTranslate);
+      });
+
+      it('Translate should be rendered', () => {
+        expect(translateComponent).to.have.lengthOf(1);
+      });
     });
 
     describe('Header2', () => {
@@ -178,12 +194,12 @@ describe('components/calculator/AmountsTable', () => {
       });
 
       it('essential nutrient amounts 2', () => {
-        myComponent.find({ 'data-testid': 'epa_dhaAmount' }).props().children
+        myComponent.find({ 'data-testid': 'epa-plus-dhaAmount' }).props().children
           .should.eql('111 mg');
       });
 
       it('essential nutrient amounts label 2', () => {
-        myComponent.find({ 'data-testid': 'epa_dhaLabel' }).props().children
+        myComponent.find({ 'data-testid': 'epa-plus-dhaLabel' }).props().children
           .should.eql('EPA + DHA');
       });
     });
@@ -207,7 +223,7 @@ describe('components/calculator/AmountsTable', () => {
       });
 
       it('essential nutrient amounts 2 should update to puppy value', () => {
-        myComponent.find({ 'data-testid': 'epa_dhaAmount' }).props().children
+        myComponent.find({ 'data-testid': 'epa-plus-dhaAmount' }).props().children
           .should.eql('130 mg');
       });
     });

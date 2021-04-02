@@ -62,17 +62,17 @@ Custom-התאמה אישית
 Bone content- תוכן עצם
 
 
-What to feed each day?-מה להאכיל בכל יום?
+What to feed each day?- מה להאכיל בכל יום?
 
 Total Amount- כמות כוללת
-Boneless Meat-בשר שריר
-Raw Meaty Bone at- עצמות בשרניות ב
+Boneless Meat- בשר שריר
+Raw Meaty Bone at-  עצמות בשרניות ב
 Liver-כבד
 Organ-איברים פנימיים
 Fibre-סיבים
 Essential nutrients-חומרים חיוניים
-Recommended amount(adult)- כמויות מומלצות(בוגרים)
-Recommended amount(adult)- כמויות מומלצות(גורים)
+Recommended amount(adult)- כמויות מומלצות (בוגרים)
+Recommended amount(adult)- כמויות מומלצות
 ALA- חומצת אל״א
 EPA+DHA- אומגה 3
 IODINE - יוד

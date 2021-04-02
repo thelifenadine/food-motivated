@@ -3,6 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles, Table, TableBody, TableRow, TableCell } from '@material-ui/core';
 import round from '../../calculations/round';
+import { Translate } from 'react-localize-redux';
 
 import Header2 from '../layout/Header2';
 import Section from '../layout/Section';
@@ -57,33 +58,33 @@ const AmountsTable = ({
         <TableBody>
           <TableRow>
             <TableCell className={classes.firstRow} data-testid="totalAmountLabel">
-              Total Amount
+              <Translate id="amountsTable.total-amount" />
             </TableCell>
             <TableCell className={classes.firstRow} align="right" data-testid="totalAmount">
               {createCellContent(totalDailyAmount)}
             </TableCell>
           </TableRow>
           <TableRow>
-            <TableCell data-testid="muscleAmountLabel">Boneless Meat</TableCell>
+            <TableCell data-testid="muscleAmountLabel"><Translate id="amountsTable.boneless-meat" /></TableCell>
             <TableCell align="right" data-testid="muscleAmount">{createCellContent(muscleAmount)}</TableCell>
           </TableRow>
           <TableRow>
-            <TableCell data-testid="boneAmountLabel">Raw Meaty Bone at {rmbPercent}%</TableCell>
+            <TableCell data-testid="boneAmountLabel"><Translate id="amountsTable.raw-meaty-bone-at-amount" data={{ amount: rmbPercent }} /></TableCell>
             <TableCell align="right" data-testid="boneAmount">{createCellContent(boneAmount)}</TableCell>
           </TableRow>
           {map(otherAmounts, (value, key) => (
             <TableRow key={key} data-testid="otherAmounts">
-              <TableCell className={classes.capitalize} data-testid={`${key}AmountLabel`}>{key}</TableCell>
+              <TableCell className={classes.capitalize} data-testid={`${key}AmountLabel`}><Translate id={`percentageOptions.${key}`} /></TableCell>
               <TableCell align="right" data-testid={`${key}Amount`}>{createCellContent(value)}</TableCell>
             </TableRow>
           ))}
           <TableRow>
-            <TableCell className={classes.firstRow}>Essential Nutrients</TableCell>
-            <TableCell className={classes.firstRow} align="right">{`Recommended Amounts (${lastSavedLifestage})`}</TableCell>
+            <TableCell className={classes.firstRow}><Translate id="amountsTable.essential-nutrients" /></TableCell>
+            <TableCell className={classes.firstRow} align="right"><Translate id="amountsTable.recommended-amounts" /> <Translate id={`amountsTable.${lastSavedLifestage}`}/></TableCell>
           </TableRow>
           {map(essentialNutrients, (nutrientInfo, key) => (
             <TableRow key={key}>
-              <TableCell className={classes.capitalize} data-testid={`${key}Label`}>{nutrientInfo.name}</TableCell>
+              <TableCell className={classes.capitalize} data-testid={`${key}Label`}><Translate id={`amountsTable.${key}`} /></TableCell>
               <TableCell align="right" data-testid={`${key}Amount`}>{`${round(nutrientInfo[lastSavedLifestage], 2)} ${nutrientInfo.unit}`}</TableCell>
             </TableRow>
           ))}

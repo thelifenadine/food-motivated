@@ -81,7 +81,7 @@
     ],
     "adult": [
       "Adult",
-      "שלב החיים"
+      "בוגר"
     ],
     "puppy": [
       "Puppy",
@@ -228,6 +228,90 @@
     "custom": [
       "Custom",
       "התאמה אישית"
+    ]
+  },
+  "whatToFeed": {
+    "what-to-feed-each-day": [
+      "What to feed each day",
+      "מה להאכיל בכל יום,"
+    ],
+    "bulk-helper": [
+      "Bulk Helper",
+      "עזרה בחלוקה"
+    ],
+    "how-long": [
+      "How long",
+      "כמה זמן"
+    ],
+    "days": [
+      "How long",
+      "כמה זמן"
+    ],
+    "minimum-of-2-days": [
+      "minimum of 2 days",
+      "מינימום 2 ימים"
+    ],
+    "generate": [
+      "Generate",
+      "חשב"
+    ]
+  },
+  "amountsTable": {
+    "total-amount": [
+      "Total Amount",
+      "כמות כוללת"
+    ],
+    "boneless-meat": [
+      "Boneless Meat",
+      "בשר שריר"
+    ],
+    "raw-meaty-bone-at-amount": [
+      "Raw Meaty Bone at ${amount}%",
+      "%${amount} עצמות בשרניות ב"
+    ],
+    "essential-nutrients": [
+      "Essential Nutrients",
+      "חומרים חיוניים"
+    ],
+    "recommended-amounts": [
+      "Recommended amounts",
+      "כמויות מומלצות"
+    ],
+    "adult": [
+      "(Adult)",
+      "(בוגר)"
+    ],
+    "puppy": [
+      "(Puppy)",
+      "(גור)"
+    ],
+    "ala": [
+      "ALA",
+      "חומצת אל״א"
+    ],
+    "epa-plus-dha": [
+      "EPA + DHA",
+      "אומגה"
+    ],
+    "iodine": [
+      "Iodine",
+      "יוד"
+    ],
+    "manganese": [
+      "Manganese",
+      "מנגן"
+    ],
+    "vitaminD": [
+      "Vitamin D",
+      "ויטמין D"
+    ],
+    "vitaminE": [
+      "Vitamin E",
+      "ויטמין E"
+    ],
+    "zinc": [
+      "Zinc",
+      "אבץ"
     ]
   },
   "units": {

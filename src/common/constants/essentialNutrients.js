@@ -5,7 +5,7 @@ export const essentialNutrients = {
     puppy: 200,
     unit: 'mg',
   },
-  epa_dha: {
+  'epa-plus-dha': {
     name: 'EPA + DHA',
     adult: 110,
     puppy: 130,
