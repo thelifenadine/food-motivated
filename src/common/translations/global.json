@@ -274,7 +274,7 @@
       "חומרים חיוניים"
     ],
     "recommended-amounts": [
-      "Recommended amounts",
+      "Recommended amounts ${lifestage}",
       "כמויות מומלצות"
     ],
     "adult": [

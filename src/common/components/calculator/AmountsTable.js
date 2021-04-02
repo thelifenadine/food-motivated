@@ -27,14 +27,31 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const getCellContentCreator = (unitDetails) => (amount) => {
-  const smallUnitAmount = `${round(amount)} ${unitDetails.sm}`;
-
+const ContentCell = ({ unitDetails, amount }) => {
   if (amount < unitDetails.perUnit) {
-    return smallUnitAmount;
+    return (
+      <Translate>
+        {({ translate }) => (
+          <React.Fragment>{`${round(amount)} ${translate(`units.${unitDetails.sm}`)}`}</React.Fragment>
+        )}
+      </Translate>
+    );
   }
 
-  return `${round(amount / unitDetails.perUnit)} ${unitDetails.lg} / ${smallUnitAmount}`;
+  return (
+    <Translate>
+      {({ translate }) => (
+        <React.Fragment>
+          {`${round(amount / unitDetails.perUnit)} ${translate(`units.${unitDetails.lg}`)} / ${round(amount)} ${translate(`units.${unitDetails.sm}`)}`}
+        </React.Fragment>
+      )}
+    </Translate>
+  );
+};
+
+ContentCell.propTypes = {
+  amount: PropTypes.number.isRequired,
+  unitDetails: PropTypes.object.isRequired,
 };
 
 const AmountsTable = ({
@@ -49,48 +66,57 @@ const AmountsTable = ({
   title,
 }) => {
   const classes = useStyles();
-  const createCellContent = getCellContentCreator(unitDetails);
 
   return (
-    <Section>
-      <Header2>{title}</Header2>
-      <Table className={classes.table}>
-        <TableBody>
-          <TableRow>
-            <TableCell className={classes.firstRow} data-testid="totalAmountLabel">
-              <Translate id="amountsTable.total-amount" />
-            </TableCell>
-            <TableCell className={classes.firstRow} align="right" data-testid="totalAmount">
-              {createCellContent(totalDailyAmount)}
-            </TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell data-testid="muscleAmountLabel"><Translate id="amountsTable.boneless-meat" /></TableCell>
-            <TableCell align="right" data-testid="muscleAmount">{createCellContent(muscleAmount)}</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell data-testid="boneAmountLabel"><Translate id="amountsTable.raw-meaty-bone-at-amount" data={{ amount: rmbPercent }} /></TableCell>
-            <TableCell align="right" data-testid="boneAmount">{createCellContent(boneAmount)}</TableCell>
-          </TableRow>
-          {map(otherAmounts, (value, key) => (
-            <TableRow key={key} data-testid="otherAmounts">
-              <TableCell className={classes.capitalize} data-testid={`${key}AmountLabel`}><Translate id={`percentageOptions.${key}`} /></TableCell>
-              <TableCell align="right" data-testid={`${key}Amount`}>{createCellContent(value)}</TableCell>
-            </TableRow>
-          ))}
-          <TableRow>
-            <TableCell className={classes.firstRow}><Translate id="amountsTable.essential-nutrients" /></TableCell>
-            <TableCell className={classes.firstRow} align="right"><Translate id="amountsTable.recommended-amounts" /> <Translate id={`amountsTable.${lastSavedLifestage}`}/></TableCell>
-          </TableRow>
-          {map(essentialNutrients, (nutrientInfo, key) => (
-            <TableRow key={key}>
-              <TableCell className={classes.capitalize} data-testid={`${key}Label`}><Translate id={`amountsTable.${key}`} /></TableCell>
-              <TableCell align="right" data-testid={`${key}Amount`}>{`${round(nutrientInfo[lastSavedLifestage], 2)} ${nutrientInfo.unit}`}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </Section>
+    <Translate>
+      {({ translate }) => (
+        <Section>
+          <Header2>{title}</Header2>
+          <Table className={classes.table}>
+            <TableBody>
+              <TableRow>
+                <TableCell className={classes.firstRow} data-testid="totalAmountLabel">
+                  {translate('amountsTable.total-amount')}
+                </TableCell>
+                <TableCell className={classes.firstRow} align="right" data-testid="totalAmount">
+                  <ContentCell unitDetails={unitDetails} amount={totalDailyAmount} />
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell data-testid="muscleAmountLabel">{translate('amountsTable.boneless-meat')}</TableCell>
+                <TableCell align="right" data-testid="muscleAmount">
+                  <ContentCell unitDetails={unitDetails} amount={muscleAmount} />
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell data-testid="boneAmountLabel">{translate('amountsTable.raw-meaty-bone-at-amount', { amount: rmbPercent })}</TableCell>
+                <TableCell align="right" data-testid="boneAmount">
+                  <ContentCell unitDetails={unitDetails} amount={boneAmount} />
+                </TableCell>
+              </TableRow>
+              {map(otherAmounts, (value, key) => (
+                <TableRow key={key} data-testid="otherAmounts">
+                  <TableCell className={classes.capitalize} data-testid={`${key}AmountLabel`}>{translate(`percentageOptions.${key}`)}</TableCell>
+                  <TableCell align="right" data-testid={`${key}Amount`}>
+                    <ContentCell unitDetails={unitDetails} amount={value} />
+                  </TableCell>
+                </TableRow>
+              ))}
+              <TableRow>
+                <TableCell className={classes.firstRow}>{translate('amountsTable.essential-nutrients')}</TableCell>
+                <TableCell className={classes.firstRow} align="right">{translate('amountsTable.recommended-amounts', { lifestage: translate(`amountsTable.${lastSavedLifestage}`)})}</TableCell>
+              </TableRow>
+              {map(essentialNutrients, (nutrientInfo, key) => (
+                <TableRow key={key}>
+                  <TableCell className={classes.capitalize} data-testid={`${key}Label`}> {translate(`amountsTable.${key}`)} </TableCell>
+                  <TableCell align="right" data-testid={`${key}Amount`}>{`${round(nutrientInfo[lastSavedLifestage], 2)} ${translate(`units.${nutrientInfo.unit}`)}`}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </Section>
+      )}
+    </Translate>
   );
 };
 
