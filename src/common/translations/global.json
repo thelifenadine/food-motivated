@@ -244,8 +244,8 @@
       "כמה זמן"
     ],
     "days": [
-      "How long",
-      "כמה זמן"
+      "days",
+      "ימים"
     ],
     "minimum-of-2-days": [
       "minimum of 2 days",
@@ -354,12 +354,13 @@
       "English"
     ],
     "he": [
-      "Hebrew",
-      "Hebrew"
+      "עברית",
+      "עברית"
     ],
     "select-language": [
-      "Select language",
-      "Select language"
+      "English",
+      "שפה"
     ]
   }
 }
+

@@ -67,7 +67,7 @@ const RawMeatyBone = () => {
               className={classes.rmbOption}
               data-testid="rmbOption"
               id="rmbOption"
-              label="Bone Content"
+              label={translate('rmb.bone-content')}
               value={rmbPercent}
               disabled
               InputProps={{

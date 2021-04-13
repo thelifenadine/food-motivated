@@ -49,7 +49,7 @@ const BasicOptions = () => {
     // can limit how often the round function is called by
     // only invoking it when the totalDailyAmount is updated
     setRoundedDailyAmount(round(totalDailyAmount));
-    setRoundedCalories(round(roundedCalories));
+    setRoundedCalories(round(estimatedCalories));
   }, [totalDailyAmount, estimatedCalories]);
 
   return (
