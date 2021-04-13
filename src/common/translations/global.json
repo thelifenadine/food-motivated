@@ -347,5 +347,19 @@
       "mg",
       "מ״ג"
     ]
+  },
+  "languages": {
+    "en": [
+      "English",
+      "English"
+    ],
+    "he": [
+      "Hebrew",
+      "Hebrew"
+    ],
+    "select-language": [
+      "Select language",
+      "Select language"
+    ]
   }
 }
