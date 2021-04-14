@@ -103,7 +103,7 @@ describe('components/calculator/Main', () => {
         const hebrew = translationList[1];
 
         expect(english).to.eql('Raw Dog Food Calculator - Meal Prep Assistant');
-        expect(hebrew).to.eql('מחשבון האכלה טבעית לכלבים- עזרה להכנת ארוכה');
+        expect(hebrew).to.eql('מחשבון האכלה טבעית לכלבים- עזרה להכנת ארוחה');
       });
     });
   });

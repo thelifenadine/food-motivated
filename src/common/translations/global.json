@@ -2,7 +2,8 @@
   "main": {
     "header": [
       "Raw Dog Food Calculator - Meal Prep Assistant",
-      "מחשבון האכלה טבעית לכלבים- עזרה להכנת ארוכה"]
+      "מחשבון האכלה טבעית לכלבים- עזרה להכנת ארוחה"
+    ]
   },
   "basicOptions": {
     "options": [
@@ -127,7 +128,7 @@
     ],
     "rmb-type": [
       "RMB Type",
-      "RMB Type"
+      "סוגי עצמות"
     ],
     "bone-content": [
       "Bone Content",
@@ -199,27 +200,27 @@
     ],
     "pork-feet": [
       "Pork Feet (30%)",
-      "Pork Feet (30%)"
+      "כפות רגלי חזיר"
     ],
     "pork-ribs": [
       "Pork Ribs (30%)",
-      "Pork Ribs (30%)"
+      "צלעות חזיר"
     ],
     "pork-tail": [
       "Pork Tail (30%)",
-      "Pork Tail (30%)"
+      "זנב חזיר"
     ],
     "rabbit-feet": [
       "Rabbit Feet (40%)",
-      "Rabbit Feet (40%)"
+      "רגלי ארנב"
     ],
     "rabbit-heads": [
       "Rabbit Heads (75%)",
-      "Rabbit Heads (75%)"
+      "ראש ארנב"
     ],
     "rabbit-whole": [
       "Rabbit Whole (28%)",
-      "Rabbit Whole (28%)"
+      "ארנב בשלמותו"
     ],
     "turkey-neck": [
       "Turkey Neck (45%)",
@@ -325,11 +326,11 @@
     ],
     "lb": [
       "lb",
-      "lb"
+      "ליברה"
     ],
     "oz": [
       "oz",
-      "oz"
+      "האונדס"
     ],
     "kg": [
       "kg",
