@@ -41,7 +41,7 @@ const Contact = ({ languages, activeLanguage, setActiveLanguage }) => {
             <p className={classes.pTag}>New to Raw Feeding? Check out <a className={classes.aTag} href="https://perfectlyrawsome.com/" target="_blank" rel="noopener noreferrer">Perfectly Rawsome</a> for help getting started.</p>
           </Section>
           <Section>
-            <p className={classes.pTag}>Select Your Language ({translate(`languages.select-language`)})</p>
+            <p className={classes.pTag}>Language / {translate(`languages.language-hebrew`)}</p>
             <div className={classes.formControl}>
               <NativeSelect
                 name="language"

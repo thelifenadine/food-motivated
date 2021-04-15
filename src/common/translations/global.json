@@ -20,7 +20,7 @@
     ],
     "english": [
       "lb / ounce",
-      "lb / ounce"
+      "האונדס / ליברה"
     ],
     "dog-weight": [
       "Dog Weight",
@@ -322,7 +322,7 @@
     ],
     "lb-oz": [
       "${large} lb / ${small} oz",
-      "${large} lb / ${small} oz"
+      "האונדס ${small} / ליברה ${large}"
     ],
     "lb": [
       "lb",
@@ -358,8 +358,8 @@
       "עברית",
       "עברית"
     ],
-    "select-language": [
-      "English",
+    "language-hebrew": [
+      "שפה",
       "שפה"
     ]
   }

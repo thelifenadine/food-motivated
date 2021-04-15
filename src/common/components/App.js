@@ -18,7 +18,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
 
-    this.props.initialize({
+    props.initialize({
       languages: [
         { name: 'English', code: 'en' },
         { name: 'Hebrew', code: 'he' }
