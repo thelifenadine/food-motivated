@@ -130,6 +130,14 @@
       "RMB Type",
       "סוגי עצמות"
     ],
+    "enter-rmb-percent": [
+      "Enter RMB %",
+      "הכנס אחוז עצם"
+    ],
+    "must-be-a-number": [
+      "must be a number",
+      "חייב להיות מספר"
+    ],
     "bone-content": [
       "Bone Content",
       "תוכן עצם"
@@ -235,6 +243,10 @@
     "what-to-feed-each-day": [
       "What to feed each day",
       "מה להאכיל בכל יום,"
+    ],
+    "bulk-title": [
+      "Bulk Amounts for ${numDays} days",
+      "כמויות ל${numDays} ימים"
     ],
     "bulk-helper": [
       "Bulk Helper",

@@ -93,6 +93,9 @@ const WhatToFeed = () => {
               <BulkTable
                 {...amountsTableProps}
                 numDays={validateInteger(numDays)}
+                bulkTitle={translate('whatToFeed.bulk-title', {
+                  numDays
+                })}
               />
             }
           </div>

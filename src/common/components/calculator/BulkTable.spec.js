@@ -47,10 +47,6 @@ describe('components/calculator/BulkTable', () => {
       expect(amountsTableComponent).to.have.lengthOf(1);
     });
 
-    it('the title should include numDays', () => {
-      amountProps.title.should.eql('Bulk Amounts for 3 days');
-    });
-
     it('the totalDailyAmount should be multiplied by numDays', () => {
       amountProps.totalDailyAmount.should.eql(96);
     });

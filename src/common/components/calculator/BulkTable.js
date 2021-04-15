@@ -15,6 +15,7 @@ const BulkTable = (props) => {
     numDays,
     essentialNutrients,
     lastSavedLifestage,
+    bulkTitle,
   } = props;
 
   const [totalAmountBulk, setTotalBulkAmount] = useState(totalDailyAmount * numDays);
@@ -45,7 +46,7 @@ const BulkTable = (props) => {
       rmbPercent={rmbPercent}
       essentialNutrients={essentialNutrientsBulk}
       lastSavedLifestage={lastSavedLifestage}
-      title={`Bulk Amounts for ${numDays} days`}
+      title={bulkTitle}
     />
   );
 };
@@ -60,6 +61,7 @@ BulkTable.propTypes = {
   numDays: PropTypes.number.isRequired,
   essentialNutrients: PropTypes.object.isRequired,
   lastSavedLifestage: PropTypes.string.isRequired,
+  bulkTitle: PropTypes.string.isRequired,
 };
 
 export default BulkTable;

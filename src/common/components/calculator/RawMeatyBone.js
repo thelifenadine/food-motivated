@@ -81,10 +81,10 @@ const RawMeatyBone = () => {
             <TextField
               value={rmbPercent}
               className={classes.rmbCustom}
-              helperText="must be a number"
+              helperText={translate('rmb.must-be-a-number')}
               id="customRMB"
               data-testid="customRMB"
-              label="Enter RMB %"
+              label={translate('rmb.enter-rmb-percent')}
               type="number"
               onFocus={(event) => event.target.select()}
               onChange={(e) => dispatch(updateCustomRMB(validateInteger(e.target.value)))}
