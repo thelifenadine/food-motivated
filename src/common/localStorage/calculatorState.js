@@ -2,7 +2,7 @@ import isStoreValid from './isStoreValid';
 
 export function loadState() {
   try {
-    const serializedState = localStorage.getItem('dogfood_v0.1');
+    const serializedState = localStorage.getItem('dogfood_v0.2');
     if (serializedState === null) {
       return undefined;
     }
@@ -27,7 +27,7 @@ export function loadState() {
 export function saveState(state) {
   try {
     const serializedState = JSON.stringify(state);
-    localStorage.setItem('dogfood_v0.1', serializedState);
+    localStorage.setItem('dogfood_v0.2', serializedState);
   } catch {
     // ignore write errors
   }

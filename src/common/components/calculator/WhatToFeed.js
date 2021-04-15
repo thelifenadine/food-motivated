@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, shallowEqual } from 'react-redux';
 import { Button, TextField, InputAdornment, makeStyles } from '@material-ui/core';
+import { Translate } from 'react-localize-redux';
 
 import Header2 from '../layout/Header2';
 import Section from '../layout/Section';
@@ -51,49 +52,56 @@ const WhatToFeed = () => {
   };
 
   return (
-    <React.Fragment>
-      <AmountsTable
-        {...amountsTableProps}
-        title="What to feed each day"
-      />
-      <div className={classes.bulkTable}>
-        <Section>
-          <Header2>Bulk Helper</Header2>
-          <div>
-            <TextField
-              className={classes.numericLarge}
-              id="numDays"
-              label="How long"
-              value={numDays}
-              type="number"
-              onChange={e => setNumDays(e.target.value)}
-              onFocus={(event) => event.target.select()}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">days</InputAdornment>
-                ),
-              }}
-              helperText="minimum of 2 days"
-            />
-            <Button
-              data-testid="showBulkTableButton"
-              size="small"
-              variant="outlined"
-              color="secondary"
-              onClick={() => setShowBulkTable(true)}
-            >
-              Generate
-            </Button>
-          </div>
-        </Section>
-        {shouldShowBulkTable && (numDays > 1) &&
-          <BulkTable
+    <Translate>
+      {({ translate }) => (
+        <React.Fragment>
+          <AmountsTable
             {...amountsTableProps}
-            numDays={validateInteger(numDays)}
+            title={translate('whatToFeed.what-to-feed-each-day')}
           />
-        }
-      </div>
-    </React.Fragment>
+          <div className={classes.bulkTable}>
+            <Section>
+              <Header2>{translate('whatToFeed.bulk-helper')}</Header2>
+              <div>
+                <TextField
+                  className={classes.numericLarge}
+                  id="numDays"
+                  label={translate('whatToFeed.how-long')}
+                  value={numDays}
+                  type="number"
+                  onChange={e => setNumDays(e.target.value)}
+                  onFocus={(event) => event.target.select()}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">{translate('whatToFeed.days')}</InputAdornment>
+                    ),
+                  }}
+                  helperText={translate('whatToFeed.minimum-of-2-days')}
+                />
+                <Button
+                  data-testid="showBulkTableButton"
+                  size="small"
+                  variant="outlined"
+                  color="secondary"
+                  onClick={() => setShowBulkTable(true)}
+                >
+                  {translate('whatToFeed.generate')}
+                </Button>
+              </div>
+            </Section>
+            {shouldShowBulkTable && (numDays > 1) &&
+              <BulkTable
+                {...amountsTableProps}
+                numDays={validateInteger(numDays)}
+                bulkTitle={translate('whatToFeed.bulk-title', {
+                  numDays
+                })}
+              />
+            }
+          </div>
+        </React.Fragment>
+      )}
+    </Translate>
   );
 };
 

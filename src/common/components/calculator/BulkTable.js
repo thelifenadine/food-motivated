@@ -15,6 +15,7 @@ const BulkTable = (props) => {
     numDays,
     essentialNutrients,
     lastSavedLifestage,
+    bulkTitle,
   } = props;
 
   const [totalAmountBulk, setTotalBulkAmount] = useState(totalDailyAmount * numDays);
@@ -23,12 +24,16 @@ const BulkTable = (props) => {
   const [essentialNutrientsBulk, setNutrientBulkAmount] = useState(mapCalculatedNutrients(essentialNutrients, numDays));
   const [muscleAmountBulk, setMuscleBulkAmount] = useState(muscleAmount * numDays);
 
+  const updateAmounts = (days) => {
+    setOtherBulkAmount(getBulkOther(otherAmounts, days));
+    setNutrientBulkAmount(mapCalculatedNutrients(essentialNutrients, days));
+    setTotalBulkAmount(totalDailyAmount * days);
+    setBoneBulkAmount(boneAmount * days);
+    setMuscleBulkAmount(muscleAmount * days);
+  };
+
   useEffect(() => {
-    setOtherBulkAmount(getBulkOther(otherAmounts, numDays));
-    setNutrientBulkAmount(mapCalculatedNutrients(essentialNutrients, numDays));
-    setTotalBulkAmount(totalDailyAmount * numDays);
-    setBoneBulkAmount(boneAmount * numDays);
-    setMuscleBulkAmount(muscleAmount * numDays);
+    updateAmounts(numDays);
   }, [numDays]);
 
   return (
@@ -41,7 +46,7 @@ const BulkTable = (props) => {
       rmbPercent={rmbPercent}
       essentialNutrients={essentialNutrientsBulk}
       lastSavedLifestage={lastSavedLifestage}
-      title={`Bulk Amounts for ${numDays} days`}
+      title={bulkTitle}
     />
   );
 };
@@ -56,6 +61,7 @@ BulkTable.propTypes = {
   numDays: PropTypes.number.isRequired,
   essentialNutrients: PropTypes.object.isRequired,
   lastSavedLifestage: PropTypes.string.isRequired,
+  bulkTitle: PropTypes.string.isRequired,
 };
 
 export default BulkTable;

@@ -26,6 +26,7 @@ useStylesStub.returns({
 const useSelectorStub = sinon.stub();
 const dispatchStub = sinon.stub();
 const updateOptionsStub = sinon.stub();
+const translateStub = sinon.stub();
 
 describe('components/calculator/BasicOptions', () => {
   let BasicOptions;
@@ -57,7 +58,8 @@ describe('components/calculator/BasicOptions', () => {
         estimatedCalories: 1268,
       });
 
-      mainComponent = shallow(<BasicOptions />);
+      mainComponent = shallow(<BasicOptions />)
+        .renderProp('children')({ translate: translateStub });
     });
 
     after(() => {
@@ -69,9 +71,8 @@ describe('components/calculator/BasicOptions', () => {
     });
 
     it('Header2 should be rendered with title', () => {
-      let component = mainComponent.find(MockHeader2);
-      expect(component).to.have.lengthOf(1);
-      expect(component.props().children).to.eql('Options');
+      const header2 = mainComponent.find(MockHeader2);
+      expect(header2).to.have.lengthOf(1);
     });
 
     it('the unit type dropdown should be rendered', () => {
@@ -134,6 +135,19 @@ describe('components/calculator/BasicOptions', () => {
 
       it('should invoke updateOptions action creator with correct values', () => {
         sinon.assert.calledWith(updateOptionsStub, 31, 2.5, 'metric');
+      });
+    });
+
+    describe('tranlate is invoked with the expected keys', () => {
+      it('basicOptions keys', () => {
+        sinon.assert.calledWith(translateStub, 'basicOptions.options');
+        sinon.assert.calledWith(translateStub, 'basicOptions.unit');
+        sinon.assert.calledWith(translateStub, 'basicOptions.dog-weight');
+        sinon.assert.calledWith(translateStub, 'basicOptions.maintenance');
+        sinon.assert.calledWith(translateStub, 'basicOptions.start-at');
+        sinon.assert.calledWith(translateStub, 'basicOptions.daily-amount');
+        sinon.assert.calledWith(translateStub, 'basicOptions.estimated-calories');
+        sinon.assert.calledWith(translateStub, 'basicOptions.used-to-calculate-essential-nutrients');
       });
     });
   });

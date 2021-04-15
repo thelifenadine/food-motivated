@@ -1,0 +1,379 @@
+{
+  "main": {
+    "header": [
+      "Raw Dog Food Calculator - Meal Prep Assistant",
+      "מחשבון האכלה טבעית לכלבים- עזרה להכנת ארוחה"
+    ]
+  },
+  "basicOptions": {
+    "options": [
+      "Options",
+      "אופציות"
+    ],
+    "unit": [
+      "Unit",
+      "יחידה"
+    ],
+    "metric": [
+      "kg / gram",
+      "ק״ג/גרם"
+    ],
+    "english": [
+      "lb / ounce",
+      "האונדס / ליברה"
+    ],
+    "dog-weight": [
+      "Dog Weight",
+      "משקל הכלב"
+    ],
+    "maintenance": [
+      "Maintenance",
+      "אחוזים"
+    ],
+    "start-at": [
+      "Start at ${percentage}",
+      "3%-2% מתחיל ב"
+    ],
+    "daily-amount": [
+      "Daily Amount",
+      "כמות יומית"
+    ],
+    "estimated-calories": [
+      "Estimated calories",
+      "קלוריות משוערות"
+    ],
+    "kcal": [
+      "kcal",
+      "קק״ל"
+    ],
+    "used-to-calculate-essential-nutrients": [
+      "Used to calculate essential nutrients",
+      "משמש לחישוב חומרים מזינים חיוניים"
+    ]
+  },
+  "percentageOptions": {
+    "percentages": [
+      "Percentages",
+      "אחוזים"
+    ],
+    "meal-type": [
+      "Meal Type",
+      "סוג הארוחה"
+    ],
+    "BARF": [
+      "BARF",
+      "BARF"
+    ],
+    "PMR": [
+      "PMR",
+      "PMR"
+    ],
+    "traditional-BARF": [
+      "Traditional BARF",
+      "מסורתי BARF"
+    ],
+    "traditional-PMR": [
+      "Traditional PMR",
+      "מסורתי PMR"
+    ],
+    "lifestage-preset": [
+      "Lifestage Preset",
+      "שלב החיים"
+    ],
+    "adult": [
+      "Adult",
+      "בוגר"
+    ],
+    "puppy": [
+      "Puppy",
+      "גור"
+    ],
+    "muscle": [
+      "Muscle",
+      "שריר"
+    ],
+    "bone": [
+      "Bone",
+      "עצם"
+    ],
+    "liver": [
+      "Liver",
+      "כבד"
+    ],
+    "organ": [
+      "Organ",
+      "איברים פנימיים"
+    ],
+    "veggie": [
+      "Veggie",
+      "ירקות"
+    ],
+    "seed": [
+      "Seeds",
+      "זרעים"
+    ],
+    "fruit": [
+      "Fruits",
+      "פירות"
+    ],
+    "fibre": [
+      "Fibre",
+      "סיבים"
+    ]
+  },
+  "rmb": {
+    "raw-meaty-bone": [
+      "Raw Meaty Bone",
+      "עצם בשרנית"
+    ],
+    "rmb-type": [
+      "RMB Type",
+      "סוגי עצמות"
+    ],
+    "enter-rmb-percent": [
+      "Enter RMB %",
+      "הכנס אחוז עצם"
+    ],
+    "must-be-a-number": [
+      "must be a number",
+      "חייב להיות מספר"
+    ],
+    "bone-content": [
+      "Bone Content",
+      "תוכן עצם"
+    ],
+    "chicken-back": [
+      "Chicken Back (44%)",
+      "גב עוף"
+    ],
+    "chicken-breast": [
+      "Chicken Breast (20%)",
+      "חזה עוף"
+    ],
+    "chicken-drumstick": [
+      "Chicken Drumstick (27%)",
+      "שוק עוף"
+    ],
+    "chicken-feet": [
+      "Chicken Feet (60%)",
+      "כף רגל עוף"
+    ],
+    "chicken-frame": [
+      "Chicken Frame (80%)",
+      "מסגרת עוף"
+    ],
+    "chicken-leg-quarter": [
+      "Chicken Leg Quarter (30%)",
+      "כרעיים"
+    ],
+    "chicken-neck-with-wkin": [
+      "Chicken Neck with Skin (36%)",
+      "גרון עוף עם עור"
+    ],
+    "chicken-neck-without-skin": [
+      "Chicken Neck without Skin (50%)",
+      "גרון עוף ללא עור"
+    ],
+    "chicken-thigh": [
+      "Chicken Thigh (21%)",
+      "פרגית עוף"
+    ],
+    "chicken-whole": [
+      "Chicken Whole (32%)",
+      "העוף בשלמותו"
+    ],
+    "chicken-wings": [
+      "Chicken Wings (46%)",
+      "כנפי עוף"
+    ],
+    "duck-foot": [
+      "Duck Foot (60%)",
+      "כף רגל ברווז"
+    ],
+    "duck-frame": [
+      "Duck Frame (80%)",
+      "מסגרת ברווז"
+    ],
+    "duck-neck": [
+      "Duck Neck (50%)",
+      "גרון ברווז"
+    ],
+    "duck-whole": [
+      "Duck Whole (28%)",
+      "הברווז בשלמותו"
+    ],
+    "duck-wing": [
+      "Duck Wing (39%)",
+      "כנפי ברווז"
+    ],
+    "pork-feet": [
+      "Pork Feet (30%)",
+      "כפות רגלי חזיר"
+    ],
+    "pork-ribs": [
+      "Pork Ribs (30%)",
+      "צלעות חזיר"
+    ],
+    "pork-tail": [
+      "Pork Tail (30%)",
+      "זנב חזיר"
+    ],
+    "rabbit-feet": [
+      "Rabbit Feet (40%)",
+      "רגלי ארנב"
+    ],
+    "rabbit-heads": [
+      "Rabbit Heads (75%)",
+      "ראש ארנב"
+    ],
+    "rabbit-whole": [
+      "Rabbit Whole (28%)",
+      "ארנב בשלמותו"
+    ],
+    "turkey-neck": [
+      "Turkey Neck (45%)",
+      "גרון הודו"
+    ],
+    "custom": [
+      "Custom",
+      "התאמה אישית"
+    ]
+  },
+  "whatToFeed": {
+    "what-to-feed-each-day": [
+      "What to feed each day",
+      "מה להאכיל בכל יום,"
+    ],
+    "bulk-title": [
+      "Bulk Amounts for ${numDays} days",
+      "כמויות ל${numDays} ימים"
+    ],
+    "bulk-helper": [
+      "Bulk Helper",
+      "עזרה בחלוקה"
+    ],
+    "how-long": [
+      "How long",
+      "כמה זמן"
+    ],
+    "days": [
+      "days",
+      "ימים"
+    ],
+    "minimum-of-2-days": [
+      "minimum of 2 days",
+      "מינימום 2 ימים"
+    ],
+    "generate": [
+      "Generate",
+      "חשב"
+    ]
+  },
+  "amountsTable": {
+    "total-amount": [
+      "Total Amount",
+      "כמות כוללת"
+    ],
+    "boneless-meat": [
+      "Boneless Meat",
+      "בשר שריר"
+    ],
+    "raw-meaty-bone-at-amount": [
+      "Raw Meaty Bone at ${amount}%",
+      "%${amount} עצמות בשרניות ב"
+    ],
+    "essential-nutrients": [
+      "Essential Nutrients",
+      "חומרים חיוניים"
+    ],
+    "recommended-amounts": [
+      "Recommended amounts ${lifestage}",
+      "כמויות מומלצות"
+    ],
+    "adult": [
+      "(Adult)",
+      "(בוגר)"
+    ],
+    "puppy": [
+      "(Puppy)",
+      "(גור)"
+    ],
+    "ala": [
+      "ALA",
+      "חומצת אל״א"
+    ],
+    "epa-plus-dha": [
+      "EPA + DHA",
+      "אומגה"
+    ],
+    "iodine": [
+      "Iodine",
+      "יוד"
+    ],
+    "manganese": [
+      "Manganese",
+      "מנגן"
+    ],
+    "vitaminD": [
+      "Vitamin D",
+      "ויטמין D"
+    ],
+    "vitaminE": [
+      "Vitamin E",
+      "ויטמין E"
+    ],
+    "zinc": [
+      "Zinc",
+      "אבץ"
+    ]
+  },
+  "units": {
+    "kg-g": [
+      "${large} kg / ${small} g",
+      "ג ${small} / ק ${large}"
+    ],
+    "lb-oz": [
+      "${large} lb / ${small} oz",
+      "האונדס ${small} / ליברה ${large}"
+    ],
+    "lb": [
+      "lb",
+      "ליברה"
+    ],
+    "oz": [
+      "oz",
+      "האונדס"
+    ],
+    "kg": [
+      "kg",
+      "ק"
+    ],
+    "g": [
+      "g",
+      "ג"
+    ],
+    "mg": [
+      "mg",
+      "מק״ג"
+    ],
+    "mcg": [
+      "mg",
+      "מ״ג"
+    ]
+  },
+  "languages": {
+    "en": [
+      "English",
+      "English"
+    ],
+    "he": [
+      "עברית",
+      "עברית"
+    ],
+    "language-hebrew": [
+      "שפה",
+      "שפה"
+    ]
+  }
+}
+

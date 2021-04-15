@@ -1,5 +1,6 @@
 import React from 'react';
 import { Grid } from '@material-ui/core';
+import { Translate } from 'react-localize-redux';
 
 import WhatToFeed from './WhatToFeed';
 import RawMeatyBone from './RawMeatyBone';
@@ -13,7 +14,9 @@ const Main = () => (
   <Grid container spacing={1}>
     <Grid item xs={12} md={6}>
       <Section>
-        <Header2>Raw Dog Food Calculator - Meal Prep Assistant</Header2>
+        <Header2>
+          <Translate id="main.header" />
+        </Header2>
       </Section>
       <BasicOptions />
       <PercentageOptions />
