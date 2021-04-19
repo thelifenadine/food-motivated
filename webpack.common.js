@@ -23,7 +23,7 @@ module.exports = {
       templateContent: ({htmlWebpackPlugin}) => `<!DOCTYPE html>
       <html>
         <head>
-          <meta name=”robots” content="index, nofollow">
+          <meta name=”robots” content="index, follow">
           <meta name="viewport" content="width=device-width, initial-scale=1">
           <meta charset="utf-8"/>
           <meta name="description" content="A calculator to create recipes for feeding dogs raw meals. DIY Raw Dog Food Helper.">
