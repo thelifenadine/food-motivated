@@ -21,7 +21,8 @@ class App extends React.Component {
     props.initialize({
       languages: [
         { name: 'English', code: 'en' },
-        { name: 'Hebrew', code: 'he' }
+        { name: 'Hebrew', code: 'he' },
+        { name: 'German', code: 'de' }
       ],
       translation: globalTranslations,
       options: {

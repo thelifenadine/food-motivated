@@ -2,377 +2,477 @@
   "main": {
     "header": [
       "Raw Dog Food Calculator - Meal Prep Assistant",
-      "מחשבון האכלה טבעית לכלבים- עזרה להכנת ארוחה"
+      "מחשבון האכלה טבעית לכלבים- עזרה להכנת ארוחה",
+      "BARF Rechner – Eigene Futterration berechnen"
     ]
   },
   "basicOptions": {
     "options": [
       "Options",
-      "אופציות"
+      "אופציות",
+      "Optionen"
     ],
     "unit": [
       "Unit",
-      "יחידה"
+      "יחידה",
+      "Einheit"
     ],
     "metric": [
       "kg / gram",
-      "ק״ג/גרם"
+      "ק״ג/גרם",
+      "kg / Gramm"
     ],
     "english": [
       "lb / ounce",
-      "האונדס / ליברה"
+      "האונדס / ליברה",
+      "Pfund / Unze"
     ],
     "dog-weight": [
       "Dog Weight",
-      "משקל הכלב"
+      "משקל הכלב",
+      "Gewicht"
     ],
     "maintenance": [
       "Maintenance",
-      "אחוזים"
+      "אחוזים",
+      "Futtermenge"
     ],
     "start-at": [
       "Start at ${percentage}",
-      "3%-2% מתחיל ב"
+      "3%-2% מתחיל ב",
+      "Beginnen mit ${percentage}"
     ],
     "daily-amount": [
       "Daily Amount",
-      "כמות יומית"
+      "כמות יומית",
+      "Tägliche Futtermenge"
     ],
     "estimated-calories": [
       "Estimated calories",
-      "קלוריות משוערות"
+      "קלוריות משוערות",
+      "Geschätzter Kalorienbedarf"
     ],
     "kcal": [
       "kcal",
-      "קק״ל"
+      "קק״ל",
+      "kcal"
     ],
     "used-to-calculate-essential-nutrients": [
       "Used to calculate essential nutrients",
-      "משמש לחישוב חומרים מזינים חיוניים"
+      "משמש לחישוב חומרים מזינים חיוניים",
+      "Wird zur Berechnung der essentiellen Nährstoffe verwendet"
     ]
   },
   "percentageOptions": {
     "percentages": [
       "Percentages",
-      "אחוזים"
+      "אחוזים",
+      "Prozent"
     ],
     "meal-type": [
       "Meal Type",
-      "סוג הארוחה"
+      "סוג הארוחה",
+      "Rationstyp"
     ],
     "BARF": [
+      "BARF",
       "BARF",
       "BARF"
     ],
     "PMR": [
       "PMR",
-      "PMR"
+      "PMR",
+      "Prey Methode"
     ],
     "traditional-BARF": [
       "Traditional BARF",
-      "מסורתי BARF"
+      "מסורתי BARF",
+      "Klassisches BARF"
     ],
     "traditional-PMR": [
       "Traditional PMR",
-      "מסורתי PMR"
+      "מסורתי PMR",
+      "Klassische Prey Methode"
     ],
     "lifestage-preset": [
       "Lifestage Preset",
-      "שלב החיים"
+      "שלב החיים",
+      "Lebensabschnitt"
     ],
     "adult": [
       "Adult",
-      "בוגר"
+      "בוגר",
+      "Erwachsen"
     ],
     "puppy": [
       "Puppy",
-      "גור"
+      "גור",
+      "Welpe"
     ],
     "muscle": [
       "Muscle",
-      "שריר"
+      "שריר",
+      "Muskelfleisch & Fisch"
     ],
     "bone": [
       "Bone",
-      "עצם"
+      "עצם",
+      "Knochen"
     ],
     "liver": [
       "Liver",
-      "כבד"
+      "כבד",
+      "Leber"
     ],
     "organ": [
       "Organ",
-      "איברים פנימיים"
+      "איברים פנימיים",
+      "Innereien"
     ],
     "veggie": [
       "Veggie",
-      "ירקות"
+      "ירקות",
+      "Gemüse"
     ],
     "seed": [
       "Seeds",
-      "זרעים"
+      "זרעים",
+      "Nüsse & Samen"
     ],
     "fruit": [
       "Fruits",
-      "פירות"
+      "פירות",
+      "Obst"
     ],
     "fibre": [
       "Fibre",
-      "סיבים"
+      "סיבים",
+      "Ballststoffe"
     ]
   },
   "rmb": {
     "raw-meaty-bone": [
       "Raw Meaty Bone",
-      "עצם בשרנית"
+      "עצם בשרנית",
+      "Rohe fleischige Knochen"
     ],
     "rmb-type": [
       "RMB Type",
-      "סוגי עצמות"
+      "סוגי עצמות",
+      "RFK Auswahl"
     ],
     "enter-rmb-percent": [
       "Enter RMB %",
-      "הכנס אחוז עצם"
+      "הכנס אחוז עצם",
+      "RFK Eingabe %"
     ],
     "must-be-a-number": [
       "must be a number",
-      "חייב להיות מספר"
+      "חייב להיות מספר",
+      "als Zahl"
     ],
     "bone-content": [
       "Bone Content",
-      "תוכן עצם"
+      "תוכן עצם",
+      "Knochenanteil"
     ],
     "chicken-back": [
       "Chicken Back (44%)",
-      "גב עוף"
+      "גב עוף",
+      "Hühnerrücken (44%)"
     ],
     "chicken-breast": [
       "Chicken Breast (20%)",
-      "חזה עוף"
+      "חזה עוף",
+      "Hühnerbrust (20%)"
     ],
     "chicken-drumstick": [
       "Chicken Drumstick (27%)",
-      "שוק עוף"
+      "שוק עוף",
+      "Hühnerschlegel (27%)"
     ],
     "chicken-feet": [
       "Chicken Feet (60%)",
-      "כף רגל עוף"
+      "כף רגל עוף",
+      "Hühnerfüße (60%)"
     ],
     "chicken-frame": [
       "Chicken Frame (80%)",
-      "מסגרת עוף"
+      "מסגרת עוף",
+      "Hühnerkarkasse (80%)"
     ],
     "chicken-leg-quarter": [
       "Chicken Leg Quarter (30%)",
-      "כרעיים"
+      "כרעיים",
+      "Hühnerbein (30%)"
     ],
     "chicken-neck-with-wkin": [
       "Chicken Neck with Skin (36%)",
-      "גרון עוף עם עור"
+      "גרון עוף עם עור",
+      "Hühnerhälse mit Haut (36%)"
     ],
     "chicken-neck-without-skin": [
       "Chicken Neck without Skin (50%)",
-      "גרון עוף ללא עור"
+      "גרון עוף ללא עור",
+      "Hühnerhälse ohne Haut (50%)"
     ],
     "chicken-thigh": [
       "Chicken Thigh (21%)",
-      "פרגית עוף"
+      "פרגית עוף",
+      "Hühnerunterschenkel (21%)"
     ],
     "chicken-whole": [
       "Chicken Whole (32%)",
-      "העוף בשלמותו"
+      "העוף בשלמותו",
+      "Ganzes Hühnchen (32%)"
     ],
     "chicken-wings": [
       "Chicken Wings (46%)",
-      "כנפי עוף"
+      "כנפי עוף",
+      "Hühnerflügel (46%)"
     ],
     "duck-foot": [
       "Duck Foot (60%)",
-      "כף רגל ברווז"
+      "כף רגל ברווז",
+      "Entenfüße (60%)"
     ],
     "duck-frame": [
       "Duck Frame (80%)",
-      "מסגרת ברווז"
+      "מסגרת ברווז",
+      "Entenkarkasse (80%)"
     ],
     "duck-neck": [
       "Duck Neck (50%)",
-      "גרון ברווז"
+      "גרון ברווז",
+      "Entenhals (50%)"
     ],
     "duck-whole": [
       "Duck Whole (28%)",
-      "הברווז בשלמותו"
+      "הברווז בשלמותו",
+      "Ganze Ente (28%)"
     ],
     "duck-wing": [
       "Duck Wing (39%)",
-      "כנפי ברווז"
+      "כנפי ברווז",
+      "Entenflügel (39%)"
     ],
     "pork-feet": [
       "Pork Feet (30%)",
-      "כפות רגלי חזיר"
+      "כפות רגלי חזיר",
+      "Schweinefüße (30%)"
     ],
     "pork-ribs": [
       "Pork Ribs (30%)",
-      "צלעות חזיר"
+      "צלעות חזיר",
+      "Schweinerippe (30%)"
     ],
     "pork-tail": [
       "Pork Tail (30%)",
-      "זנב חזיר"
+      "זנב חזיר",
+      "Schweineschwanz (30%)"
     ],
     "rabbit-feet": [
       "Rabbit Feet (40%)",
-      "רגלי ארנב"
+      "רגלי ארנב",
+      "Kaninchenfüße (40%)"
     ],
     "rabbit-heads": [
       "Rabbit Heads (75%)",
-      "ראש ארנב"
+      "ראש ארנב",
+      "Kaninchenkopf (75%)"
     ],
     "rabbit-whole": [
       "Rabbit Whole (28%)",
-      "ארנב בשלמותו"
+      "ארנב בשלמותו",
+      "Ganzes Kaninchen (28%)"
     ],
     "turkey-neck": [
       "Turkey Neck (45%)",
-      "גרון הודו"
+      "גרון הודו",
+      "Putenhals (45%)"
     ],
     "custom": [
       "Custom",
-      "התאמה אישית"
+      "התאמה אישית",
+      "Eigene Angabe"
     ]
   },
   "whatToFeed": {
     "what-to-feed-each-day": [
       "What to feed each day",
-      "מה להאכיל בכל יום,"
+      "מה להאכיל בכל יום",
+      "Täglicher Futterplan"
     ],
     "bulk-title": [
       "Bulk Amounts for ${numDays} days",
-      "כמויות ל${numDays} ימים"
+      "כמויות ל${numDays} ימים",
+      "Komplettfutter für ${numDays} Tage"
     ],
     "bulk-helper": [
       "Bulk Helper",
-      "עזרה בחלוקה"
+      "עזרה בחלוקה",
+      "Komplettfutter Rechner"
     ],
     "how-long": [
       "How long",
-      "כמה זמן"
+      "כמה זמן",
+      "Für wieviele"
     ],
     "days": [
       "days",
-      "ימים"
+      "ימים",
+      "Tage"
     ],
     "minimum-of-2-days": [
       "minimum of 2 days",
-      "מינימום 2 ימים"
+      "מינימום 2 ימים",
+      "Mindestangabe 2 Tage"
     ],
     "generate": [
       "Generate",
-      "חשב"
+      "חשב",
+      "Ausrechnen"
     ]
   },
   "amountsTable": {
     "total-amount": [
       "Total Amount",
-      "כמות כוללת"
+      "כמות כוללת",
+      "Gesamtmenge"
     ],
     "boneless-meat": [
       "Boneless Meat",
-      "בשר שריר"
+      "בשר שריר",
+      "Fleisch ohne Knochen"
     ],
     "raw-meaty-bone-at-amount": [
       "Raw Meaty Bone at ${amount}%",
-      "%${amount} עצמות בשרניות ב"
+      "%${amount} עצמות בשרניות ב",
+      "Rohe fleischige Knochen mit ${amount}%"
     ],
     "essential-nutrients": [
       "Essential Nutrients",
-      "חומרים חיוניים"
+      "חומרים חיוניים",
+      "Essentielle Nährstoffe"
     ],
     "recommended-amounts": [
       "Recommended amounts ${lifestage}",
-      "כמויות מומלצות"
+      "כמויות מומלצות",
+      "Empfohlene Menge ${lifestage}"
     ],
     "adult": [
       "(Adult)",
-      "(בוגר)"
+      "(בוגר)",
+      "(Erwachsen)"
     ],
     "puppy": [
       "(Puppy)",
-      "(גור)"
+      "(גור)",
+      "(Welpe)"
     ],
     "ala": [
       "ALA",
-      "חומצת אל״א"
+      "חומצת אל״א",
+      "ALA"
     ],
     "epa-plus-dha": [
       "EPA + DHA",
-      "אומגה"
+      "אומגה",
+      "EPA + DHA"
     ],
     "iodine": [
       "Iodine",
-      "יוד"
+      "יוד",
+      "Jod"
     ],
     "manganese": [
       "Manganese",
-      "מנגן"
+      "מנגן",
+      "Mangan"
     ],
     "vitaminD": [
       "Vitamin D",
-      "ויטמין D"
+      "ויטמין D",
+      "Vitamin D"
     ],
     "vitaminE": [
       "Vitamin E",
-      "ויטמין E"
+      "ויטמין E",
+      "Vitamin E"
     ],
     "zinc": [
       "Zinc",
-      "אבץ"
+      "אבץ",
+      "Zink"
     ]
   },
   "units": {
     "kg-g": [
       "${large} kg / ${small} g",
-      "ג ${small} / ק ${large}"
+      "ג ${small} / ק ${large}",
+      "${large} kg / ${small} g"
     ],
     "lb-oz": [
       "${large} lb / ${small} oz",
-      "האונדס ${small} / ליברה ${large}"
+      "האונדס ${small} / ליברה ${large}",
+      "${large} Pfund / ${small} Unze"
     ],
     "lb": [
       "lb",
-      "ליברה"
+      "ליברה",
+      "Pfund"
     ],
     "oz": [
       "oz",
-      "האונדס"
+      "האונדס",
+      "Unze"
     ],
     "kg": [
       "kg",
-      "ק"
+      "ק",
+      "kg"
     ],
     "g": [
       "g",
-      "ג"
+      "ג",
+      "g"
     ],
     "mg": [
       "mg",
-      "מק״ג"
+      "מק״ג",
+      "mg"
     ],
     "mcg": [
-      "mg",
-      "מ״ג"
+      "mcg",
+      "מ״ג",
+      "mcg"
     ]
   },
   "languages": {
     "en": [
       "English",
+      "English",
       "English"
     ],
     "he": [
       "עברית",
+      "עברית",
       "עברית"
+    ],
+    "de": [
+      "Deutsch",
+      "Deutsch",
+      "Deutsch"
     ],
     "language-hebrew": [
       "שפה",
+      "שפה",
       "שפה"
+    ],
+    "language-german": [
+      "Sprache",
+      "Sprache",
+      "Sprache"
     ]
   }
 }
