@@ -28,6 +28,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const kgPerLb = 0.453592;
+
 const BasicOptions = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -52,6 +54,26 @@ const BasicOptions = () => {
     setRoundedCalories(round(estimatedCalories));
   }, [totalDailyAmount, estimatedCalories]);
 
+  const updateUnitDetails = (e) => {
+    const unitName = e.target.value;
+
+    if (unitName === unitDetails.name) {
+      return dispatch(updateOptions(weight, maintenance, unitName));
+    }
+
+    if (unitName === 'metric') {
+      // convert weight to kg when changing to metric
+      const weightInKgs = round(weight * kgPerLb, 1);
+      return dispatch(updateOptions(weightInKgs, maintenance, unitName));
+    }
+
+    if (unitName === 'english') {
+      // convert weight to lbs when changing to english
+      const weightInLbs = round(weight / kgPerLb, 1);
+      return dispatch(updateOptions(weightInLbs, maintenance, unitName));
+    }
+  };
+
   return (
     <Translate>
       {({ translate }) => (
@@ -64,7 +86,7 @@ const BasicOptions = () => {
               name="unit"
               id="unit"
               data-testid="unit"
-              onChange={e => dispatch(updateOptions(weight, maintenance, e.target.value))}
+              onChange={updateUnitDetails}
               value={unitDetails.name}
             >
               {unitOptions.map(option => (
