@@ -35,7 +35,7 @@
     "maintenance": [
       "Maintenance",
       "אחוזים",
-      "Futtermenge"
+      "Faktor"
     ],
     "start-at": [
       "Start at ${percentage}",
@@ -45,7 +45,7 @@
     "daily-amount": [
       "Daily Amount",
       "כמות יומית",
-      "Tägliche Futtermenge"
+      "Tagesfuttermenge"
     ],
     "estimated-calories": [
       "Estimated calories",
@@ -60,7 +60,7 @@
     "used-to-calculate-essential-nutrients": [
       "Used to calculate essential nutrients",
       "משמש לחישוב חומרים מזינים חיוניים",
-      "Wird zur Berechnung der essentiellen Nährstoffe verwendet"
+      "Zur Berechnung essentieller Nährstoffe"
     ]
   },
   "percentageOptions": {
@@ -112,7 +112,7 @@
     "muscle": [
       "Muscle",
       "שריר",
-      "Muskelfleisch & Fisch"
+      "Fleisch & Fisch"
     ],
     "bone": [
       "Bone",
@@ -137,7 +137,7 @@
     "seed": [
       "Seeds",
       "זרעים",
-      "Nüsse & Samen"
+      "Saaten"
     ],
     "fruit": [
       "Fruits",
@@ -326,7 +326,7 @@
     "minimum-of-2-days": [
       "minimum of 2 days",
       "מינימום 2 ימים",
-      "Mindestangabe 2 Tage"
+      "Minimum 2 Tage"
     ],
     "generate": [
       "Generate",
