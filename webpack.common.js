@@ -27,6 +27,7 @@ module.exports = {
           <meta name="viewport" content="width=device-width, initial-scale=1">
           <meta charset="utf-8"/>
           <meta name="description" content="A calculator to create recipes for feeding dogs raw meals. DIY Raw Dog Food Helper.">
+          <meta name="google-site-verification" content="JY1-XElzvJc5b1RI3J2ZR_c_rfrsxufs5zH4-E9Rxk0" />
           <title>${htmlWebpackPlugin.options.title}</title>
           <!-- Global site tag (gtag.js) - Google Analytics -->
           <script async src="https://www.googletagmanager.com/gtag/js?id=UA-169425839-1"></script>
